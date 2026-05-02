@@ -1,0 +1,52 @@
+<%# =====================
+   タスク作成・編集フォーム
+===================== %>
+
+<%= form_with(model: task, class: "task-form") do |form| %>
+
+  <%# エラー表示（もしバリデーションエラーが出たときのため） %>
+  <% if task.errors.any? %>
+    <div class="error-message">
+      <%= pluralize(task.errors.count, "error") %> prohibited this task from being saved.
+    </div>
+  <% end %>
+
+  <%# =====================
+     タイトル入力
+  ===================== %>
+  <div class="form-group">
+    <%# ラベル（やること） %>
+    <%= form.label :title, "やること" %>
+
+    <%# 入力欄 %>
+    <%= form.text_field :title, placeholder: "例 : RUNTEQの課題やる！" %>
+  </div>
+
+  <%# =====================
+     優先度選択
+  ===================== %>
+  <div class="form-group">
+    <%# 優先度ラベル %>
+    <%= form.label :priority, "優先度" %>
+
+    <%# 選択フォーム（高・中・低） %>
+    <%= form.select :priority, [["🔥 高", "high"], ["🌼 中", "medium"], ["🌱 低", "low"]] %>
+  </div>
+
+  <%# =====================
+     完了チェック
+  ===================== %>
+  <div class="form-check">
+    <%# チェックボックス（完了状態） %>
+    <%= form.check_box :done %>
+
+    <%# ラベル %>
+    <%= form.label :done, "もう終わった？" %>
+  </div>
+
+  <%# =====================
+     送信ボタン
+  ===================== %>
+  <%= form.submit task.new_record? ? "作成する" : "更新する", class: "submit-button" %>
+
+<% end %>

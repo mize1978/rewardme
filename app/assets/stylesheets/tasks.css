@@ -1,0 +1,242 @@
+/*
+ *= require_tree .
+ *= require_self
+ */
+
+/* =====================
+   タスク一覧のレイアウト
+===================== */
+/* タスク一覧全体の幅と中央寄せ */
+#tasks {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* =====================
+   タスクカードの基本デザイン
+===================== */
+/* タスクカードの文字サイズ（読みやすさ）＋見た目 */
+.task-card {
+  font-size: 16px;
+  line-height: 1.5;
+  background: white;
+  padding: 16px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+  max-width: 600px;   /* 横幅を固定 */
+  margin: 10px auto;  /* ← これで中央寄せ！！！ */
+}
+
+/* =====================
+   カードにマウスを乗せた時の動き
+===================== */
+/* マウスを乗せたときに少し浮く動き */
+.task-card:hover {
+  transform: translateY(-2px);
+}
+
+/* =====================
+   カード内のボタン配置
+===================== */
+/* ボタンを横並びにする */
+.task-card form {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* =====================
+   完了済みタスクの見た目
+===================== */
+/* 完了タスクの見た目（薄緑＋少し透明） */
+.done {
+  background-color: #e6ffe6;  /* 薄緑 */
+  opacity: 0.7;
+}
+
+/* =====================
+   ごほうびメッセージ🩵
+===================== */
+/* ごほうびメッセージの余白と文字サイズ */
+.done p {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+/* =====================
+   フォーム（新規・編集画面）
+===================== */
+/* フォーム全体のデザイン */
+.task-form {
+  max-width: 500px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* 入力グループごとの余白 */
+.form-group {
+  margin-bottom: 18px;
+}
+
+/* ラベルの見た目 */
+.form-group label,
+.form-check label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #555;   /* 濃いグレー */
+}
+
+/* 入力欄・セレクトの見た目 */
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #dceeff;  /* かなり優しめの水色 */
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+/* チェックボックス周り */
+.form-check {
+  margin: 16px 0;
+}
+
+/* ボタンの基本デザイン */
+
+/* 送信ボタン */
+.submit-button {
+  background: #ff8fab; /* 可愛いピンク */
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 999px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ボタンにマウスを乗せたときの変化 */
+.submit-button:hover {
+  opacity: 0.8;
+}
+
+/* =====================
+   新規タスク作成ボタン
+===================== */
+
+/* 新しいタスクを作るボタンの見た目（中央配置にする） */
+.new-task-button {
+  display: block;          /* ← inline-block に変更 */
+  width: fit-content;      /* ボタンサイズを中身に合わせる */
+  margin: 20px auto;       /* ← 中央に配置するための神指定!! */
+  background: #ff8fab;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ボタンにマウスを乗せたときに少し透明にしてクリック感を出す */
+.new-task-button:hover {
+  opacity: 0.8;
+}
+
+.task-card.priority-high {
+  background-color: #ffd6d6;  /* ミルキー赤 */
+}
+
+.task-card.priority-medium {
+  background-color: #fff7cc;  /* クリーム黄色 */
+}
+
+.task-card.priority-low {
+  background-color: #caffbf;  /* 緑 */
+}
+
+/* =====================
+   セクション全体を中央に揃える
+===================== */
+
+/* 未完了・完了エリアを中央寄せ */
+#not-done-tasks,
+#done-tasks {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* 見出し（がんばること・ごほうびタイム）も中央ラインに揃える */
+h2 {
+  max-width: 600px;
+  margin: 40px auto 20px; /* 上に余白を多めにして、下は少なめ */
+}
+
+.app-description {
+  text-align: center;
+  max-width: 600px;   /* 横幅をカードと揃える */
+  margin: 0 auto 30px; /* 中央寄せ＋下に余白 */
+}
+
+h1 {
+  margin-top: 40px;
+}
+
+.back-link-wrapper {
+  text-align: center;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 30px;
+  color: #ff8fab;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.notice-wrapper {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.notice {
+  display: inline-block;
+  background: #ffe4ec;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: #bbb;
+}
+
+/* 通知メッセージをふわっと消す */
+.notice {
+  display: inline-block;
+  background: #ffe4ec;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  animation: fadeOut 3s forwards;
+}
+
+/* ふわっと消える動き */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

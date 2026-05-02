@@ -1,15 +1,45 @@
+/* =====================
+   CSS読み込み設定（Rails用）
+===================== */
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
  *= require_tree .
  *= require_self
  */
+
+/* =====================
+   全体の見た目
+===================== */
+/* 画面全体の背景とフォント */
+body {
+  background-color: #fff0f5;  /* ふんわりピンク */
+  font-family: sans-serif;    /* シンプルで読みやすいフォント */
+}
+
+
+/* =====================
+   タイトル
+===================== */
+/* ページの見出し（中央＋ピンクで可愛く） */
+h1 {
+  text-align: center;         /* 中央に配置 */
+  color: #ff8fab;             /* 可愛いピンク */
+}
+
+
+/* =====================
+   ボタン
+===================== */
+/* ボタンの基本デザイン（とにかく丸くて水色） */
+button {
+  background: #7ecdf4;        /* 水色（やさしい・押しやすい印象） */
+  border-radius: 999px;       /* 可愛くしたいから完全に丸い形にする */
+  color: white;               /* 文字を白にして見やすく */
+  border: none;               /* 枠線を消す */
+  padding: 6px 12px;          /* ボタンの内側の余白 */
+}
+
+/* ボタンを横並びにする */
+.task-card form {
+  display: inline-block;
+  margin-right: 5px;
+}
