@@ -1,24 +1,33 @@
-# README
+# Mize Tasks 🍰
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+ごほうびでタスクを続けるシンプルなToDoアプリです。
 
-Things you may want to cover:
+## URL
+https://reward-task-app.onrender.com/
 
-* Ruby version
+## GitHub
+https://github.com/mize1978/reward_task_app
 
-* System dependencies
+## 機能
+- タスク作成
+- タスク一覧表示
+- タスク完了 / 未完了切り替え
+- タスク削除
 
-* Configuration
+## 技術
+- Ruby on Rails
+- PostgreSQL
+- Render
 
-* Database creation
+## こだわり
+タスクを「やること」ではなく「ごほうび」にすることで、
+楽しく続けられる体験を意識しました。
 
-* Database initialization
+## スクリーンショット
+### タスク一覧
+![タスク一覧](images/screenshot.png)
 
-* How to run the test suite
+![タスク一覧](images/screenshot2.png)
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+￼
+￼
