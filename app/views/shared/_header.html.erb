@@ -1,13 +1,12 @@
 <div class="header">
-  <div class="header-title">
-    🍰 ごほうびタスク
-  </div>
+  <%= link_to "🍰 RewardMe", root_path, class: "header-title" %>
 
   <div>
-    <% if current_user %>
-  <span class="user-name">
-    <%= current_user.last_name %> <%= current_user.first_name %> さん
-  </span>
+    <% if logged_in? %>
+      <span class="user-name">
+        <%= current_user.full_name %> さん
+      </span>
+
       <%= link_to "ログアウト", logout_path,
             class: "header-link",
             data: { turbo_method: :delete } %>

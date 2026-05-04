@@ -1,4 +1,4 @@
-# Mize Tasks 🍰
+# RewardMe 🍰
 
 ごほうびでタスクを続けるシンプルなToDoアプリです。
 
