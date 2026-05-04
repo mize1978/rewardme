@@ -2,7 +2,7 @@
   <%= link_to "🍰 RewardMe", root_path, class: "header-title" %>
 
   <div>
-    <% if logged_in? %>
+    <% if current_user %>
       <span class="user-name">
         <%= current_user.full_name %> さん
       </span>
@@ -11,11 +11,8 @@
             class: "header-link",
             data: { turbo_method: :delete } %>
     <% else %>
-      <%= link_to "ログイン", login_path,
-            class: "header-link" %>
-
-      <%= link_to "ユーザー登録", signup_path,
-            class: "header-link" %>
+      <%= link_to "ログイン", login_path, class: "header-link" %>
+      <%= link_to "ユーザー登録", signup_path, class: "header-link" %>
     <% end %>
   </div>
 </div>
