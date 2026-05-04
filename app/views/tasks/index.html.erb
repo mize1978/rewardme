@@ -1,4 +1,4 @@
-<%#通知メッセージ（更新しましたとか） %>
+<%# 通知メッセージ %>
 <div class="notice-wrapper">
   <% if notice %>
     <p class="notice"><%= notice %></p>
@@ -8,51 +8,58 @@
 <%# ページタイトル %>
 <h1>🍰 ごほうびタスク</h1>
 
+<%# カレンダー %>
+<%= month_calendar events: @done_tasks do |date, tasks| %>
+  <%= date.day %>
+
+  <% tasks.each do |task| %>
+    <div class="calendar-task">🍰</div>
+  <% end %>
+<% end %>
+
+<%# 説明文 %>
 <p class="app-description">
   がんばった自分をほめるためだけの🩵
 </p>
 
-<%# 未完了タスクエリア %>
-<h2>🔥 がんばること</h2>
-<div id="not-done-tasks">
+<%# 今日のがんばり数（←ここ重要） %>
+<div class="achievement-box">
+  🎉 今日のがんばり数：<%= @today_done_count %> 個
+</div>
+<div class="achievement-box">
+  🔥 連続がんばり日数：<%= @streak_days %> 日
+</div>
 
-  <%# 未完了タスクを1つずつ表示 %>
+<%# 未完了タスク %>
+<h2>🔥 がんばること</h2>
+
+<div id="not-done-tasks">
   <% @not_done_tasks.each do |task| %>
     <div class="task-card <%= "priority-#{task.priority}" %>">
-      <%# タスクのタイトル %>
       <%= task.title %>
       <p>優先度：<%= task.priority %></p>
 
-      <%# 完了ボタン（押すとdone: trueになる） %>
       <%= button_to "完了", task_path(task, task: { done: true }), method: :patch %>
-      <%# 削除ボタン %>
       <%= button_to "削除", task_path(task), method: :delete %>
     </div>
   <% end %>
 </div>
 
-<%# 完了タスクエリア %>
+<%# 完了タスク %>
 <h2>🍰 ごほうびタイム</h2>
-<div id="done-tasks">
 
-  <%# 完了タスクを1つずつ表示 %>
+<div id="done-tasks">
   <% @done_tasks.each do |task| %>
     <div class="task-card done <%= "priority-#{task.priority}" %>">
-      <%# タスクのタイトル %>
       <%= task.title %>
 
-      <%# ごほうびメッセージ %>
       <p>🩵 えらいね〜 🩵ごほうびタイム🧁🍰</p>
 
-      <%# 未完了に戻すボタン %>
       <%= button_to "戻す", task_path(task, task: { done: false }), method: :patch %>
-      
-      <%# 削除ボタン %>
       <%= button_to "削除", task_path(task), method: :delete %>
     </div>
   <% end %>
 </div>
 
-<%# 新規タスク作成ページへのリンク %>
+<%# 新規作成ボタン %>
 <%= link_to "＋ チャレンジ 🍰", new_task_path, class: "new-task-button" %>
-

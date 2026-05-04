@@ -37,6 +37,21 @@
   transform: translateY(-2px);
 }
 
+.achievement-box {
+  background: #fff0f6;
+  border-radius: 16px;
+  padding: 12px 20px;
+
+  margin: 20px auto;   /* ← これが中央寄せ */
+  width: fit-content;  /* ← 中身のサイズにする */
+
+  font-weight: bold;
+  color: #ff6b9a;
+  text-align: center;  /* ← 文字も中央 */
+
+  box-shadow: 0 4px 10px rgba(255, 143, 171, 0.2);
+}
+
 /* =====================
    カード内のボタン配置
 ===================== */
@@ -239,4 +254,70 @@ h1 {
   100% {
     opacity: 0;
   }
+}
+
+/* =====================
+   上級かわいいUI
+===================== */
+
+body {
+  background:
+    radial-gradient(circle at 15% 30%, rgba(255, 143, 171, 0.35), transparent 28%),
+    radial-gradient(circle at 85% 75%, rgba(132, 214, 255, 0.35), transparent 30%),
+    linear-gradient(180deg, #fff0f6 0%, #eaf8ff 100%);
+  font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+}
+
+.task-card {
+  border: 2px solid #ffe1ec;
+  border-radius: 22px;
+  background: #fffdfd;
+  box-shadow: 0 8px 24px rgba(255, 143, 171, 0.18);
+}
+
+.task-card:hover {
+  transform: translateY(-4px) scale(1.01);
+}
+
+button,
+.new-task-button,
+.submit-button {
+  transition: all 0.2s ease;
+}
+
+button:hover,
+.new-task-button:hover,
+.submit-button:hover {
+  transform: translateY(-2px);
+}
+
+button:active,
+.new-task-button:active,
+.submit-button:active {
+  transform: scale(0.95);
+}
+
+.task-form {
+  animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.submit-button {
+  background: linear-gradient(135deg, #ff8fab, #84d6ff);
+}
+
+.today {
+  background: #ff8fab !important;
+  color: white;
+  border-radius: 12px;
 }

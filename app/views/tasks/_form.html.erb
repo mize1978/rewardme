@@ -2,14 +2,16 @@
    タスク作成・編集フォーム
 ===================== %>
 
-<%= form_with(model: task, class: "task-form") do |form| %>
+<<%= form_with(model: task, local: true, class: "task-form") do |form| %>
 
   <%# エラー表示（もしバリデーションエラーが出たときのため） %>
-  <% if task.errors.any? %>
-    <div class="error-message">
-      <%= pluralize(task.errors.count, "error") %> prohibited this task from being saved.
-    </div>
-  <% end %>
+ <% if task.errors.any? %>
+  <div class="error-message">
+    <% task.errors.full_messages.each do |message| %>
+      <p><%= message %></p>
+    <% end %>
+  </div>
+<% end %>
 
   <%# =====================
      タイトル入力
@@ -47,6 +49,11 @@
   <%# =====================
      送信ボタン
   ===================== %>
-  <%= form.submit task.new_record? ? "作成する" : "更新する", class: "submit-button" %>
+<div class="form-group">
+  <%= form.label :date, "日付" %>
+  <%= form.date_field :date, class: "form-input" %>
+</div>
+
+<%= form.submit task.new_record? ? "作成する" : "更新する", class: "submit-button" %>
 
 <% end %>

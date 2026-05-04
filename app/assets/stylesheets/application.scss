@@ -1,0 +1,313 @@
+/* =====================
+   CSS読み込み設定（Rails用）
+===================== */
+/*
+ *= require_tree .
+ *= require_self
+ */
+
+/* =====================
+   ヘッダー
+===================== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 28px;
+  background: rgba(255, 255, 255, 0.75);
+  border-bottom: 1px solid #ffd6e7;
+  box-shadow: 0 4px 12px rgba(255, 143, 171, 0.12);
+}
+
+.header-link {
+  background: #ff8fab;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(255, 143, 171, 0.25);
+  display: inline-block;
+  position: relative;
+  z-index: 20;
+}
+
+.header-title {
+  font-size: 14px;
+  color: #ff8fab;
+  opacity: 0.7;
+  font-weight: bold;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-link:hover {
+  opacity: 0.8;
+}
+
+.header {
+  position: relative;
+  z-index: 10;
+}
+
+/* =====================
+   カレンダー
+===================== */
+.simple-calendar {
+  max-width: 600px;
+  margin: 20px auto;
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(255, 143, 171, 0.2);
+}
+
+.simple-calendar table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 8px;
+}
+
+.simple-calendar th {
+  color: #ff8fab;
+  font-weight: bold;
+  padding-bottom: 10px;
+  width: 14%;
+}
+
+.simple-calendar td {
+  width: 14%;
+  background: #fff7fa;
+  min-height: 60px;
+  vertical-align: top;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.simple-calendar td:hover {
+  background: #ffe4ec;
+}
+
+.simple-calendar .today {
+  background: #ff8fab;
+  color: white;
+  font-weight: bold;
+  transform: scale(1.1);
+}
+
+.simple-calendar .calendar-heading {
+  text-align: center;
+  color: #ff8fab;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.simple-calendar .calendar-heading a {
+  color: #ff8fab;
+  font-size: 14px;
+  margin: 0 6px;
+  text-decoration: none;
+}
+
+.simple-calendar .prev-month,
+.simple-calendar .next-month {
+  opacity: 0.35;
+}
+
+/* 🍰表示 */
+.calendar-task {
+  display: inline-block;
+  font-size: 18px;
+  background: #ffe4ec;
+  border-radius: 999px;
+  padding: 2px 6px;
+  margin-top: 4px;
+}
+
+/* =====================
+   全体
+===================== */
+body {
+  background-color: #fff0f5;
+  font-family: sans-serif;
+}
+
+/* =====================
+   タイトル
+===================== */
+h1 {
+  text-align: center;
+  color: #ff8fab;
+}
+
+/* =====================
+   ボタン
+===================== */
+button,
+input[type="submit"] {
+  cursor: pointer;
+  background: #7ecdf4;
+  border-radius: 999px;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+}
+
+input[type="submit"]:hover,
+button:hover {
+  opacity: 0.8;
+}
+
+/* 横並び */
+.task-card form {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* =====================
+   ログイン画面
+===================== */
+.login-card {
+  max-width: 360px;
+  margin: 80px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgba(255, 143, 171, 0.2);
+  text-align: center;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ffd6e7;
+  border-radius: 999px;
+  box-sizing: border-box;
+}
+
+.login-button {
+  margin-top: 10px;
+  background: #ff8fab;
+}
+/* =====================
+   仕上げ：ふわかわ完成デザイン
+===================== */
+
+/* 画面にふわっとした背景の飾り */
+body::before {
+  content: "";
+  position: fixed;
+  top: 120px;
+  left: 8%;
+  width: 180px;
+  height: 180px;
+  background: rgba(255, 143, 171, 0.18);
+  border-radius: 50%;
+  filter: blur(20px);
+  z-index: -1;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 80px;
+  right: 10%;
+  width: 220px;
+  height: 220px;
+  background: rgba(126, 205, 244, 0.16);
+  border-radius: 50%;
+  filter: blur(22px);
+  z-index: -1;
+}
+
+/* ログインカードをふわっと */
+.login-card {
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-4px);
+}
+
+/* カード上の小さい飾り */
+.login-card::before {
+  content: "🍰";
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 28px;
+  opacity: 0.35;
+}
+
+/* ログイン見出しの下に一言 */
+.login-card h1::after {
+  content: "おかえりなさい🩵";
+  display: block;
+  font-size: 14px;
+  color: #888;
+  margin-top: 8px;
+  font-weight: normal;
+}
+
+/* 入力欄を可愛く */
+.form-input,
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #dff2ff;
+  border-radius: 14px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.form-input:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+  outline: none;
+  border-color: #ff8fab;
+  box-shadow: 0 0 0 4px rgba(255, 143, 171, 0.12);
+}
+
+/* ボタンをぷにっと */
+button,
+input[type="submit"],
+.header-link,
+.new-task-button,
+.back-link {
+  transition: 0.2s ease;
+}
+
+button:hover,
+input[type="submit"]:hover,
+.header-link:hover,
+.new-task-button:hover,
+.back-link:hover {
+  transform: translateY(-2px);
+}
+
+/* GitHubリンクも浮かせる */
+a[href*="github"] {
+  display: inline-block;
+  margin: 20px;
+  color: #ff8fab;
+  font-weight: bold;
+}
