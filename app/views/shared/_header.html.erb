@@ -4,7 +4,7 @@
   <div>
     <% if current_user %>
       <span class="user-name">
-        <%= current_user.full_name %> さん
+        <%= current_user.last_name %> <%= current_user.first_name %> さん
       </span>
 
       <%= link_to "ログアウト", logout_path,
