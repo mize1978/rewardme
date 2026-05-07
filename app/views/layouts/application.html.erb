@@ -3,11 +3,51 @@
   <head>
     <title>RewardMe 🍰</title>
 
+    <!DOCTYPE html>
+<html>
+  <head>
+<title>RewardMe 🍰</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <meta property="og:title" content="RewardMe">
 <meta property="og:description" content="ごほうびでタスクを続けるアプリ🍰">
 <meta property="og:image" content="https://reward-task-app.onrender.com/images/ogp.png">
 <meta property="og:url" content="https://reward-task-app.onrender.com">
 
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RewardMe">
+<meta name="twitter:description" content="ごほうびでタスクを続けるアプリ🍰">
+<meta name="twitter:image" content="https://reward-task-app.onrender.com/images/ogp.png">
+
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <!-- ヘッダー -->
+    <%= render 'shared/header' %>
+
+    <!-- 
+    you found this 😎 crafted 
+    by mize 
+    -->
+
+    <!-- メインコンテンツ -->
+    <%= yield %>
+
+    <!-- フッター -->
+    <%= render 'shared/footer' %>
+  </body>
+</html>
+
+<meta property="og:title" content="RewardMe">
+<meta property="og:description" content="ごほうびでタスクを続けるアプリ🍰">
+<meta property="og:image" content="https://reward-task-app.onrender.com/images/ogp.png">
+<meta property="og:url" content="https://reward-task-app.onrender.com">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="RewardMe">
 <meta name="twitter:description" content="ごほうびでタスクを続けるアプリ🍰">
