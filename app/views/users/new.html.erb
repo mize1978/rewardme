@@ -4,13 +4,8 @@
   <%= form_with model: @user, url: signup_path do |f| %>
 
     <div class="form-group">
-      <%= f.label :last_name, "姓" %>
-      <%= f.text_field :last_name, class: "form-input" %>
-    </div>
-
-    <div class="form-group">
-      <%= f.label :first_name, "名" %>
-      <%= f.text_field :first_name, class: "form-input" %>
+      <%= f.label :nickname, "ニックネーム" %>
+      <%= f.text_field :nickname, class: "form-input" %>
     </div>
 
     <div class="form-group">
