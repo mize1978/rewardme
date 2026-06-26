@@ -22,9 +22,8 @@
       <span class="room-title">マイルーム</span>
       <span class="room-neon">Good job today!</span>
       <div class="room-character">
-        <div class="room-chara-shake <%= 'near-evo' if current_user.ribbon_stage < 5 && current_user.next_stage_tasks <= 3 %>"
-             style="<%= ribbon_color_style %>">
-          <%= image_tag current_user.ribbon_stage_image, class: "room-chara-img #{current_user.ribbon_stage_gold_bg? ? 'chara-gold-bg' : ''}" %>
+        <div class="room-chara-shake <%= 'near-evo' if current_user.ribbon_stage < 4 && current_user.next_stage_tasks <= 3 %>">
+          <%= image_tag current_user.ribbon_stage_image, class: "room-chara-img" %>
         </div>
       </div>
       <div class="room-speech">
@@ -38,21 +37,38 @@
 
     <div class="center-bottom">
 
-      <div class="calendar-panel">
-        <div class="calendar-wrapper">
-          <%= month_calendar events: @done_tasks do |date, tasks| %>
-            <span class="cal-day"><%= date.day %></span>
-            <% if tasks.any? %>
-              <span class="cal-dot done"></span>
-            <% end %>
+      <div class="week-panel">
+        <p class="panel-title">📅 今週の記録</p>
+        <div class="week-grid">
+          <% %w[月 火 水 木 金 土 日].each_with_index do |label, i| %>
+            <div class="week-col">
+              <span class="week-label"><%= label %></span>
+              <% day = @week_days[i] %>
+              <% if day %>
+                <div class="week-dot <%= day[:done] ? 'done' : 'empty' %> <%= day[:today] ? 'today' : '' %>">
+                  <%= day[:done] ? "✓" : "" %>
+                </div>
+                <span class="week-date <%= day[:today] ? 'today' : '' %>"><%= day[:date].day %></span>
+              <% else %>
+                <div class="week-dot future"></div>
+                <span class="week-date future">-</span>
+              <% end %>
+            </div>
           <% end %>
         </div>
-        <div class="calendar-legend">
-          <span><i class="lg-dot done"></i>完了</span>
-          <span><i class="lg-dot partial"></i>一部完了</span>
-          <span><i class="lg-dot none"></i>未完了</span>
-          <span><i class="lg-star">★</i>イベント</span>
-        </div>
+        <p class="week-streak">🔥 <%= @streak_days %>日連続</p>
+
+        <div class="week-divider"></div>
+
+        <%= link_to tap_game_path, class: "week-game-btn" do %>
+          <% unless current_user.tap_game_played_today? %>
+            <span class="room-game-badge">NEW</span>
+          <% end %>
+          <p class="week-game-title">🎀 リボンキャッチ</p>
+          <p class="week-game-sub">ハイスコア <strong><%= current_user.tap_game_high_score %></strong></p>
+          <p class="week-game-sub">30秒チャレンジ</p>
+          <span class="week-game-play">▶ プレイ</span>
+        <% end %>
       </div>
 
       <div class="tasks-panel">
@@ -86,7 +102,44 @@
         <div class="mission-cta">今日のミッションをすべて完了しよう！ 🎁</div>
       </div>
 
+      <%# ガチャミニパネル（デスクトップ） %>
+      <div class="gacha-mini-panel">
+        <p class="panel-title">✨ ガチャ</p>
+        <%= image_tag "gacha_machine.png", class: "gacha-mini-machine-img", alt: "ガチャ" %>
+        <div class="gacha-mini-btns">
+          <%= link_to gacha_path, class: "gacha-mini-btn gacha-mini-btn--single" do %>
+            <span>1回</span><span class="gacha-mini-cost">🪙 50</span>
+          <% end %>
+          <%= link_to gacha_path, class: "gacha-mini-btn gacha-mini-btn--ten" do %>
+            <span>10連</span><span class="gacha-mini-cost">🪙 450</span>
+          <% end %>
+        </div>
+        <p class="gacha-mini-coins">所持コイン: 🪙 <%= number_with_delimiter(current_user.coins) %></p>
+        <%= link_to "ガチャ一覧へ →", gacha_path, class: "gacha-mini-link" %>
+      </div>
+
+      <%# ガチャバナー（モバイル専用） %>
+      <%= link_to gacha_path, class: "gacha-mobile-banner" do %>
+        <p class="gacha-mobile-banner-title">✨ ガチャ</p>
+        <p class="gacha-mobile-banner-sub">今日の運試しをしよう</p>
+        <span class="gacha-mobile-banner-btn">🎀 ガチャをひく →</span>
+      <% end %>
+
     </div>
+
+    <%# モバイルのみ：リボンキャッチ %>
+    <%= link_to tap_game_path, class: "mobile-game-card" do %>
+      <% unless current_user.tap_game_played_today? %>
+        <span class="room-game-badge">NEW</span>
+      <% end %>
+      <div class="mobile-game-card-inner">
+        <div>
+          <p class="room-game-title">🎀 リボンキャッチ</p>
+          <p class="room-game-sub">30秒でリボンをたくさんキャッチ！ハイスコア <strong><%= current_user.tap_game_high_score %></strong></p>
+        </div>
+        <span class="room-game-btn mobile-game-btn">プレイする</span>
+      </div>
+    <% end %>
 
     <%# ===== お部屋の成長ストリップ（ダミー表示） ===== %>
     <div class="room-growth-panel">
@@ -112,50 +165,47 @@
 
     <%# リボンちゃんの成長（横並び進化チェーン） %>
     <%
+      _color = (current_user.egg_color.presence || "pink").to_s
+      _color = "purple" if _color == "yellow"
       evo_stages = [
-        { stage: 1, name: "ふしぎなたまご",   lv: 1,  image: "stage_egg.png"    },
-        { stage: 2, name: "ぷちリボン",       lv: 10, image: "stage_petit.png"  },
-        { stage: 3, name: "ベイビーリボン",   lv: 20, image: "stage_baby.png"   },
-        { stage: 4, name: "夜桜リボン",       lv: 40, image: "stage_ribbon.png" },
-        { stage: 5, name: "プリンセスリボン", lv: 70, image: "stage_royal.png"  },
+        { stage: 1, name: "たまごのリボンちゃん", lv: 1,  image: "stage1_#{_color}.png" },
+        { stage: 2, name: "ベビーリボン",         lv: 10, image: "stage2_#{_color}.png" },
+        { stage: 3, name: "リボンちゃん",         lv: 30, image: "stage3_#{_color}.png" },
+        { stage: 4, name: "プリンセスリボン",     lv: 60, image: "stage4_#{_color}.png" },
       ]
       cur_stage = current_user.ribbon_stage
     %>
     <div class="evo-chain-panel">
       <p class="panel-title">🎀 リボンちゃんの成長</p>
 
-      <%# 現在ステージ：光るカード %>
-      <% cur_s = evo_stages.find { |s| s[:stage] == cur_stage } %>
-      <div class="evo-current-card">
-        <span class="evo-current-badge">✨ 今ここ！</span>
-        <%= image_tag cur_s[:image], class: "evo-current-img", alt: cur_s[:name], style: ribbon_color_style %>
-        <p class="evo-current-name"><%= cur_s[:name] %></p>
-        <p class="evo-current-lv">Lv.<%= cur_s[:lv] %></p>
-        <% if cur_stage < 5 %>
-          <div class="evo-progress-bar">
-            <div class="evo-progress-fill" style="width: <%= current_user.ribbon_exp_percent %>%;"></div>
-          </div>
-          <p class="evo-progress-text">あと <strong><%= current_user.next_stage_tasks %></strong> タスクで進化！</p>
-        <% else %>
-          <p class="evo-max-text">👑 最終進化達成！</p>
-        <% end %>
-      </div>
-
-      <%# その他ステージ：小さく横並び %>
-      <% other_stages = evo_stages.reject { |s| s[:stage] == cur_stage } %>
-      <div class="evo-chain-row">
-        <% other_stages.each_with_index do |s, i| %>
-          <% state = s[:stage] < cur_stage ? :unlocked : :locked %>
-          <div class="evo-chain-item evo-chain-item--<%= state %>">
-            <div class="evo-chain-img-wrap">
-              <%= image_tag s[:image], class: "evo-chain-img", alt: s[:name], style: ribbon_color_style %>
-              <% if state == :unlocked %><span class="evo-chain-check">✓</span><% end %>
+      <div class="evo-vertical-chain">
+        <% evo_stages.each_with_index do |s, i| %>
+          <% is_current  = (s[:stage] == cur_stage) %>
+          <% is_unlocked = (s[:stage] < cur_stage) %>
+          <div class="evo-v-item <%= is_current ? 'evo-v-item--current' : (is_unlocked ? 'evo-v-item--unlocked' : '') %>">
+            <div class="evo-v-img-wrap">
+              <%= image_tag s[:image], class: "evo-v-img", alt: s[:name] %>
+              <% if is_current %>
+                <span class="evo-v-badge">✨ 今ここ！</span>
+              <% elsif is_unlocked %>
+                <span class="evo-v-check">✓</span>
+              <% end %>
             </div>
-            <span class="evo-chain-name"><%= s[:name] %></span>
-            <span class="evo-chain-lv">Lv.<%= s[:lv] %></span>
+            <div class="evo-v-info">
+              <p class="evo-v-name"><%= s[:name] %></p>
+              <p class="evo-v-lv">Lv.<%= s[:lv] %> ~</p>
+              <% if is_current && cur_stage < 4 %>
+                <div class="evo-v-progress">
+                  <div class="evo-v-fill" style="width: <%= current_user.ribbon_exp_percent %>%;"></div>
+                </div>
+                <p class="evo-v-progress-text">あと <strong><%= current_user.next_stage_tasks %></strong> タスクで進化！</p>
+              <% elsif is_current && cur_stage == 4 %>
+                <p class="evo-v-max">👑 最終進化達成！</p>
+              <% end %>
+            </div>
           </div>
-          <% if i < other_stages.length - 1 %>
-            <span class="evo-chain-arrow">›</span>
+          <% if i < evo_stages.length - 1 %>
+            <div class="evo-v-arrow">↓</div>
           <% end %>
         <% end %>
       </div>

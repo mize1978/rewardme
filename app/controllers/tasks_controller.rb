@@ -38,6 +38,10 @@ def index
   end
 
   @streak_days = streak
+
+  @week_days = (6.days.ago.to_date..Date.current).map do |d|
+    { date: d, done: @done_dates.include?(d), today: d == Date.current }
+  end
 end
 
   # =====================

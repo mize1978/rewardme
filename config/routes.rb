@@ -27,5 +27,11 @@ Rails.application.routes.draw do
   get 'letters',     to: 'letters#index', as: :letters
   get 'letters/:id', to: 'letters#show',  as: :letter
 
+  get  'games/tap',        to: 'games#tap_game',        as: :tap_game
+  post 'games/tap/result', to: 'games#tap_game_result', as: :tap_game_result
+
+  get  'games/gacha',      to: 'games#gacha',           as: :gacha
+  post 'games/gacha/pull', to: 'games#gacha_pull',      as: :gacha_pull
+
   get 'l', to: redirect('/')
 end

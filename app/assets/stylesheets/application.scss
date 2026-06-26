@@ -627,38 +627,115 @@ body:has(.login-page) {
 
 .login-link:hover { text-decoration: underline; }
 
+/* ===== ログイン BGM ボタン ===== */
+.login-bgm-btn {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  z-index: 20;
+  background: rgba(10, 2, 32, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(200, 140, 255, 0.3);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+}
+.login-bgm-btn:hover {
+  background: rgba(30, 8, 60, 0.75);
+  transform: scale(1.1);
+}
+
 /* ===== キャラクター（左下固定） ===== */
-.login-chara-corner {
+/* ===== ログイン3キャラトリオ ===== */
+.login-trio {
   position: fixed;
   bottom: 0;
-  left: 20px;
+  left: 0;
+  right: 0;
   z-index: 3;
   pointer-events: none;
-}
-
-.login-chara-wrap {
-  position: relative;
-  width: 300px;
-  height: 320px;
   display: flex;
-  align-items: flex-end;
   justify-content: center;
+  align-items: flex-end;
+  gap: 0;
 }
 
-/* 足元の光の輪 */
-.login-chara-wrap::before {
+.login-trio-chara {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.login-trio-chara::before {
   content: "";
   position: absolute;
-  bottom: 4px;
+  bottom: 6px;
   left: 50%;
   transform: translateX(-50%);
-  width: 180px; height: 36px;
+  width: 120px;
+  height: 28px;
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(255, 143, 172, 0.45) 0%, rgba(180, 80, 255, 0.20) 50%, transparent 70%);
-  filter: blur(14px);
+  filter: blur(12px);
   z-index: 0;
   animation: loginShadowPulse 3.5s ease-in-out infinite;
 }
+
+.login-trio-chara--pink::before {
+  background: radial-gradient(ellipse, rgba(255, 143, 172, 0.55), transparent 70%);
+}
+.login-trio-chara--purple::before {
+  background: radial-gradient(ellipse, rgba(180, 80, 255, 0.55), transparent 70%);
+  width: 140px;
+}
+.login-trio-chara--blue::before {
+  background: radial-gradient(ellipse, rgba(80, 160, 255, 0.55), transparent 70%);
+}
+
+.login-trio-img {
+  height: 200px;
+  width: auto;
+  object-fit: contain;
+  object-position: bottom;
+  position: relative;
+  z-index: 1;
+  transform-origin: center bottom;
+}
+
+/* ② RPGパーティ隊形：サイドを下げて中央を前に */
+.login-trio-chara--pink   { transform: translateY(28px); z-index: 1; }
+.login-trio-chara--purple { transform: translateY(0px);  z-index: 2; }
+.login-trio-chara--blue   { transform: translateY(28px); z-index: 1; }
+
+.login-trio-chara--pink   .login-trio-img { animation: loginCharaFloat 3.8s 0.0s ease-in-out infinite; filter: drop-shadow(0 0 14px rgba(255, 143, 172, 0.38)); }
+.login-trio-chara--purple .login-trio-img { animation: loginCharaFloat 3.5s 0.9s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(180, 80,  255, 0.45)); height: 238px; }
+.login-trio-chara--blue   .login-trio-img { animation: loginCharaFloat 4.0s 1.7s ease-in-out infinite; filter: drop-shadow(0 0 14px rgba(80,  160, 255, 0.38)); }
+
+.login-trio-label {
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.login-trio-chara--pink   .login-trio-label { background: rgba(255, 143, 172, 0.25); color: #ffb3d9; border: 1px solid rgba(255, 143, 172, 0.4); }
+.login-trio-chara--purple .login-trio-label { background: rgba(180, 80,  255, 0.20); color: #d9a0ff; border: 1px solid rgba(180, 80,  255, 0.4); }
+.login-trio-chara--blue   .login-trio-label { background: rgba(80,  160, 255, 0.20); color: #a0d0ff; border: 1px solid rgba(80,  160, 255, 0.4); }
+
+/* 旧スタイル（互換のため残す） */
+.login-chara-corner { display: none; }
 
 .login-chara-img {
   height: 320px;
@@ -747,6 +824,11 @@ body:has(.login-page) {
   .login-logo-name { font-size: 26px; }
   .login-chara-wrap { width: 200px; height: 220px; }
   .login-chara-img { height: 190px; }
+  .login-trio-img { height: 130px; }
+  .login-trio-chara--purple .login-trio-img { height: 155px; }
+  .login-trio-chara--pink  { transform: translateY(18px); }
+  .login-trio-chara--blue  { transform: translateY(18px); }
+  .login-trio-label { font-size: 9px; padding: 2px 7px; }
 }
 /* =====================
    仕上げ：ふわかわ完成デザイン
@@ -1124,10 +1206,10 @@ a[href*="github"] {
               0 0 0 3px rgba(100, 160, 255, 0.18),
               inset 0 1px 0 rgba(255,255,255,0.12);
 }
-.egg-choice-card--yellow:hover {
-  border-color: rgba(255, 220, 80, 0.70);
-  box-shadow: 0 20px 56px rgba(255, 200, 50, 0.40),
-              0 0 0 3px rgba(255, 220, 80, 0.18),
+.egg-choice-card--purple:hover {
+  border-color: rgba(180, 100, 255, 0.70);
+  box-shadow: 0 20px 56px rgba(150, 60, 240, 0.40),
+              0 0 0 3px rgba(180, 100, 255, 0.18),
               inset 0 1px 0 rgba(255,255,255,0.12);
 }
 
@@ -1155,7 +1237,7 @@ a[href*="github"] {
 
 .egg-choice-card--pink:hover   .egg-choice-outer-ring { border-color: rgba(255, 143, 172, 0.35); box-shadow: 0 0 16px rgba(255, 100, 160, 0.25); }
 .egg-choice-card--blue:hover   .egg-choice-outer-ring { border-color: rgba(100, 160, 255, 0.35); box-shadow: 0 0 16px rgba(80, 130, 255, 0.25); }
-.egg-choice-card--yellow:hover .egg-choice-outer-ring { border-color: rgba(255, 220, 80,  0.35); box-shadow: 0 0 16px rgba(255, 200, 50, 0.25); }
+.egg-choice-card--purple:hover .egg-choice-outer-ring { border-color: rgba(180, 100, 255, 0.35); box-shadow: 0 0 16px rgba(150, 60, 240, 0.25); }
 
 /* 背景グロー */
 .egg-choice-glow {
@@ -1169,7 +1251,7 @@ a[href*="github"] {
 .egg-choice-card:hover .egg-choice-glow { opacity: 1; }
 .egg-glow--pink   { background: radial-gradient(ellipse at 50% 25%, rgba(255, 143, 172, 0.22) 0%, transparent 65%); }
 .egg-glow--blue   { background: radial-gradient(ellipse at 50% 25%, rgba(100, 160, 255, 0.22) 0%, transparent 65%); }
-.egg-glow--yellow { background: radial-gradient(ellipse at 50% 25%, rgba(255, 220, 80,  0.22) 0%, transparent 65%); }
+.egg-glow--purple { background: radial-gradient(ellipse at 50% 25%, rgba(180, 100, 255, 0.22) 0%, transparent 65%); }
 
 /* ===== たまご画像 ===== */
 .egg-choice-img-wrap {
@@ -1191,33 +1273,21 @@ a[href*="github"] {
           drop-shadow(0 0 40px rgba(255, 100, 160, 0.25));
 }
 
-.egg-choice-img--blue {
-  filter: hue-rotate(200deg) saturate(1.15) brightness(0.97)
-          drop-shadow(0 6px 20px rgba(80, 140, 255, 0.60))
-          drop-shadow(0 0 40px rgba(60, 120, 255, 0.30));
-}
-
-.egg-choice-img--yellow {
-  filter: hue-rotate(90deg) saturate(1.8) brightness(1.10)
-          drop-shadow(0 6px 20px rgba(255, 200, 50, 0.60))
-          drop-shadow(0 0 40px rgba(255, 180, 30, 0.30));
-}
-
 /* ホバー時に卵をさらに光らせる */
-.egg-choice-card:hover .egg-choice-img {
+.egg-choice-card--pink:hover .egg-choice-img {
   filter: brightness(1.22) contrast(1.06)
           drop-shadow(0 6px 24px rgba(255, 143, 172, 0.80))
           drop-shadow(0 0 60px rgba(255, 100, 160, 0.50));
 }
-.egg-choice-card--blue:hover .egg-choice-img--blue {
-  filter: hue-rotate(200deg) saturate(1.2) brightness(1.05)
+.egg-choice-card--blue:hover .egg-choice-img {
+  filter: brightness(1.10)
           drop-shadow(0 6px 24px rgba(80, 140, 255, 0.85))
           drop-shadow(0 0 60px rgba(60, 120, 255, 0.50));
 }
-.egg-choice-card--yellow:hover .egg-choice-img--yellow {
-  filter: hue-rotate(90deg) saturate(2.0) brightness(1.20)
-          drop-shadow(0 6px 24px rgba(255, 200, 50, 0.85))
-          drop-shadow(0 0 60px rgba(255, 180, 30, 0.50));
+.egg-choice-card--purple:hover .egg-choice-img {
+  filter: brightness(1.12)
+          drop-shadow(0 6px 24px rgba(180, 100, 255, 0.85))
+          drop-shadow(0 0 60px rgba(150, 60, 240, 0.50));
 }
 
 .egg-choice-emoji {

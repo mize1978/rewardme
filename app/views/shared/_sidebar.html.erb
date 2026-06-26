@@ -4,6 +4,8 @@
 <% ach_active   = controller_name == 'pages'  && action_name == 'achievements' %>
 <% shop_active  = controller_name == 'furnitures' %>
 <% set_active   = controller_name == 'pages'  && action_name == 'settings' %>
+<% game_active  = controller_name == 'games'  && action_name == 'tap_game' %>
+<% gacha_active = controller_name == 'games'  && action_name == 'gacha' %>
 
 <%# ===== デイリーBOX + 今日の獲得アイテム ===== %>
 <div data-controller="daily-box">
@@ -65,11 +67,12 @@
 
   <%= link_to shop_path, class: "sidebar-deco-room" do %>
     <%= image_tag current_user.room_bg_image, class: "sidebar-deco-room-bg", alt: "マイルーム" %>
-    <%= image_tag current_user.ribbon_stage_image, class: "sidebar-deco-room-chara", alt: "リボンちゃん", style: ribbon_color_style %>
+    <%= image_tag current_user.ribbon_stage_image, class: "sidebar-deco-room-chara", alt: "リボンちゃん" %>
     <div class="sidebar-deco-room-hover">
       <span>背景を変える ›</span>
     </div>
   <% end %>
+
 </div>
 
 <%# ===== ナビゲーション ===== %>
@@ -89,14 +92,31 @@
     <span>習慣</span>
   <% end %>
 
-  <%= link_to achievements_path, class: "side-menu-item #{ach_active ? 'active' : ''}" do %>
-    <span class="menu-icon-emoji">🏆</span>
-    <span>アチーブメント</span>
+  <%= link_to tap_game_path, class: "side-menu-item #{game_active ? 'active' : ''}" do %>
+    <span class="menu-icon-emoji">🎮</span>
+    <span>ゲーム</span>
+    <% unless current_user.tap_game_played_today? %>
+      <span class="side-menu-badge">NEW</span>
+    <% end %>
+  <% end %>
+
+  <%= link_to gacha_path, class: "side-menu-item #{gacha_active ? 'active' : ''}" do %>
+    <span class="menu-icon-emoji">✨</span>
+    <span>ガチャ</span>
   <% end %>
 
   <%= link_to shop_path, class: "side-menu-item #{shop_active ? 'active' : ''}" do %>
     <span class="menu-icon-emoji">🛒</span>
     <span>ショップ</span>
+  <% end %>
+
+  <%= link_to letters_path, class: "side-menu-item" do %>
+    <span class="menu-icon-emoji">📮</span>
+    <span>お手紙</span>
+    <% unread = current_user.unread_letter_count %>
+    <% if unread > 0 %>
+      <span class="side-menu-badge"><%= unread %></span>
+    <% end %>
   <% end %>
 
   <%= link_to settings_path, class: "side-menu-item #{set_active ? 'active' : ''}" do %>

@@ -1,8 +1,9 @@
 module ApplicationHelper
   EGG_COLOR_FILTERS = {
     "pink"   => "",
-    "blue"   => "hue-rotate(260deg) saturate(1.2) brightness(1.0)",
-    "yellow" => "hue-rotate(80deg) saturate(1.5) brightness(1.1)"
+    "blue"   => "",
+    "purple" => "",
+    "yellow" => ""
   }.freeze
 
   def ribbon_color_style(user = current_user)

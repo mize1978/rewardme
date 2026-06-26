@@ -25,6 +25,9 @@
     <span class="particle" style="--x:87%; --delay:2.8s;--size:3px"></span>
   </div>
 
+  <%# BGMミュートボタン %>
+  <button class="login-bgm-btn" data-action="bgm#toggle" data-bgm-target="btn" title="BGM設定">🎵</button>
+
   <%# ===== ロゴ（上部中央） ===== %>
   <div class="login-header">
     <%= image_tag "rewardme_logo.png", class: "login-logo-img", alt: "RewardMe" %>
@@ -57,47 +60,20 @@
     </div>
   </div>
 
-  <%# ===== キャラクター（左下） ===== %>
-  <div class="login-chara-corner">
-    <div class="login-chara-wrap">
-      <%= image_tag "stage_egg.png", class: "login-chara-img", alt: "ふしぎなたまご" %>
-      <span class="egg-sparkle egg-sparkle--1" aria-hidden="true">✦</span>
-      <span class="egg-sparkle egg-sparkle--2" aria-hidden="true">✧</span>
-      <span class="egg-sparkle egg-sparkle--3" aria-hidden="true">✦</span>
-      <span class="egg-sparkle egg-sparkle--4" aria-hidden="true">✧</span>
-      <span class="egg-sparkle egg-sparkle--5" aria-hidden="true">✦</span>
-      <span class="egg-sparkle egg-sparkle--6" aria-hidden="true">✧</span>
+  <%# ===== 3キャラトリオ（下部） ===== %>
+  <div class="login-trio" aria-hidden="true">
+    <div class="login-trio-chara login-trio-chara--pink">
+      <%= image_tag "stage4_pink.png", class: "login-trio-img", alt: "ロリータリボン" %>
+      <span class="login-trio-label">🩷 ロリータリボン</span>
+    </div>
+    <div class="login-trio-chara login-trio-chara--purple">
+      <%= image_tag "stage4_purple.png", class: "login-trio-img", alt: "ゴシックリボン" %>
+      <span class="login-trio-label">💜 ゴシックリボン</span>
+    </div>
+    <div class="login-trio-chara login-trio-chara--blue">
+      <%= image_tag "stage4_blue.png", class: "login-trio-img", alt: "星のリボン" %>
+      <span class="login-trio-label">💙 星のリボン</span>
     </div>
   </div>
 
 </div>
-
-<script>
-(function() {
-  function initEggPyon() {
-    var egg = document.querySelector('.login-chara-img');
-    var btns = document.querySelectorAll('.login-btn-new');
-    if (!egg || !btns.length) return;
-
-    btns.forEach(function(btn) {
-      btn.addEventListener('mouseenter', function() {
-        egg.classList.remove('egg-pyon');
-        void egg.offsetWidth;
-        egg.classList.add('egg-pyon');
-      });
-    });
-
-    egg.addEventListener('animationend', function(e) {
-      if (e.animationName === 'eggPyon') {
-        egg.classList.remove('egg-pyon');
-      }
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initEggPyon);
-  } else {
-    initEggPyon();
-  }
-})();
-</script>

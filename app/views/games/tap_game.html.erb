@@ -1,0 +1,91 @@
+<div class="tg-wrap"
+     data-controller="tap-game"
+     data-tap-game-result-url="<%= tap_game_result_path %>">
+
+  <%# ━━━ スタート画面 ━━━ %>
+  <div class="tg-screen tg-screen--start" data-tap-game-target="startScreen">
+    <div class="tg-start-inner">
+      <p class="tg-label">🎀 ミニゲーム</p>
+      <h1 class="tg-title">リボンキャッチ！</h1>
+      <p class="tg-desc">
+        飛んでくる🎀をひたすらタップ！<br>
+        30秒で何個捕まえられるかな？
+      </p>
+
+      <div class="tg-score-board">
+        <div class="tg-score-item">
+          <span class="tg-score-label">ハイスコア</span>
+          <span class="tg-score-value"><%= current_user.tap_game_high_score %> 点</span>
+        </div>
+        <div class="tg-score-item">
+          <span class="tg-score-label">今日のチャンス</span>
+          <% if @already_played %>
+            <span class="tg-score-value tg-score-value--used">✓ 使用済み</span>
+          <% else %>
+            <span class="tg-score-value tg-score-value--ready">残り 1回</span>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="tg-reward-table">
+        <div class="tg-reward-row"><span>100点以上</span><span class="tg-reward-coin">🪙 100コイン</span></div>
+        <div class="tg-reward-row"><span>50点以上</span> <span class="tg-reward-coin">🪙 50コイン</span></div>
+        <div class="tg-reward-row"><span>〜49点</span>  <span class="tg-reward-coin">🪙 20コイン</span></div>
+      </div>
+
+      <% if @already_played %>
+        <p class="tg-played-msg">また明日来てね♡<br>毎日チャレンジで腕を磨こう！</p>
+        <%= link_to "ホームに戻る", dashboard_path, class: "tg-btn tg-btn--home" %>
+      <% else %>
+        <button class="tg-btn tg-btn--start" data-action="tap-game#start">
+          スタート！
+        </button>
+      <% end %>
+    </div>
+  </div>
+
+  <%# ━━━ ゲーム画面 ━━━ %>
+  <div class="tg-screen tg-screen--game" data-tap-game-target="gameScreen" hidden>
+    <div class="tg-hud">
+      <div class="tg-hud-score">
+        🎀 <span class="tg-hud-score-num" data-tap-game-target="scoreDisplay">0</span>
+      </div>
+      <div class="tg-hud-timer" data-tap-game-target="timer">30</div>
+    </div>
+
+    <div class="tg-ribbon-container" data-tap-game-target="ribbonContainer">
+      <div class="tg-countdown" data-tap-game-target="countdown" hidden></div>
+    </div>
+  </div>
+
+  <%# ━━━ 結果画面 ━━━ %>
+  <div class="tg-screen tg-screen--result" data-tap-game-target="resultScreen" hidden>
+    <div class="tg-result-inner">
+      <%= image_tag current_user.ribbon_stage_image,
+            class: "tg-result-chara",
+            style: ribbon_color_style,
+            alt: "リボンちゃん" %>
+
+      <p class="tg-result-msg" data-tap-game-target="resultMessage"></p>
+
+      <div class="tg-result-score-wrap">
+        <span class="tg-result-score-label">スコア</span>
+        <span class="tg-result-score-num" data-tap-game-target="resultScore"></span>
+        <span class="tg-result-score-unit">点</span>
+      </div>
+
+      <div class="tg-result-coins" data-tap-game-target="resultCoins"></div>
+
+      <div class="tg-result-hs"
+           data-tap-game-target="resultHighScore"
+           data-prev="<%= current_user.tap_game_high_score %>">
+        ハイスコア: <%= current_user.tap_game_high_score %> 点
+      </div>
+
+      <%= link_to dashboard_path, class: "tg-btn tg-btn--home" do %>
+        ホームに戻る
+      <% end %>
+    </div>
+  </div>
+
+</div>

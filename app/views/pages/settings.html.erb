@@ -19,8 +19,7 @@
 
       <div class="settings-profile-card">
         <div class="settings-avatar">
-          <%= image_tag current_user.ribbon_stage_image, class: "settings-avatar-img",
-                style: ribbon_color_style, alt: "アバター" %>
+          <%= image_tag current_user.ribbon_stage_image, class: "settings-avatar-img", alt: "アバター" %>
         </div>
         <div class="settings-profile-info">
           <p class="settings-nickname"><%= current_user.nickname %></p>
@@ -49,17 +48,17 @@
 
       <div class="egg-color-setting">
         <% [
-          { color: "pink",   emoji: "🩷", label: "リボンのたまご",   desc: "やさしさと愛情",  room: "はじめのお部屋" },
-          { color: "blue",   emoji: "💙", label: "星のたまご",       desc: "夢と輝き",        room: "星のちいさなお部屋" },
-          { color: "yellow", emoji: "💛", label: "ひだまりのたまご", desc: "あたたかさと笑顔", room: "ひだまりの部屋" },
+          { color: "pink",   emoji: "🩷", label: "リボンのたまご",   desc: "やさしさと愛情",   room: "はじめのお部屋" },
+          { color: "blue",   emoji: "💙", label: "星のたまご",       desc: "夢と輝き",         room: "星のちいさなお部屋" },
+          { color: "purple", emoji: "💜", label: "ゴシックのたまご", desc: "神秘と輝き",       room: "リボンのお部屋" },
         ].each do |opt| %>
           <%= form_with url: choose_egg_path, method: :post, data: { turbo: false } do |f| %>
             <%= f.hidden_field :color, value: opt[:color] %>
-            <button type="submit" class="egg-color-opt <%= 'egg-color-opt--active' if current_user.egg_color == opt[:color] %>">
+            <% active = current_user.egg_color == opt[:color] || (current_user.egg_color == "yellow" && opt[:color] == "purple") %>
+            <button type="submit" class="egg-color-opt <%= 'egg-color-opt--active' if active %>">
               <div class="egg-color-opt-img-wrap">
-                <%= image_tag "stage_egg.png", class: "egg-color-opt-img",
-                      style: egg_color_style(opt[:color]), alt: opt[:label] %>
-                <% if current_user.egg_color == opt[:color] %>
+                <%= image_tag "stage1_#{opt[:color]}.png", class: "egg-color-opt-img", alt: opt[:label] %>
+                <% if active %>
                   <span class="egg-color-opt-check">✓</span>
                 <% end %>
               </div>

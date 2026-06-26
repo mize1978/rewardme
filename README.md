@@ -1,32 +1,44 @@
 <div align="center">
-  <img src="app/assets/images/rewardme_logo.png" alt="RewardMe" width="260">
+  <img src="app/assets/images/rewardme_logo.png" alt="RewardMe" width="240">
   <br><br>
-  <img src="docs/screenshots/lp.jpg" alt="ランディングページ" width="100%">
+  <strong>リボンちゃんと暮らす、ごほうびタスク管理アプリ</strong>
   <br><br>
-  <h3>リボンちゃんと暮らす、ごほうびタスク管理アプリ</h3>
+
+  ![Ruby](https://img.shields.io/badge/Ruby-3.x-CC342D?style=flat-square&logo=ruby)
+  ![Rails](https://img.shields.io/badge/Rails-7.0-CC0000?style=flat-square&logo=rubyonrails)
+  ![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=mysql&logoColor=white)
+  ![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?style=flat-square&logo=render)
+
   <br>
-  <img src="docs/screenshots/dashboard.jpg" alt="ダッシュボード" width="48%">
-  &nbsp;
-  <img src="docs/screenshots/myroom_sunny.jpg" alt="マイルーム" width="48%">
+
+  🔗 **[デモを見る](https://reward-task-app.onrender.com)**　|　📖 **[GitHubリポジトリ](https://github.com/mize1978)**
+
+  <br>
+
+  <img src="docs/screenshots/lp.jpg" alt="RewardMe ランディングページ" width="100%">
 </div>
 
 ---
 
-**「タスク管理は続けることが一番難しい」** という課題を、「育成」「コレクション」「マイルーム」というゲーム体験で解決することを目指して開発しました。
+## 概要
 
-**GitHub**：https://github.com/mize1978/rewardme
+「タスク管理は続けることが一番難しい」という課題を、**育成・コレクション・マイルーム**というゲーム体験で解決するWebアプリです。
+
+タスクをこなすたびにリボンちゃんが進化し、コインが貯まりガチャが引ける。毎日アプリを開く理由を、ゲームの仕組みで自然に作ります。
 
 ---
 
-## 目次
+## スクリーンショット
 
-- [機能一覧](#機能一覧)
-- [技術スタック](#技術スタック)
-- [技術的なこだわり](#技術的なこだわり)
-- [画面構成](#画面構成)
-- [セットアップ](#セットアップ)
-- [データベース設計](#データベース設計)
-- [今後の実装予定](#今後の実装予定)
+<div align="center">
+  <img src="docs/screenshots/dashboard.jpg" alt="マイルームダッシュボード" width="48%">
+  &nbsp;
+  <img src="docs/screenshots/myroom_sunny.jpg" alt="部屋テーマ切り替え" width="48%">
+  <br><br>
+  <img src="docs/screenshots/choose_egg.jpg" alt="パートナー選択" width="48%">
+  &nbsp;
+  <img src="docs/screenshots/shop.jpg" alt="部屋ショップ" width="48%">
+</div>
 
 ---
 
@@ -34,60 +46,70 @@
 
 ### タスク管理
 - タスクの作成 / 編集 / 削除 / 完了
-- 期日設定 ＋ カレンダーで達成日を可視化（simple_calendar）
-- 期限切れ・当日期限のリマインダー通知（ヘッダードロップダウン）
+- カテゴリ・優先度・期日の設定
+- 7日間の達成カレンダー（曜日ドット表示）
+- 連続記録ストリーク（🔥）
+- 期限切れ・当日期限のリマインダー（ヘッダードロップダウン）
 
 ### ゲーミフィケーション
-- タスク完了でコイン・EXP を獲得
+- タスク完了で **コイン・EXP** を獲得
 - 経験値バーによるレベル表示（ヘッダー常時表示）
-- ライフシステム（5 ライフ / 期限切れタスクで消費）
+- ライフシステム（最大5ライフ / 期限切れで消費・時間経過で回復）
+- バッジコレクション（達成条件ごとに解放）
 
 ### キャラクター育成（リボンちゃん）
-- 完了タスク数に応じた 5 段階の進化（たまご → プリンセスリボン）
-- 卵の色を 3 種類から選択（ピンク・青・黄色）
-- 部屋や卵色の組み合わせで変化するセリフシステム
-- 進化直前の専用アニメーション
+- **ピンク・パープル・ブルー** の3色から選択
+- 累計完了タスク数に応じた **4段階の進化**（たまご → プリンセスリボン）
+- 進化直前の専用シェイクアニメーション
+- 部屋・キャラ色の組み合わせによるセリフシステム（36パターン以上）
 
 ### マイルーム
-- 12 種類の背景テーマ（FREE / NORMAL / RARE / SUPER / EVENT）
+- **18種類** の部屋背景テーマ（FREE / NORMAL / RARE / SUPER / EVENT）
 - コインで新しい部屋を解放
-- 卵の色と部屋テーマによる「おすすめコンボ」セリフ
-- 部屋テーマに連動して UI 全体のアクセントカラーが変化
+- 部屋テーマに連動してUI全体のアクセントカラーが変化
 
-### デイリー BOX
-- 毎日 1 回開封可能なランダム報酬ガチャ
-- コイン / EXP ボーナス（レアリティ別重み付き抽選）
+### ガチャ
+- コインで1回・10連ガチャ
+- レアリティ別（COMMON / RARE / SUPER / ULTRA）重み付き抽選
+- 獲得称号（gacha_title）をプロフィールに反映
+
+### リボンキャッチゲーム
+- 30秒で落ちてくるリボンをタップしてキャッチ
+- ハイスコア記録・デイリープレイ管理
+
+### デイリーBOX
+- 毎日1回開封できるランダム報酬
+- コイン / EXPボーナス（レアリティ別抽選）
 
 ### お手紙（インゲームメール）
-- リボンちゃんや運営からの手紙が届くシステム（14 通）
-- トリガー：初回ログイン / 卵選択 / タスク達成 / レベル到達（Lv10・20・40）/ 部屋変更
-- 未読数をヘッダーにゲームっぽく表示（📮 未読 N）
+- リボンちゃんや運営から届くゲーム内メール（14通）
+- トリガー：初回ログイン / 卵選択 / レベル到達（Lv10・20・40）/ 部屋変更
 
 ---
 
 ## 技術スタック
 
-| カテゴリ | 技術 |
-|---------|------|
+| カテゴリ | 技術・ツール |
+|---------|------------|
 | バックエンド | Ruby on Rails 7.0 |
-| フロントエンド | Stimulus JS / importmap / Hotwire（Turbo） |
+| フロントエンド | Stimulus JS / importmap / Hotwire (Turbo) |
 | スタイリング | CSS（カスタムプロパティ / アニメーション）/ SCSS |
 | データベース | MySQL（開発）/ PostgreSQL（本番） |
 | 認証 | bcrypt（has_secure_password） |
 | デプロイ | Render |
-| その他 | simple_calendar / sprockets |
+| その他ライブラリ | simple_calendar / sprockets |
 
 ---
 
 ## 技術的なこだわり
 
-### ■ CSS カスタムプロパティによる動的テーマ
+### ■ CSSカスタムプロパティによる動的テーマ切り替え
 
-**課題**：部屋テーマが12種類あり、それぞれでボタン・EXPバー・カレンダー・進捗リングなどの色が変わる必要がある。
+**課題**：18種類の部屋テーマで、ボタン・EXPバー・リングなど全UIの色が変わる必要がある。
 
-**却下した方法**：`.theme-star .tasks-add-btn { ... }` のようなクラスベースのスタイルを書く場合、UI要素が増えるたびに全テーマ分のCSSを追加しなければならない。12テーマ × 複数要素で記述量が爆発的に増え、テーマ追加のたびに既存CSSを触る必要が生じる。
+**却下した方法**：`.theme-star .tasks-add-btn { ... }` のようなクラスベースのスタイルを書く方法。18テーマ × 複数UI要素で記述量が爆発し、テーマ追加のたびに既存CSSを修正しなければならない。
 
-**採用した方法**：`body[data-room-theme]` にCSS変数を定義し、各UIは `var(--accent-1)` を参照するだけにした。新しい部屋を追加するときは変数の定義を1ブロック追加するだけでよく、既存CSSは一切変更しない。
+**採用した方法**：`body[data-room-theme]` にCSS変数を定義し、各UIは `var(--accent-1)` を参照するだけにした。新しい部屋を追加するときは変数ブロックを1つ追加するだけで、既存CSSは一切変更不要。
 
 <details>
 <summary>▼ 詳細コード</summary>
@@ -99,7 +121,7 @@ body[data-room-theme="star"] {
   --accent-glow: rgba(129, 140, 248, 0.5);
 }
 
-/* テーマを意識した要素はすべて変数を参照するだけ */
+/* 全UIはCSS変数を参照するだけ */
 .tasks-add-btn {
   background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
   box-shadow: 0 4px 20px var(--accent-glow);
@@ -110,41 +132,13 @@ body[data-room-theme="star"] {
 
 ---
 
-### ■ 1 枚の画像から 3 色を生成する CSS フィルター
+### ■ CSSアニメーションとinlineスタイルの優先度競合への対応
 
-**課題**：卵・キャラクターを3色（ピンク・青・黄色）に対応させる必要がある。キャラクターは進化で5段階あるため、単純に色違い画像を用意すると 5ステージ × 3色 = **15枚**になる。色を1種類追加するたびに全ステージ分の画像作成が発生し、スケールしない。
+**課題**：キャラクターに色フィルターをinlineスタイルで指定したが、マイルームでは `@keyframes` グロウアニメーションが `filter` プロパティを制御しているため、色変換が反映されなかった。
 
-**却下した方法**：色ごとに画像を用意する方法は、現時点では対応できても進化ステージや卵色が増えるたびに画像管理コストが線形に増加する。デザイン修正の際も全色分の画像を更新しなければならないため採用しなかった。
+**却下した方法**：同じ要素に別の方法でフィルターを指定することも検討したが、アニメーションがプロパティを制御している間は競合して意図しない描画になる。
 
-**採用した方法**：CSS の `hue-rotate()` フィルターで1枚の画像から色を変換する。追加コスト0で何色でも対応できる。ただし `hue-rotate` は角度の指定を間違えると意図しない色になるため、元画像の主色（ピンク / 色相330°）から目標色の色相を逆算してフィルター値を導いた。
-
-<details>
-<summary>▼ 詳細コード</summary>
-
-```
-ピンク（330°）+ hue-rotate(260°) = 230°（青）
-ピンク（330°）+ hue-rotate( 80°) =  50°（黄色）
-```
-
-```ruby
-EGG_COLOR_FILTERS = {
-  "pink"   => "",
-  "blue"   => "hue-rotate(260deg) saturate(1.2) brightness(1.0)",
-  "yellow" => "hue-rotate(80deg)  saturate(1.5) brightness(1.1)"
-}.freeze
-```
-
-</details>
-
----
-
-### ■ CSS アニメーションと inline スタイルの優先度競合への対応
-
-**課題**：キャラクターに `hue-rotate` フィルターを inline スタイルで指定したが、マイルームでは常にピンクのまま変わらなかった。キャラクター画像には `@keyframes` によるグロウアニメーションが付いており、アニメーションが `filter` プロパティを制御していたため、同じプロパティへの他の指定が期待どおり反映されなかった。
-
-**却下した方法**：同じ要素に別の方法で filter を指定することも検討したが、アニメーションがそのプロパティを制御している間は他の指定が反映されず、アニメーション中にフィルターが競合して意図しない描画になるため採用しなかった。
-
-**採用した方法**：CSS のレンダリングモデルでは**親要素のフィルターは子の合成済み出力全体に後から適用される**。この仕様を利用し、hue-rotate をアニメーションのない親要素に移動した。アニメーション（グロウ効果）と色変換が干渉せず共存できる。
+**採用した方法**：CSSのレンダリングモデルでは**親要素のフィルターは子の合成済み出力全体に後から適用される**。この仕様を利用し、色フィルターをアニメーションのない親要素に移動した。アニメーションと色変換が干渉せず共存できる。
 
 <details>
 <summary>▼ 詳細コード</summary>
@@ -163,41 +157,40 @@ EGG_COLOR_FILTERS = {
 
 ---
 
-### ■ Stimulus JS による部屋 × 卵色のセリフシステム
+### ■ Stimulus JS による部屋 × キャラ色のセリフシステム
 
-**課題**：部屋（12種類）× 卵色（3種類）の組み合わせに応じてセリフを出し分ける必要がある。組み合わせは36パターン以上あり、さらにレアリアクションやコンボ判定も含まれる。
+**課題**：部屋（18種類）× キャラ色（3色）の組み合わせに応じてセリフを出し分ける必要がある。組み合わせは54パターン以上で、さらにレアリアクションやコンボ判定も含まれる。
 
-**却下した方法**：セリフをDBに保存してAPIで取得する方法も検討したが、キャラクターがしゃべるたびにリクエストが発生し、体験上の「間」が生まれてしまう。また、セリフは頻繁に変わるゲームデータではなく、コードと一緒に管理すべきコンテンツだと判断した。
+**却下した方法**：セリフをDBに保存してAPIで取得する方法。キャラがしゃべるたびにリクエストが発生し、体験上の「間」が生まれる。セリフはコードと一緒に管理すべきコンテンツと判断した。
 
-**採用した方法**：セリフ・組み合わせ判定・抽選ロジックをすべて Stimulus コントローラー内の JS 定数として完結させた。ページロード後はサーバー通信なしで即時動作し、部屋や卵色を変えても一切の遅延がない。
+**採用した方法**：セリフ・組み合わせ判定・抽選ロジックをすべてStimulusコントローラー内のJS定数として完結させた。ページロード後はサーバー通信なしで即時動作する。
 
 <details>
-<summary>▼ 詳細コード</summary>
+<summary>▼ 抽選優先度</summary>
 
 ```
-優先度：
-  ① 5%  → レアリアクション（8 パターン）
-  ② 30% → おすすめコンボセリフ（部屋 × 卵色 / 13 パターン）
-  ③ 残り → 部屋別セリフ（12 部屋 × 各 4〜5 パターン）
+① 5%  → レアリアクション（8パターン）
+② 30% → おすすめコンボセリフ（部屋 × キャラ色 / 13パターン）
+③ 残り → 部屋別セリフ（各部屋 4〜5パターン）
 ```
 
 </details>
 
 ---
 
-### ■ DB テーブルを増やさない手紙システム
+### ■ DBテーブルを増やさない手紙システム
 
-**課題**：レベル到達・部屋変更など複数のトリガーに応じて手紙を届けるシステムが必要。手紙の内容は今後も追加・変更される前提で、管理コストを最小限に抑えたい。
+**課題**：レベル到達・部屋変更など複数トリガーに応じて手紙を届けるシステムが必要。手紙の内容は今後も追加・変更される前提で、管理コストを最小限に抑えたい。
 
-**却下した方法**：`letters` テーブルを作り、手紙をDBレコードとして管理する方法。管理画面から編集できる利点はあるが、手紙の内容は仕様と一体のコンテンツであり、DBに分離すると「コードと内容が別の場所に存在する」状態になる。また、テーブル設計・マイグレーション・シードデータの管理コストが発生する。
+**却下した方法**：`letters` テーブルを作りDBレコードとして管理する方法。手紙はコードと一体のコンテンツなので、DBに分離するとマイグレーション・シードデータの管理コストが増える。
 
-**採用した方法**：手紙本文は Ruby 定数として `letter.rb` に集約し、コードと一緒にバージョン管理する。DBには「どの手紙を読んだか」という状態のみを JSON カラム1列で保持する。手紙を追加・変更する際のマイグレーションが不要で、コードレビューで内容の変更履歴も追える。
+**採用した方法**：手紙本文はRuby定数として `letter.rb` に集約し、コードと一緒にバージョン管理する。DBには「どの手紙を読んだか」という状態のみをJSONカラム1列で保持する。
 
 <details>
 <summary>▼ 詳細コード</summary>
 
 ```ruby
-# 手紙の内容は Ruby 定数（DB テーブル不要）
+# 手紙の内容は Ruby 定数（DBテーブル不要）
 CATALOG = [
   { id: "level_10", from: "リボンちゃん", trigger: :level_10, body: "..." },
   { id: "room_letter_star", trigger: :room_star, body: "..." },
@@ -211,21 +204,23 @@ CATALOG = [
 
 ---
 
-### ■ 外部 gem を使わないゲームシステム
+### ■ `completed_count` をソース・オブ・トゥルースとするゲームシステム
 
-**課題**：レベル・EXP・進化ステージ・抽選など複数のゲームシステムをどう管理するか。外部 gem への依存を避けつつ、バランス調整のたびにDB操作が不要な設計にしたい。
+**課題**：レベル・EXP・進化ステージ・抽選など複数のゲームシステムをどう管理するか。バランス調整のたびにDB操作が不要な設計にしたい。
 
-**却下した方法**：`exp`・`level`・`stage` を個別カラムとして持ち、タスク完了のたびに更新する方法。一見シンプルだが、ゲームバランスを調整するたびにデータの再計算やマイグレーションが必要になる。また、カラム間の整合性が崩れるバグが起きやすい。
+**却下した方法**：`exp`・`level`・`stage` を個別カラムとして持ち、タスク完了のたびに更新する方法。バランス調整のたびに全ユーザーのデータ再計算・マイグレーションが必要になり、カラム間の不整合が起きやすい。
 
-**採用した方法**：`completed_count` を唯一の「ソース・オブ・トゥルース」とし、EXP・レベル・ステージはすべてメソッドで計算する。バランス調整はコードを変更するだけで全ユーザーに即時反映され、DB更新は不要。状態の不整合が構造上発生しない。
+**採用した方法**：`completed_count` を唯一のソースとし、EXP・レベル・ステージはすべてメソッドで計算する。バランス調整はコード変更だけで全ユーザーに即時反映される。
 
 <details>
-<summary>▼ 詳細コード</summary>
+<summary>▼ 主なメソッド</summary>
 
-- **EXP・レベル**：`completed_count` から全ステータスを動的に計算
-- **進化ステージ**：5 段階、各ステージで画像・名前・セリフが変化
-- **デイリー BOX**：`weight` 値による重み付き抽選を自前で実装
-- **ライフシステム**：期限切れタスクで消費、一定期間経過で自動回復
+```ruby
+def ribbon_stage         # completed_count から進化段階を算出
+def ribbon_exp_percent   # 現ステージの進捗率（%）
+def next_stage_tasks     # 次の進化まで残りタスク数
+def ribbon_stage_image   # ステージ × キャラ色 に対応した画像パス
+```
 
 </details>
 
@@ -239,27 +234,53 @@ CATALOG = [
 ├── /login .............. ログイン
 ├── /choose_egg ......... パートナー選択（初回のみ）
 ├── /dashboard .......... マイルーム（メイン画面）
-├── /my_tasks ........... タスク一覧
+├── /mytasks ............ タスク一覧
 ├── /tasks/new .......... タスク作成
+├── /games/tap .......... リボンキャッチゲーム（30秒）
+├── /games/gacha ........ ガチャ
 ├── /shop ............... 部屋ショップ
 ├── /letters ............ お手紙一覧
-├── /letters/:id ........ お手紙詳細
+├── /habits ............. 習慣トラッカー
+├── /achievements ....... 実績・バッジ
 └── /settings ........... 設定
 ```
 
 ---
 
-## スクリーンショット
+## データベース設計
 
-<!-- デモ URL は後日追記 -->
+### users テーブル
 
-<div align="center">
-  <img src="docs/screenshots/choose_egg.jpg" alt="パートナー選択" width="48%">
-  &nbsp;
-  <img src="docs/screenshots/dashboard_blue.jpg" alt="青たまご × 星の部屋" width="48%">
-  <br><br>
-  <img src="docs/screenshots/shop.jpg" alt="部屋ショップ" width="80%">
-</div>
+| カラム | 型 | 説明 |
+|-------|----|------|
+| nickname | string | 表示名 |
+| email | string | ログイン用メールアドレス |
+| password_digest | string | bcryptハッシュ |
+| coins | integer | 所持コイン |
+| lives | integer | ライフ（最大5） |
+| completed_count | integer | 累計完了タスク数（全ステータスの基準値） |
+| egg_color | string | `pink` / `purple` / `blue` |
+| current_room_bg | string | 現在の部屋ID |
+| gacha_title | string | ガチャで獲得した称号 |
+| tap_game_high_score | integer | リボンキャッチのハイスコア |
+| tap_game_last_played_at | datetime | リボンキャッチの最終プレイ日時 |
+| read_letter_ids | json | 既読手紙IDの配列 |
+| last_box_opened_at | datetime | デイリーBOX最終開封日時 |
+| owned_furniture | json | 所持家具IDの配列 |
+| placed_furniture | json | 配置済み家具の座標データ |
+
+### tasks テーブル
+
+| カラム | 型 | 説明 |
+|-------|----|------|
+| title | string | タスク名 |
+| category | string | カテゴリ（仕事 / 勉強 / 生活 etc.） |
+| priority | string | 優先度（high / medium / low） |
+| date | date | 期日 |
+| done | boolean | 完了フラグ |
+| completed_at | datetime | 完了日時 |
+| coin_reward | integer | 完了時に得るコイン |
+| user_id | integer | 外部キー |
 
 ---
 
@@ -275,7 +296,7 @@ bundle install
 cp config/database.yml.example config/database.yml
 # database.yml を編集してください
 
-bin/rails db:create db:migrate
+bin/rails db:create db:migrate db:seed
 
 bin/rails server
 # → http://localhost:3000
@@ -283,43 +304,20 @@ bin/rails server
 
 ---
 
-## データベース設計
-
-### users テーブル（主要カラム）
-
-| カラム | 型 | 説明 |
-|-------|----|------|
-| nickname | string | 表示名 |
-| email | string | ログイン用 |
-| password_digest | string | bcrypt ハッシュ |
-| coins | integer | 所持コイン |
-| lives | integer | ライフ（最大 5） |
-| completed_count | integer | 累計完了タスク数（EXP の基準値） |
-| egg_color | string | pink / blue / yellow |
-| current_room_bg | string | 現在の部屋 ID |
-| read_letter_ids | json | 既読手紙 ID の配列 |
-| last_box_opened_at | datetime | BOX 最終開封日時 |
-
-### tasks テーブル（主要カラム）
-
-| カラム | 型 | 説明 |
-|-------|----|------|
-| title | string | タスク名 |
-| date | date | 期日 |
-| done | boolean | 完了フラグ |
-| coin_reward | integer | 完了時に得るコイン |
-| user_id | integer | 外部キー |
-
----
-
 ## 今後の実装予定
 
 - 家具システム（部屋に好きな家具を配置）
+- ピンク・ブルールームのスクリーンショット対応
 - イベント背景・季節限定のお手紙
-- パートナー衣装のカスタマイズ
-- マイルームの細かいカスタマイズ機能
 - フレンド・ランキング機能
+- パートナー衣装のカスタマイズ
 
 ---
 
-*個人開発 / Ruby on Rails 7*
+<div align="center">
+  <img src="app/assets/images/ribbon_trio.png" alt="リボンちゃん3色" width="480">
+  <br><br>
+  <sub>個人開発 / Ruby on Rails 7 / 2026</sub>
+  <br>
+  <sub>Made with 🎀 by <a href="https://github.com/mize1978">mize1978</a></sub>
+</div>

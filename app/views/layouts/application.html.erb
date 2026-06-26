@@ -25,9 +25,11 @@
   </head>
 
   <body data-room-theme="<%= current_user&.current_room_bg || 'default' %>"
-        data-egg-color="<%= current_user&.egg_color || 'pink' %>">
+        data-egg-color="<%= current_user&.egg_color || 'pink' %>"
+        data-controller="bgm"
+        data-bgm-room="<%= current_user ? (current_user.current_room_bg || 'default') : 'login' %>">
 
-    <% unless (controller_name == 'sessions' && action_name == 'new') || (controller_name == 'users' && action_name == 'new') %>
+    <% unless (controller_name == 'sessions' && action_name == 'new') || (controller_name == 'users' && action_name == 'new') || (controller_name == 'pages' && action_name == 'lp') %>
       <%= render 'shared/header' %>
     <% end %>
 

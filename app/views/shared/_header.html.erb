@@ -69,6 +69,28 @@
           <% end %>
         <% end %>
 
+        <%# 🎵 BGM %>
+        <div class="bgm-wrap" data-bgm-target="wrap">
+          <button class="header-icon header-icon--btn bgm-toggle-btn"
+                  data-action="bgm#openPopover"
+                  data-bgm-target="btn"
+                  title="BGM設定">🎵</button>
+          <div class="bgm-popover" data-bgm-target="popover">
+            <p class="bgm-popover-title">🎵 BGM音量</p>
+            <div class="bgm-volume-row">
+              <span class="bgm-vol-icon">🩷</span>
+              <input type="range" min="0" max="100" value="30"
+                     class="bgm-slider"
+                     data-action="input->bgm#setVolume"
+                     data-bgm-target="slider">
+              <span class="bgm-vol-icon">💜</span>
+            </div>
+            <button class="bgm-mute-btn"
+                    data-action="bgm#toggle"
+                    data-bgm-target="muteBtn">🔇 ミュート</button>
+          </div>
+        </div>
+
         <%# ⚙️ 設定 %>
         <%= link_to settings_path, class: "header-icon header-icon--btn", title: "設定" do %>⚙️<% end %>
 

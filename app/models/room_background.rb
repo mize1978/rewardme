@@ -9,6 +9,22 @@ class RoomBackground
       desc:   "最初からもらえるお部屋"
     },
     {
+      id:     "pink",
+      name:   "ピンクリボンの部屋",
+      image:  "room_pink.png",
+      price:  0,
+      rarity: "FREE",
+      desc:   "満月と桜が見える、ふわふわピンクのお部屋"
+    },
+    {
+      id:     "pink_royal",
+      name:   "ピンクロイヤルの部屋",
+      image:  "room_pink_royal.png",
+      price:  1200,
+      rarity: "SUPER",
+      desc:   "きらきらガーランドとリボンが輝く、究極のピンクのお城"
+    },
+    {
       id:     "sweets",
       name:   "スイーツの部屋",
       image:  "room_sweets.png",
@@ -39,6 +55,22 @@ class RoomBackground
       price:  0,
       rarity: "FREE",
       desc:   "三日月が見える、星好きの子の部屋"
+    },
+    {
+      id:     "blue",
+      name:   "星空リボンの部屋",
+      image:  "room_blue.png",
+      price:  0,
+      rarity: "FREE",
+      desc:   "流れ星と三日月が見える、星好きのお部屋"
+    },
+    {
+      id:     "blue_royal",
+      name:   "ブルーロイヤルの部屋",
+      image:  "room_blue_royal.png",
+      price:  1200,
+      rarity: "SUPER",
+      desc:   "星のガーランドが輝く、究極の星空のお城"
     },
     {
       id:     "star",
@@ -99,6 +131,22 @@ class RoomBackground
       price:  900,
       rarity: "SUPER",
       desc:   "お城が見えるシャンデリアの豪華なお部屋"
+    },
+    {
+      id:     "purple",
+      name:   "紫の月夜の部屋",
+      image:  "room_purple.png",
+      price:  0,
+      rarity: "FREE",
+      desc:   "満月の夜、星屑が輝く神秘的な紫のお部屋"
+    },
+    {
+      id:     "purple_royal",
+      name:   "パープルロイヤルの部屋",
+      image:  "room_purple_royal.png",
+      price:  1200,
+      rarity: "SUPER",
+      desc:   "紫水晶と満月が輝く、究極の月夜のお城部屋"
     },
   ].freeze
 

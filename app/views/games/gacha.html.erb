@@ -1,0 +1,92 @@
+<div class="gacha-page"
+     data-controller="gacha"
+     data-gacha-pull-url="<%= gacha_pull_path %>">
+
+  <%# ━━━ メイン画面 ━━━ %>
+  <div class="gacha-main" data-gacha-target="mainScreen">
+
+    <div class="gacha-hero">
+      <p class="gacha-label">✨ ミニゲーム</p>
+      <h1 class="gacha-title">リボンガチャ</h1>
+      <p class="gacha-sub">コインを使ってレアアイテムをゲット！</p>
+    </div>
+
+    <%# ガチャ機ビジュアル %>
+    <div class="gacha-ball-display">
+      <%= image_tag "gacha_machine.png", class: "gacha-machine-img", alt: "リボンガチャ" %>
+    </div>
+
+    <%# コイン残高 %>
+    <div class="gacha-wallet">
+      <span class="gacha-wallet-ico">🪙</span>
+      <span class="gacha-wallet-num" data-gacha-target="coinDisplay"><%= current_user.coins %></span>
+      <span class="gacha-wallet-label">コイン</span>
+    </div>
+
+    <%# 排出率 %>
+    <div class="gacha-rates">
+      <div class="gacha-rate-item gacha-rate-item--ssr">SSR <strong>5%</strong></div>
+      <div class="gacha-rate-item gacha-rate-item--sr">SR <strong>19%</strong></div>
+      <div class="gacha-rate-item gacha-rate-item--r">R <strong>31%</strong></div>
+      <div class="gacha-rate-item gacha-rate-item--n">N <strong>45%</strong></div>
+    </div>
+
+    <%# 引くボタン %>
+    <div class="gacha-pull-btns">
+      <button class="gacha-pull-btn gacha-pull-btn--single"
+              data-action="gacha#pull"
+              data-gacha-count-param="1"
+              data-gacha-cost-param="50"
+              data-gacha-target="pullBtn"
+              <%= current_user.coins < 50 ? "disabled" : "" %>>
+        <span class="gacha-pull-btn-main">1回引く</span>
+        <span class="gacha-pull-btn-cost">🪙 50コイン</span>
+      </button>
+
+      <button class="gacha-pull-btn gacha-pull-btn--ten"
+              data-action="gacha#pull"
+              data-gacha-count-param="10"
+              data-gacha-cost-param="450"
+              data-gacha-target="pullBtn"
+              <%= current_user.coins < 450 ? "disabled" : "" %>>
+        <span class="gacha-pull-btn-main">10連ガチャ</span>
+        <span class="gacha-pull-btn-cost">🪙 450コイン <em>（10%お得！）</em></span>
+      </button>
+    </div>
+
+    <% if current_user.gacha_title.present? %>
+      <p class="gacha-current-title">👑 現在の称号: <strong><%= current_user.gacha_title %></strong></p>
+    <% end %>
+
+    <%= link_to "← ホームに戻る", dashboard_path, class: "gacha-back-link" %>
+  </div>
+
+  <%# ━━━ カプセルアニメーション オーバーレイ ━━━ %>
+  <div class="gacha-overlay" data-gacha-target="overlay" hidden>
+    <div class="gacha-capsule-wrap">
+      <div class="gacha-capsule" data-gacha-target="capsule">
+        <div class="gacha-capsule-top"></div>
+        <div class="gacha-capsule-bottom"></div>
+        <div class="gacha-capsule-shine"></div>
+      </div>
+      <p class="gacha-capsule-label">ドキドキ…🎀</p>
+    </div>
+  </div>
+
+  <%# ━━━ 結果画面 ━━━ %>
+  <div class="gacha-result" data-gacha-target="resultScreen" hidden>
+    <h2 class="gacha-result-heading">✨ 結果発表！</h2>
+    <div class="gacha-cards-area" data-gacha-target="cardsArea"></div>
+    <div class="gacha-summary" data-gacha-target="summary"></div>
+    <div class="gacha-result-actions">
+      <button class="gacha-pull-btn gacha-pull-btn--again"
+              data-action="gacha#again"
+              data-gacha-target="pullBtn">
+        <span class="gacha-pull-btn-main">もう一回！</span>
+        <span class="gacha-pull-btn-cost">ガチャに戻る</span>
+      </button>
+      <%= link_to dashboard_path, class: "gacha-back-link" do %>ホームに戻る<% end %>
+    </div>
+  </div>
+
+</div>

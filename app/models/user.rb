@@ -19,47 +19,29 @@ def badge
 end
 
 def ribbon_level
-  case completed_count || 0
-  when 0..9
-    1
-  when 10..29
-    2
-  when 30..59
-    3
-  when 60..99
-    4
-  else
-    5
-  end
+  completed_count || 0
 end
 
 def ribbon_title
-  case ribbon_level
-  when 1
-    "たまごのリボン族"
-  when 2
-    "ぷちリボン族"
-  when 3
-    "リボン族"
-  when 4
-    "上位リボン族"
-  else
-    "マスターリボン族"
+  case ribbon_stage
+  when 1 then "たまごのリボン族"
+  when 2 then "ベビーリボン族"
+  when 3 then "リボン族"
+  when 4 then "プリンセスリボン族"
   end
 end
 
 def ribbon_stage
   count = completed_count || 0
-  if    count >= 70 then 5
-  elsif count >= 40 then 4
-  elsif count >= 20 then 3
+  if    count >= 60 then 4
+  elsif count >= 30 then 3
   elsif count >= 10 then 2
   else                   1
   end
 end
 
 def ribbon_stage_name
-  %w[ふしぎなたまご ぷちリボン ベイビーリボン 夜桜リボン プリンセスリボン][ribbon_stage - 1]
+  %w[たまごのリボンちゃん ベビーリボン リボンちゃん プリンセスリボン][ribbon_stage - 1]
 end
 
 def ribbon_exp
@@ -67,24 +49,22 @@ def ribbon_exp
   case ribbon_stage
   when 1 then count
   when 2 then count - 10
-  when 3 then count - 20
-  when 4 then count - 40
-  when 5 then count - 70
+  when 3 then count - 30
+  when 4 then count - 60
   end
 end
 
 def ribbon_exp_max
-  [10, 10, 20, 30, nil][ribbon_stage - 1]
+  [10, 20, 30, nil][ribbon_stage - 1]
 end
 
 def ribbon_exp_percent
   count = completed_count || 0
   case ribbon_stage
   when 1 then (count * 10).clamp(0, 100)
-  when 2 then ((count - 10) * 10).clamp(0, 100)
-  when 3 then ((count - 20) * 5).clamp(0, 100)
-  when 4 then ((count - 40) * 100 / 30).clamp(0, 100)
-  when 5 then 100
+  when 2 then ((count - 10) * 5).clamp(0, 100)
+  when 3 then ((count - 30) * 100 / 30).clamp(0, 100)
+  when 4 then 100
   end
 end
 
@@ -92,43 +72,30 @@ def next_stage_tasks
   count = completed_count || 0
   case ribbon_stage
   when 1 then 10 - count
-  when 2 then 20 - count
-  when 3 then 40 - count
-  when 4 then 70 - count
-  when 5 then 0
+  when 2 then 30 - count
+  when 3 then 60 - count
+  when 4 then 0
   end
 end
 
 
 def ribbon_message
-  case ribbon_level
-  when 1
-    "今日も進んでるね♪"
-  when 2
-    "がんばりが見えてきたよ！"
-  when 3
-    "ごほうび上手になってきたね🍰"
-  when 4
-    "すごい！どんどん成長してる！"
-  else
-    "もう習慣化マスターだね👑"
+  case ribbon_stage
+  when 1 then "今日も進んでるね♪"
+  when 2 then "がんばりが見えてきたよ！"
+  when 3 then "ごほうび上手になってきたね🍰"
+  when 4 then "もう習慣化マスターだね👑"
   end
 end
 
-# app/models/user.rb
-
-def ribbon_stage_image
-  case ribbon_stage
-  when 1 then "stage_egg.png"
-  when 2 then "stage_petit.png"
-  when 3 then "stage_baby.png"
-  when 4 then "stage_ribbon.png"
-  else        "stage_royal.png"
-  end
+def ribbon_stage_image(color = nil)
+  c = (color || egg_color.presence || "pink").to_s
+  c = "purple" if c == "yellow"
+  "stage#{ribbon_stage}_#{c}.png"
 end
 
 def ribbon_stage_gold_bg?
-  ribbon_stage == 3
+  false
 end
 
   # ===== お部屋の背景 =====
@@ -198,6 +165,10 @@ end
 
   def unread_letter_count
     available_letters.count { |l| !letter_read?(l[:id]) }
+  end
+
+  def tap_game_played_today?
+    tap_game_last_played_at&.to_date == Date.current
   end
 
   validates :email, presence: true, uniqueness: true
