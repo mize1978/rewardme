@@ -31,13 +31,13 @@
 ## スクリーンショット
 
 <div align="center">
-  <img src="docs/screenshots/dashboard.jpg" alt="マイルームダッシュボード" width="48%">
-  &nbsp;
-  <img src="docs/screenshots/myroom_sunny.jpg" alt="部屋テーマ切り替え" width="48%">
+  <img src="docs/screenshots/dashboard.jpg" alt="マイルームダッシュボード" width="100%">
   <br><br>
-  <img src="docs/screenshots/choose_egg.jpg" alt="パートナー選択" width="48%">
-  &nbsp;
-  <img src="docs/screenshots/shop.jpg" alt="部屋ショップ" width="48%">
+  <img src="docs/screenshots/choose_egg.jpg" alt="パートナー選択" width="100%">
+  <br><br>
+  <img src="docs/screenshots/lp.jpg" alt="ランディングページ" width="100%">
+  <br><br>
+  <img src="docs/screenshots/shop.jpg" alt="部屋ショップ" width="100%">
 </div>
 
 ---
@@ -304,13 +304,15 @@ bin/rails server
 
 ---
 
-## 今後の実装予定
+## Roadmap
 
-- 家具システム（部屋に好きな家具を配置）
-- ピンク・ブルールームのスクリーンショット対応
-- イベント背景・季節限定のお手紙
-- フレンド・ランキング機能
-- パートナー衣装のカスタマイズ
+| ステータス | 機能 |
+|-----------|------|
+| 🔜 Next | 家具の自由配置システム |
+| 🔜 Next | 着せ替えシステム（衣装カスタマイズ） |
+| 📋 Planned | フレンド機能 |
+| 📋 Planned | ランキング |
+| 📋 Planned | 季節イベント・限定お手紙 |
 
 ---
 
