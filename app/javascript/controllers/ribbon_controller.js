@@ -123,6 +123,40 @@ const RARE_MESSAGES = [
 ]
 
 // ============================================================
+// 時間帯別セリフ
+// ============================================================
+const TIME_GREETINGS = {
+  morning: [
+    "おはよう♪",
+    "今日も一日はじまるね！",
+    "朝から来てくれてありがとう♡",
+    "いい朝だね〜！一緒に頑張ろう♪",
+    "朝のリボンちゃんは少し眠そう…でも嬉しいよ！",
+  ],
+  afternoon: [
+    "今日も頑張ろう！",
+    "お昼ごろだね〜♪ ランチ食べた？🍱",
+    "午後もいっしょにがんばろうね！",
+    "ちょっと休憩してた？♪",
+    "がんばってる姿、ちゃんと見てるよ♡",
+  ],
+  evening: [
+    "今日はお疲れさま♡",
+    "夕方になってきたね〜",
+    "夕日、きれいだね♪",
+    "今日も一日よく頑張ったね！",
+    "ゆっくりしていいんだよ♡",
+  ],
+  night: [
+    "夜もここにいてくれてありがとう♡",
+    "夜ふかしはほどほどにね〜",
+    "夜の静けさ、好き…♡",
+    "また明日も一緒にいようね♪",
+    "今日も会えてよかった♡",
+  ],
+}
+
+// ============================================================
 // 好みデータ（将来の表情・モーション用 / 未使用）
 // ============================================================
 export const PARTNER_PREFERENCES = {
@@ -148,10 +182,21 @@ export default class extends Controller {
     const roomBg   = this.element.dataset.roomBg   || "default"
     const eggColor = this.element.dataset.eggColor || "pink"
 
-    this.element.textContent = this._pickMessage(roomBg, eggColor)
+    const period = this._timePeriod()
+    document.body.dataset.timePeriod = period
+
+    this.element.textContent = this._pickMessage(roomBg, eggColor, period)
   }
 
-  _pickMessage(roomBg, eggColor) {
+  _timePeriod() {
+    const h = new Date().getHours()
+    if (h >= 5  && h < 12) return "morning"
+    if (h >= 12 && h < 17) return "afternoon"
+    if (h >= 17 && h < 21) return "evening"
+    return "night"
+  }
+
+  _pickMessage(roomBg, eggColor, period) {
     // 5%: レアリアクション
     if (Math.random() < 0.05) {
       return this._pick(RARE_MESSAGES)
@@ -162,6 +207,11 @@ export default class extends Controller {
     const comboLines = SPECIAL_COMBOS[comboKey]
     if (comboLines && Math.random() < 0.30) {
       return this._pick(comboLines)
+    }
+
+    // 40%: 時間帯セリフ（毎日開きたくなる演出）
+    if (Math.random() < 0.40) {
+      return this._pick(TIME_GREETINGS[period])
     }
 
     // 通常: 部屋別セリフ

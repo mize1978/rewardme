@@ -1,4 +1,4 @@
-<div class="header">
+<div class="header header--desktop">
   <%= link_to dashboard_path, class: "header-logo-link" do %>
     <%= image_tag "rewardme_logo.png", class: "header-logo-img", alt: "RewardMe" %>
   <% end %>
@@ -87,7 +87,6 @@
   var btn      = document.getElementById('notifBtn');
   var dropdown = document.getElementById('notifDropdown');
   if (!btn || !dropdown) return;
-
   btn.addEventListener('click', function(e) {
     e.stopPropagation();
     dropdown.hidden = !dropdown.hidden;
@@ -96,3 +95,107 @@
   document.addEventListener('click', function() { dropdown.hidden = true; });
 })();
 </script>
+
+<% if current_user %>
+<%# ━━━ モバイル専用 UI ━━━ %>
+
+<%# 固定ヘッダーの高さ分のスペーサー %>
+<div class="mobile-top-spacer"></div>
+
+<%# モバイルヘッダー %>
+<div class="mobile-header">
+  <div class="mobile-header-left">
+    <%= link_to dashboard_path, class: "mobile-header-logo-link" do %>
+      <%= image_tag "rewardme_logo.png", class: "mobile-header-logo", alt: "RewardMe" %>
+    <% end %>
+    <span class="mobile-header-greeting">おかえり、<%= current_user.nickname %>！</span>
+  </div>
+  <button class="mobile-hamburger" id="mobileHamburger" type="button" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+
+<%# ドロワー背景（タップで閉じる） %>
+<div class="mobile-backdrop" id="mobileBackdrop"></div>
+
+<%# ドロワーパネル %>
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-user">
+    <p class="mobile-drawer-name"><%= current_user.nickname %> さん</p>
+    <div class="mobile-drawer-stats">
+      <span>★ Lv.<%= current_user.ribbon_level %></span>
+      <span>🪙 <%= number_with_delimiter(current_user.coins) %></span>
+      <span>❤️ <%= current_user.lives %>/5</span>
+    </div>
+    <div class="mobile-drawer-exp-wrap">
+      <div class="mobile-drawer-exp-fill" style="width: <%= current_user.ribbon_exp_percent %>%"></div>
+    </div>
+    <p class="mobile-drawer-stage"><%= current_user.ribbon_stage_name %></p>
+  </div>
+  <nav class="mobile-drawer-nav">
+    <% unread = current_user.unread_letter_count %>
+    <%= link_to letters_path, class: "mobile-drawer-link" do %>
+      <span>📮 お手紙</span>
+      <% if unread > 0 %>
+        <span class="mobile-drawer-badge"><%= unread > 9 ? "9+" : unread %></span>
+      <% end %>
+    <% end %>
+  </nav>
+  <div class="mobile-drawer-footer">
+    <%= link_to "ログアウト", logout_path, class: "mobile-drawer-logout",
+          data: { turbo_method: :delete } %>
+  </div>
+</div>
+
+<%# ボトムナビ %>
+<nav class="mobile-bottom-nav">
+  <%= link_to dashboard_path,
+        class: "mobile-nav-item #{'mobile-nav-item--active' if current_page?(dashboard_path)}" do %>
+    <span class="mobile-nav-ico">🏠</span>
+    <span class="mobile-nav-label">ホーム</span>
+  <% end %>
+  <%= link_to my_tasks_path,
+        class: "mobile-nav-item #{'mobile-nav-item--active' if current_page?(my_tasks_path)}" do %>
+    <span class="mobile-nav-ico">📋</span>
+    <span class="mobile-nav-label">タスク</span>
+  <% end %>
+  <%= link_to shop_path,
+        class: "mobile-nav-item #{'mobile-nav-item--active' if current_page?(shop_path)}" do %>
+    <span class="mobile-nav-ico">🛍️</span>
+    <span class="mobile-nav-label">ショップ</span>
+  <% end %>
+  <%= link_to settings_path,
+        class: "mobile-nav-item #{'mobile-nav-item--active' if current_page?(settings_path)}" do %>
+    <span class="mobile-nav-ico">⚙️</span>
+    <span class="mobile-nav-label">設定</span>
+  <% end %>
+</nav>
+
+<script>
+(function() {
+  var hamburger = document.getElementById('mobileHamburger');
+  var drawer    = document.getElementById('mobileDrawer');
+  var backdrop  = document.getElementById('mobileBackdrop');
+  if (!hamburger || !drawer) return;
+
+  function openDrawer() {
+    drawer.classList.add('mobile-drawer--open');
+    backdrop.classList.add('mobile-backdrop--show');
+    hamburger.classList.add('mobile-hamburger--open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    drawer.classList.remove('mobile-drawer--open');
+    backdrop.classList.remove('mobile-backdrop--show');
+    hamburger.classList.remove('mobile-hamburger--open');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', function() {
+    drawer.classList.contains('mobile-drawer--open') ? closeDrawer() : openDrawer();
+  });
+  backdrop.addEventListener('click', closeDrawer);
+})();
+</script>
+
+<% end %>

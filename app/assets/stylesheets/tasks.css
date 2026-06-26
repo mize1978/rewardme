@@ -1004,13 +1004,39 @@ button:active,
   z-index: 1;
 }
 
+/* 時間帯ティント（room-egg-tint の上、キャラクターの下に重ねる） */
+.my-room::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: background 1.2s ease;
+  background: transparent;
+}
+body[data-time-period="morning"] .my-room::after {
+  background: linear-gradient(180deg, rgba(255, 210, 100, 0.10) 0%, rgba(255, 160, 60, 0.05) 100%);
+  mix-blend-mode: screen;
+}
+body[data-time-period="afternoon"] .my-room::after {
+  background: transparent;
+}
+body[data-time-period="evening"] .my-room::after {
+  background: linear-gradient(180deg, rgba(255, 90, 60, 0.14) 0%, rgba(200, 60, 120, 0.08) 100%);
+  mix-blend-mode: screen;
+}
+body[data-time-period="night"] .my-room::after {
+  background: linear-gradient(180deg, rgba(10, 10, 60, 0.28) 0%, rgba(40, 10, 60, 0.14) 100%);
+  mix-blend-mode: multiply;
+}
+
 .room-character {
   position: absolute;
   bottom: 0;
   left: 60%;
   transform: translateX(-30%);
   height: 65%;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   align-items: flex-end;
   /* グレー背景の矩形端をフェードアウト */
@@ -1103,7 +1129,7 @@ button:active,
   position: absolute;
   bottom: 16px;
   left: 16px;
-  z-index: 2;
+  z-index: 3;
   background: rgba(15, 5, 40, 0.42);
   backdrop-filter: blur(18px) saturate(120%);
   -webkit-backdrop-filter: blur(18px) saturate(120%);
@@ -1223,6 +1249,12 @@ button:active,
   font-size: 14px;
   padding: 24px 0;
   margin: 0;
+}
+.tasks-empty-sub {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(240, 200, 255, 0.35);
 }
 
 .tasks-panel-footer {
@@ -6389,6 +6421,109 @@ body.flash-super::after {
   .lp-browser-frame--grid .lp-screen--box,
   .lp-browser-frame--grid .lp-screen--evo,
   .lp-browser-frame--grid .lp-screen--deco { height: 200px; }
+
+  /* サイドバーレイアウトをモバイルで1カラムに */
+  .page-sidebar-layout {
+    grid-template-columns: 1fr;
+    padding: 0 12px;
+    gap: 0;
+  }
+  .page-sidebar-layout > .col-left { display: none; }
+  .col-main { grid-column: 1; }
+  .sticky-col { position: static; }
+
+  /* ダッシュボード：マイルームサムネイルとサイドナビは非表示（本体の部屋と重複・ボトムナビで代替） */
+  .sidebar-deco-panel { display: none; }
+  .side-menu { display: none; }
+
+  /* BOXと獲得アイテムを横並び（同じdataコントローラー配下なのでそこに当てる） */
+  [data-controller="daily-box"] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* ダッシュボード モバイルレイアウト */
+  .dashboard-layout {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+  }
+  /* キャラ（col-center）を上、BOX（col-left）を下に */
+  .col-center { order: 1; }
+  .col-left   { order: 2; position: static; padding: 0 12px; }
+  .col-right  { display: none; }
+
+  /* マイルームをフル幅・大きめに */
+  .col-center { width: 100%; padding: 0; }
+  .my-room {
+    height: 320px;
+    min-height: 280px;
+    margin: 0 0 16px;
+    border-radius: 0 !important;
+    width: 100%;
+  }
+  .room-title { display: none; }
+
+  /* カレンダーとお部屋成長は非表示、タスクは表示 */
+  .center-bottom { display: block; padding: 0 12px; }
+  .calendar-panel { display: none; }
+  .room-growth-panel { display: none; }
+
+  /* タスクパネルをモバイル向けに整える */
+  .tasks-panel { margin-top: 0; }
+
+  /* ① Good job today! — 小さく・左上に */
+  .room-neon {
+    top: 12px;
+    right: auto;
+    left: 14px;
+    font-size: 16px;
+  }
+
+  /* ② セリフ吹き出し — コンパクトに */
+  .room-speech {
+    padding: 10px 14px;
+    max-width: 240px;
+    bottom: 10px;
+    left: 10px;
+  }
+  .room-speech-text { font-size: 14px; }
+  .room-speech-label { font-size: 10px; }
+
+  /* ③ フッターGitHubバッジを非表示（ボトムナビと重なる・UX的に不要） */
+  .site-footer { display: none; }
+
+  /* タスク追加フォーム：縦中央→上寄せ */
+  .tf-page {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 16px 12px 80px;
+    min-height: auto;
+  }
+  .tf-card { padding: 24px 20px; }
+
+  /* ① BOXカードの高さを少し抑える */
+  .daily-box-panel { padding: 6px 12px 8px; margin-bottom: 0; }
+
+  /* ③ キャラ登場アニメーション */
+  .room-character {
+    animation: charaEnter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .room-speech {
+    animation: speechEnter 0.4s ease both;
+    animation-delay: 0.9s;
+  }
+
+  @keyframes charaEnter {
+    from { transform: translateX(-30%) translateY(24px); opacity: 0; }
+    to   { transform: translateX(-30%) translateY(0);    opacity: 1; }
+  }
+  @keyframes speechEnter {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
   .lp-github-card { padding: 20px; }
   .lp-github-card-top { flex-direction: column; }
   .lp-footer-inner { flex-direction: column; gap: 28px; }
@@ -6592,3 +6727,216 @@ body.flash-super::after {
   color: rgba(240, 200, 255, 0.40);
   cursor: not-allowed;
 }
+
+/* ══════════════════════════════════════
+   モバイルナビゲーション（≤720px）
+══════════════════════════════════════ */
+
+/* デスクトップヘッダーをモバイルで非表示 */
+@media (max-width: 720px) {
+  .header--desktop { display: none !important; }
+}
+
+/* ── スペーサー（固定ヘッダーの高さ分） ── */
+.mobile-top-spacer { display: none; }
+@media (max-width: 720px) {
+  .mobile-top-spacer { display: block; height: 64px; }
+}
+
+/* ── モバイルヘッダー ── */
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  background: rgba(15, 5, 40, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 160, 200, 0.15);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 9998;
+}
+@media (max-width: 720px) {
+  .mobile-header { display: flex; }
+}
+
+.mobile-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.mobile-header-logo { height: 24px; display: block; }
+.mobile-header-greeting {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 200, 230, 0.7);
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+
+/* ── ハンバーガーボタン ── */
+.mobile-hamburger {
+  width: 36px; height: 36px;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: none; cursor: pointer; padding: 4px;
+}
+.mobile-hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.mobile-hamburger--open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.mobile-hamburger--open span:nth-child(2) { opacity: 0; }
+.mobile-hamburger--open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── バックドロップ ── */
+.mobile-backdrop {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.mobile-backdrop--show {
+  opacity: 1;
+}
+@media (max-width: 720px) {
+  .mobile-backdrop { display: block; pointer-events: none; }
+  .mobile-backdrop--show { pointer-events: auto; }
+}
+
+/* ── ドロワーパネル ── */
+.mobile-drawer {
+  display: none;
+  position: fixed;
+  top: 0; right: -280px; bottom: 0;
+  width: 260px;
+  background: rgba(18, 6, 38, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(255, 160, 200, 0.15);
+  z-index: 9999;
+  transition: right 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  padding-top: 52px;
+}
+.mobile-drawer--open { right: 0; }
+@media (min-width: 721px) {
+  .mobile-drawer { display: none !important; }
+}
+
+.mobile-drawer-user {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid rgba(255, 160, 200, 0.12);
+}
+.mobile-drawer-name {
+  font-size: 15px; font-weight: 700;
+  color: #fff; margin: 0 0 8px;
+}
+.mobile-drawer-stats {
+  display: flex; gap: 12px;
+  font-size: 12px; color: rgba(255, 200, 230, 0.85);
+  font-weight: 600; margin-bottom: 8px;
+}
+.mobile-drawer-exp-wrap {
+  height: 4px; border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden; margin-bottom: 6px;
+}
+.mobile-drawer-exp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff8fab, #c96fff);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.mobile-drawer-stage {
+  font-size: 11px; color: rgba(255, 160, 200, 0.6);
+  margin: 0; font-weight: 600;
+}
+
+.mobile-drawer-nav {
+  padding: 12px 12px;
+  flex: 1;
+}
+.mobile-drawer-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 12px;
+  border-radius: 10px;
+  font-size: 14px; font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.mobile-drawer-link:hover {
+  background: rgba(255, 160, 200, 0.1);
+  color: #fff;
+}
+.mobile-drawer-badge {
+  background: rgba(255, 80, 130, 0.85);
+  color: #fff;
+  font-size: 10px; font-weight: 700;
+  border-radius: 999px;
+  padding: 1px 6px;
+  min-width: 18px; text-align: center;
+}
+
+.mobile-drawer-footer {
+  padding: 16px 20px 24px;
+  border-top: 1px solid rgba(255, 160, 200, 0.1);
+}
+.mobile-drawer-logout {
+  display: block; text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px; font-weight: 600;
+  color: rgba(255, 120, 150, 0.8);
+  text-decoration: none;
+  background: rgba(255, 80, 130, 0.08);
+  border: 1px solid rgba(255, 80, 130, 0.2);
+  transition: background 0.15s;
+}
+.mobile-drawer-logout:hover { background: rgba(255, 80, 130, 0.15); }
+
+/* ── ボトムナビ ── */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: rgba(15, 5, 40, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 160, 200, 0.15);
+  z-index: 9998;
+  align-items: center;
+  justify-content: space-around;
+}
+@media (max-width: 720px) {
+  .mobile-bottom-nav { display: flex; }
+  /* コンテンツが下のナビに隠れないように */
+  body { padding-bottom: 60px; }
+  /* デスクトップ用の padding-top をリセット（スペーサーが代わりに使用） */
+  body { padding-top: 0 !important; }
+}
+
+.mobile-nav-item {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 2px;
+  flex: 1; padding: 6px 0;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.15s;
+}
+.mobile-nav-item--active,
+.mobile-nav-item:hover { color: rgba(255, 160, 200, 0.9); }
+.mobile-nav-ico { font-size: 20px; line-height: 1; }
+.mobile-nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.02em; }

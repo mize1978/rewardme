@@ -62,7 +62,7 @@
         </div>
         <div id="not-done-tasks">
           <% if @not_done_tasks.empty? %>
-            <p class="tasks-empty">タスクはありません ✨</p>
+            <p class="tasks-empty">今日はゆっくりでも大丈夫♪<br><span class="tasks-empty-sub">新しいタスクを追加してみよう！</span></p>
           <% else %>
             <% @not_done_tasks.each do |task| %>
               <div class="task-card <%= "priority-#{task.priority}" %>">

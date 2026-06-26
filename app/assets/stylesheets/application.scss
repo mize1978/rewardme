@@ -742,7 +742,7 @@ body:has(.login-page) {
 
 /* レスポンシブ */
 @media (max-width: 600px) {
-  .login-header { padding-top: 32px; }
+  .login-header { padding-top: 8px; }
   .login-logo-r { font-size: 48px; }
   .login-logo-name { font-size: 26px; }
   .login-chara-wrap { width: 200px; height: 220px; }
