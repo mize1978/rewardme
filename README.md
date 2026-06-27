@@ -6,7 +6,12 @@
 
   ![Ruby](https://img.shields.io/badge/Ruby-3.x-CC342D?style=flat-square&logo=ruby)
   ![Rails](https://img.shields.io/badge/Rails-7.0-CC0000?style=flat-square&logo=rubyonrails)
+  ![Stimulus](https://img.shields.io/badge/Stimulus-JS-333?style=flat-square&logo=javascript&logoColor=F7DF1E)
+  ![Turbo](https://img.shields.io/badge/Turbo-Hotwire-5A0FC8?style=flat-square)
+  ![SCSS](https://img.shields.io/badge/SCSS-CC6699?style=flat-square&logo=sass&logoColor=white)
   ![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat-square&logo=mysql&logoColor=white)
+  ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+  ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
   ![Render](https://img.shields.io/badge/Deploy-Render-46E3B7?style=flat-square&logo=render)
 
   <br>
@@ -22,9 +27,23 @@
 
 ## 概要
 
-「タスク管理は続けることが一番難しい」という課題を、**育成・コレクション・マイルーム**というゲーム体験で解決するWebアプリです。
+RewardMe は **「ゲームを遊ぶ感覚」でタスクを続けられる**、育成型タスク管理アプリです。
 
-タスクをこなすたびにリボンちゃんが進化し、コインが貯まりガチャが引ける。毎日アプリを開く理由を、ゲームの仕組みで自然に作ります。
+リボンちゃんを育てながら、マイルームを集め、ガチャを楽しみ、毎日の習慣化を自然にサポートします。
+
+「続けたくなる仕組み」をゲームデザインから学び、設計・UI・ゲームロジックをすべて一人で実装しました。
+
+### ✨ 主な機能
+
+| | 機能 |
+|---|---|
+| 🎀 | **育成システム** — タスク完了でリボンちゃんが4段階に進化 |
+| 🏠 | **マイルーム** — 18種類の部屋テーマ・UIカラーが全体に連動 |
+| ✨ | **ガチャ** — コインで1回・10連、レアリティ別重み付き抽選 |
+| 🎮 | **リボンキャッチ** — 30秒タップゲームでコイン獲得 |
+| 🎁 | **デイリーBOX** — 毎日1回のランダム報酬 |
+| 🏆 | **バッジ** — 達成条件ごとに解放されるコレクション |
+| 📧 | **お手紙** — リボンちゃんから届く14通のゲーム内メール |
 
 ---
 
@@ -311,6 +330,21 @@ bin/rails server
 | 📋 Planned | フレンド機能 |
 | 📋 Planned | ランキング |
 | 📋 Planned | 季節イベント・限定お手紙 |
+
+---
+
+## このアプリで学んだこと
+
+個人開発を通じて、機能実装だけでなく**設計の意思決定**を数多く経験しました。
+
+| 分野 | 学んだこと |
+|------|-----------|
+| アーキテクチャ設計 | `completed_count` をソースオブトゥルースにする設計。DBカラムを最小化し、バランス調整をコード変更だけで全ユーザーに即時反映 |
+| CSS設計 | カスタムプロパティで18テーマを1変数ブロックに集約。新テーマ追加時に既存CSSをゼロ修正で済む構造 |
+| UI / UX | 進化演出・ガチャ演出・モーダルなどのインタラクション設計。「続けたくなる」体験を意識したアニメーション実装 |
+| Stimulus JS | セリフシステム（部屋×キャラ色 54パターン）をサーバー通信なしでクライアント完結させるコントローラー設計 |
+| ゲームロジック | 重み付き抽選・ライフシステム・ストリーク管理など、ゲーム特有のロジックをRubyで設計 |
+| 状態管理 | 「DBに保存すべき状態」と「コードで計算すべき値」の責務分離。不整合を防ぐ設計思想の実践 |
 
 ---
 
