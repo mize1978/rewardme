@@ -1038,8 +1038,8 @@ body[data-time-period="night"] .my-room::after {
   position: absolute;
   bottom: 0;
   left: calc(63% - 8px);
-  transform: translateX(-30%) translateY(-28px);
-  height: 32%;
+  transform: translateX(-30%) translateY(-33px);
+  height: 38%;
   z-index: 3;
   display: flex;
   align-items: flex-end;
@@ -1047,8 +1047,8 @@ body[data-time-period="night"] .my-room::after {
   mask-image: radial-gradient(ellipse 82% 88% at 50% 58%, black 45%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 82% 88% at 50% 58%, black 45%, transparent 100%);
 }
-.room-character--stage3 { height: 36%; }
-.room-character--stage4 { height: 36%; }
+.room-character--stage3 { height: 43%; }
+.room-character--stage4 { height: 43%; }
 
 .room-chara-img {
   height: 100%;
@@ -1132,8 +1132,8 @@ body[data-time-period="night"] .my-room::after {
 
 .room-speech {
   position: absolute;
-  bottom: 16px;
-  left: 16px;
+  bottom: 32px;
+  left: 36px;
   z-index: 3;
   background: rgba(15, 5, 40, 0.42);
   backdrop-filter: blur(18px) saturate(120%);
