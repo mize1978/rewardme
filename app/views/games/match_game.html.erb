@@ -6,7 +6,7 @@
   <%# ━━━ 左パネル ━━━ %>
   <div class="mg-panel mg-panel--info">
     <p class="mg-label">🎀 ミニゲーム</p>
-    <h1 class="mg-title">リボン<br>マッチ！</h1>
+    <h1 class="mg-title">リボンマッチ！</h1>
     <p class="mg-desc">同じ絵柄を縦か横に3つ以上並べよう！<br>60秒で何枚消せるかな？</p>
 
     <div class="mg-score-board">
@@ -56,6 +56,22 @@
       <p class="mg-played-msg">また明日来てね♡</p>
       <%= link_to "🏠 ホームに戻る", dashboard_path, class: "mg-btn mg-btn--home" %>
     <% end %>
+
+    <div class="mg-ribbon-msg">
+      <div class="mg-ribbon-msg-bubble" data-match-game-target="ribbonMsg">
+        <% day_msgs = [
+          "また明日も待ってるね！",
+          "今週も一緒にがんばろうね！",
+          "今日は何枚消せるかな？",
+          "リボン集め、楽しみだね♪",
+          "あと少しで週末だよ！",
+          "今日はいっぱい遊ぼう！",
+          "ゆっくり楽しもうね♡"
+        ] %>
+        <%= day_msgs[Date.current.wday] %>
+      </div>
+      <p class="mg-ribbon-msg-name">🎀 リボンちゃん</p>
+    </div>
   </div>
 
   <%# ━━━ 中央パネル：ボード ━━━ %>

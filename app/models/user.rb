@@ -168,10 +168,12 @@ end
   end
 
   def tap_game_played_today?
+    return false if Rails.env.development?
     tap_game_last_played_at&.to_date == Date.current
   end
 
   def match_game_played_today?
+    return false if Rails.env.development?
     match_game_last_played_at&.to_date == Date.current
   end
 

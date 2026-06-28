@@ -27,7 +27,7 @@ export default class extends Controller {
     "startBtn", "boardOverlay",
     "countdown", "timer", "scoreDisplay", "board",
     "resultScore", "resultCoins", "resultMessage", "resultHighScore",
-    "highScoreDisplay", "comboDisplay", "startHint"
+    "highScoreDisplay", "comboDisplay", "startHint", "ribbonMsg"
   ]
 
   connect() {
@@ -41,6 +41,7 @@ export default class extends Controller {
     this.tileImages = JSON.parse(this.element.dataset.matchGameTileUrls)
     this._initBoard()
     this._renderBoard()
+    this._startBoardStars()
   }
 
   start() {
@@ -48,6 +49,9 @@ export default class extends Controller {
     this.combo    = 0
     this.timeLeft = TIME_LIMIT
     this.selected = null
+    this._milestone30 = false
+    this._milestone60 = false
+    this._setRibbonMsg("その調子！✨")
     if (this.hasStartBtnTarget) this.startBtnTarget.disabled = true
     this.scoreDisplayTarget.textContent  = "0"
     this.timerTarget.textContent         = TIME_LIMIT
@@ -80,6 +84,7 @@ export default class extends Controller {
 
   _startGame() {
     this.active = true
+    this.element.querySelector('.mg-board-wrap')?.classList.add('mg-board-wrap--active')
     this._boardHandler = (e) => {
       const tile = e.target.closest(".mg-tile")
       if (!tile) return
@@ -250,6 +255,13 @@ export default class extends Controller {
         this._spawnSparkles(matches)
         this._bounceScore()
         if (this.combo >= 2) this._showComboText(this.combo)
+        if (!this._milestone60 && this.score >= 60) {
+          this._milestone60 = true
+          this._setRibbonMsg("最高記録を目指そう！🏆")
+        } else if (!this._milestone30 && this.score >= 30) {
+          this._milestone30 = true
+          this._setRibbonMsg("すごい！半分超えたね！")
+        }
       }
       matches.forEach(({ r, c }) => { this.grid[r][c] = null })
       const newPositions = this._applyGravity()
@@ -351,6 +363,7 @@ export default class extends Controller {
   // ─── ゲーム終了 ──────────────────────────────────────────
   _endGame() {
     this.active = false
+    this.element.querySelector('.mg-board-wrap')?.classList.remove('mg-board-wrap--active')
     clearInterval(this.timerInterval)
     if (this._boardHandler) this.boardTarget.removeEventListener("pointerdown", this._boardHandler)
     const score = this.score
@@ -389,9 +402,54 @@ export default class extends Controller {
 
   _delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
 
+  _setRibbonMsg(text) {
+    if (this.hasRibbonMsgTarget) this.ribbonMsgTarget.textContent = text
+  }
+
   disconnect() {
     clearInterval(this.timerInterval)
+    clearTimeout(this._starTimer)
     this.active = false
     if (this._boardHandler) this.boardTarget.removeEventListener("pointerdown", this._boardHandler)
+  }
+
+  _startBoardStars() {
+    const schedule = () => {
+      this._starTimer = setTimeout(() => {
+        this._spawnBoardStar()
+        schedule()
+      }, 2000 + Math.random() * 1500)
+    }
+    this._starTimer = setTimeout(() => { this._spawnBoardStar(); schedule() }, 800 + Math.random() * 1200)
+  }
+
+  _spawnBoardStar() {
+    const wrap = this.element.querySelector('.mg-board-wrap')
+    if (!wrap) return
+    const rect   = wrap.getBoundingClientRect()
+    const chars  = ['✦', '✦', '★', '·', '✦']
+    const colors = ['#ffd700', '#ff90d8', '#ffffff', '#c8a0ff', '#ffe066']
+    const sizes  = [7, 9, 11, 8, 10]
+
+    const edge = Math.floor(Math.random() * 4)
+    const pad  = 8 + Math.random() * 28
+    let x, y
+    if (edge === 0)      { x = rect.left + Math.random() * rect.width; y = rect.top    - pad }
+    else if (edge === 1) { x = rect.right  + pad * 0.6;                y = rect.top    + Math.random() * rect.height }
+    else if (edge === 2) { x = rect.left + Math.random() * rect.width; y = rect.bottom + pad * 0.6 }
+    else                 { x = rect.left   - pad * 0.6;                y = rect.top    + Math.random() * rect.height }
+
+    const el    = document.createElement('span')
+    el.className = 'mg-board-star'
+    el.textContent = chars[Math.floor(Math.random() * chars.length)]
+    el.style.cssText = `
+      left:${x.toFixed(0)}px;
+      top:${y.toFixed(0)}px;
+      font-size:${sizes[Math.floor(Math.random() * sizes.length)]}px;
+      color:${colors[Math.floor(Math.random() * colors.length)]};
+      animation-duration:${(2.0 + Math.random() * 0.8).toFixed(2)}s;
+    `
+    document.body.appendChild(el)
+    setTimeout(() => el.remove(), 3000)
   }
 }

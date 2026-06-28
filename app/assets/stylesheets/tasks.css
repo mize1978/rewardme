@@ -10764,7 +10764,7 @@ body.flash-super::after {
   gap: 12px;
   padding: 10px 16px 24px;
   box-sizing: border-box;
-  align-items: start;
+  align-items: stretch;
   position: relative;
 }
 
@@ -10790,8 +10790,9 @@ body.flash-super::after {
 .mg-panel--board {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
   align-items: center;
+  justify-content: center;
   min-width: 0;
   position: relative;
   z-index: 1;
@@ -10823,16 +10824,16 @@ body.flash-super::after {
   color: #ffd700;
   letter-spacing: 4px;
   text-shadow:
-    0 0 8px rgba(255,215,0,0.8),
-    0 0 20px rgba(255,180,0,0.4);
+    0 0 5px rgba(255,215,0,0.50),
+    0 0 12px rgba(255,180,0,0.22);
   text-align: center;
   margin-bottom: 4px;
-  animation: mgOrnamentGlow 3s ease-in-out infinite;
+  animation: mgOrnamentGlow 4s ease-in-out infinite;
 }
 
 @keyframes mgOrnamentGlow {
-  0%, 100% { opacity: 0.85; text-shadow: 0 0 8px rgba(255,215,0,0.8),  0 0 20px rgba(255,180,0,0.4); }
-  50%       { opacity: 1.00; text-shadow: 0 0 14px rgba(255,215,0,1.0), 0 0 32px rgba(255,200,0,0.7); }
+  0%, 100% { opacity: 0.70; text-shadow: 0 0 5px rgba(255,215,0,0.50), 0 0 12px rgba(255,180,0,0.22); }
+  50%       { opacity: 0.95; text-shadow: 0 0 8px rgba(255,215,0,0.75), 0 0 20px rgba(255,200,0,0.40); }
 }
 
 /* スタートヒントテキスト */
@@ -10904,9 +10905,10 @@ body.flash-super::after {
 }
 
 .mg-title {
-  font-size: 38px;
+  font-size: 30px;
   font-weight: 900;
   margin: 0;
+  white-space: nowrap;
   text-shadow:
     0 2px 12px rgba(255,100,200,0.7),
     0 0 30px rgba(255,80,200,0.3);
@@ -11077,13 +11079,50 @@ body.flash-super::after {
 
 .mg-btn--home:hover { background: rgba(255,255,255,0.3); }
 
+/* ─── リボンちゃんのセリフ ─── */
+.mg-ribbon-msg {
+  margin-top: auto;
+  width: 100%;
+}
+
+.mg-ribbon-msg-bubble {
+  background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,200,240,0.10));
+  border: 1px solid rgba(255,255,255,0.24);
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: rgba(255,235,255,0.95);
+  line-height: 1.6;
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.20);
+  transition: opacity 0.4s ease;
+}
+
+.mg-ribbon-msg-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 16px;
+  border-left: 8px solid transparent;
+  border-right: 0px solid transparent;
+  border-top: 8px solid rgba(255,255,255,0.24);
+}
+
+.mg-ribbon-msg-name {
+  margin: 4px 0 0 4px;
+  font-size: 11px;
+  color: rgba(255,180,220,0.70);
+  letter-spacing: 0.5px;
+}
+
 /* ─── ボード下スタートエリア ─── */
 .mg-start-area {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding-top: 8px;
+  padding-top: 2px;
   width: 100%;
 }
 
@@ -11095,7 +11134,7 @@ body.flash-super::after {
 
 .mg-start-area .mg-btn--start {
   font-size: 22px;
-  padding: 16px 0;
+  padding: 9px 0;
   letter-spacing: 3px;
   width: 80%;
   max-width: 400px;
@@ -11116,7 +11155,7 @@ body.flash-super::after {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 510px;
   color: #fff;
 }
 
@@ -11182,6 +11221,24 @@ body.flash-super::after {
     transform: scale(1.22);
     text-shadow: 0 0 20px rgba(255,50,50,1.0), 0 0 40px rgba(255,80,80,0.6);
   }
+}
+
+/* ── ボード周囲のゆっくり光る星 ── */
+.mg-board-star {
+  position: fixed;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+  animation: mgBoardStar 2.4s ease-in-out forwards;
+  line-height: 1;
+}
+
+@keyframes mgBoardStar {
+  0%   { opacity: 0;   transform: scale(0.3) rotate(-20deg); }
+  22%  { opacity: 1;   transform: scale(1.25) rotate(5deg);  filter: drop-shadow(0 0 5px currentColor); }
+  55%  { opacity: 0.7; transform: scale(1.0)  rotate(0deg); }
+  85%  { opacity: 0.2; transform: scale(0.8)  rotate(12deg); }
+  100% { opacity: 0;   transform: scale(0.3)  rotate(20deg); }
 }
 
 /* ── キラキラパーティクル ── */
@@ -11252,14 +11309,22 @@ body.flash-super::after {
 .mg-board-wrap {
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: 510px;
   border-radius: 24px;
   box-shadow:
-    0 0 0 3px rgba(255,80,200,0.85),
-    0 0 25px rgba(255,80,200,0.75),
-    0 0 55px rgba(200,60,255,0.55),
-    0 0 100px rgba(255,60,160,0.30),
-    0 0 160px rgba(180,40,255,0.15);
+    0 0 0 2px rgba(255,80,200,0.45),
+    0 0 14px rgba(255,80,200,0.30),
+    0 0 36px rgba(200,60,255,0.18),
+    0 0 70px rgba(255,60,160,0.10);
+  transition: box-shadow 0.5s ease;
+}
+
+.mg-board-wrap--active {
+  box-shadow:
+    0 0 0 2px rgba(255,80,200,0.30),
+    0 0 10px rgba(255,80,200,0.20),
+    0 0 25px rgba(200,60,255,0.12),
+    0 0 50px rgba(255,60,160,0.07);
 }
 
 /* ボード四隅の✦キラキラ */
@@ -11270,11 +11335,11 @@ body.flash-super::after {
   color: #ffd700;
   font-size: 22px;
   text-shadow:
-    0 0 8px rgba(255,215,0,1.0),
-    0 0 20px rgba(255,180,0,0.7);
+    0 0 5px rgba(255,215,0,0.65),
+    0 0 12px rgba(255,180,0,0.35);
   pointer-events: none;
   z-index: 6;
-  animation: mgCornerSpark 2.5s ease-in-out infinite;
+  animation: mgCornerSpark 3s ease-in-out infinite;
 }
 
 .mg-board-wrap::before {
@@ -11286,12 +11351,12 @@ body.flash-super::after {
 .mg-board-wrap::after {
   top: -16px;
   right: -16px;
-  animation-delay: 1.25s;
+  animation-delay: 1.5s;
 }
 
 @keyframes mgCornerSpark {
-  0%, 100% { opacity: 0.25; transform: scale(0.75) rotate(-10deg); }
-  50%       { opacity: 1.00; transform: scale(1.30) rotate(10deg); }
+  0%, 100% { opacity: 0.15; transform: scale(0.70) rotate(-10deg); }
+  50%       { opacity: 0.65; transform: scale(1.20) rotate(10deg); }
 }
 
 /* カウントダウン・オーバーレイは新CSS（mg-board-overlay）で管理 */
@@ -11301,7 +11366,7 @@ body.flash-super::after {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 6px;
-  background: linear-gradient(135deg, rgba(70,15,95,0.75), rgba(110,15,130,0.65));
+  background: linear-gradient(135deg, rgba(40,8,72,0.92), rgba(72,8,105,0.85));
   border-radius: 22px;
   padding: 10px;
   border: none;
@@ -11326,23 +11391,21 @@ body.flash-super::after {
   overflow: hidden;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  /* ガラスの縁：明るいホワイト */
-  border: 2px solid rgba(255,255,255,0.92);
+  /* ガラスの縁：通常時は控えめ */
+  border: 2px solid rgba(255,255,255,0.70);
   box-shadow:
-    /* ガラス縁の外側微光 */
-    0 0 0 1px  rgba(255,255,255,0.30),
     /* 浮き影 */
-    0 9px 22px rgba(0,0,0,0.42),
-    0 4px 8px  rgba(0,0,0,0.26),
+    0 6px 16px rgba(0,0,0,0.38),
+    0 3px 6px  rgba(0,0,0,0.22),
     /* ── ぷにぷに ──────────────── */
     /* 上ドームハイライト：丸みの頂点 */
-    inset 0  5px 14px rgba(255,255,255,0.95),
+    inset 0  5px 14px rgba(255,255,255,0.52),
     /* 左上に広がる球面光 */
-    inset 3px 3px 10px rgba(255,255,255,0.40),
+    inset 3px 3px 10px rgba(255,255,255,0.20),
     /* 下の落ち込み：奥行き */
     inset 0 -5px 10px rgba(0,0,0,0.22),
     /* 全体の内側ソフトグロー */
-    inset 0  0   20px rgba(255,255,255,0.18);
+    inset 0  0   20px rgba(255,255,255,0.08);
 }
 
 /* ── 二重枠：内側ガラスリング ── */
@@ -11351,14 +11414,14 @@ body.flash-super::after {
   position: absolute;
   inset: 4px;
   border-radius: 11px;
-  border: 2px solid rgba(255,255,255,0.62);
+  border: 2px solid rgba(255,255,255,0.40);
   pointer-events: none;
   z-index: 3;
   box-shadow:
     /* 内枠の上ハイライト */
-    inset 0  2px 0 rgba(255,255,255,0.95),
+    inset 0  2px 0 rgba(255,255,255,0.52),
     /* 内枠の下シャドウ */
-    inset 0 -2px 0 rgba(0,0,0,0.14);
+    inset 0 -2px 0 rgba(0,0,0,0.12);
 }
 
 /* ── ガラスシーン：上半球の光沢 ── */
@@ -11369,9 +11432,9 @@ body.flash-super::after {
   border-radius: inherit;
   background: linear-gradient(
     175deg,
-    rgba(255,255,255,0.75)  0%,
-    rgba(255,255,255,0.42)  22%,
-    rgba(255,255,255,0.14)  45%,
+    rgba(255,255,255,0.40)  0%,
+    rgba(255,255,255,0.20)  22%,
+    rgba(255,255,255,0.05)  45%,
     rgba(255,255,255,0.00)  62%
   );
   pointer-events: none;
@@ -11388,17 +11451,16 @@ body.flash-super::after {
 
 @media (hover: hover) {
   .mg-tile:hover {
-    transform: translateY(-4px) scale(1.07);
-    border-color: rgba(255,255,255,1.0);
+    transform: translateY(-3px) scale(1.05);
+    border-color: rgba(255,255,255,0.88);
     box-shadow:
-      0 0 0 1px  rgba(255,255,255,0.40),
-      0 12px 28px rgba(0,0,0,0.40),
-      0 4px 10px  rgba(0,0,0,0.22),
-      0 0  18px   rgba(255,220,240,0.45),
-      inset 0  6px 16px rgba(255,255,255,1.00),
-      inset 3px 3px 12px rgba(255,255,255,0.50),
+      0 8px 22px rgba(0,0,0,0.38),
+      0 3px 8px  rgba(0,0,0,0.20),
+      0 0  14px  rgba(255,200,240,0.28),
+      inset 0  6px 16px rgba(255,255,255,0.72),
+      inset 3px 3px 12px rgba(255,255,255,0.34),
       inset 0 -5px 10px rgba(0,0,0,0.20),
-      inset 0  0   22px rgba(255,255,255,0.22);
+      inset 0  0   22px rgba(255,255,255,0.14);
   }
 }
 
@@ -11485,9 +11547,9 @@ body.flash-super::after {
 }
 
 @keyframes mgMatchFlash {
-  0%   { transform: scale(1);    opacity: 1; filter: brightness(1); }
-  40%  { transform: scale(1.25); opacity: 1; filter: brightness(2.2); }
-  100% { transform: scale(0);    opacity: 0; filter: brightness(3); }
+  0%   { transform: scale(1);    opacity: 1; filter: brightness(1);   box-shadow: 0 0 0 2px rgba(255,80,200,0.45); }
+  35%  { transform: scale(1.28); opacity: 1; filter: brightness(2.0); box-shadow: 0 0 28px rgba(255,80,200,0.90), 0 0 60px rgba(200,60,255,0.55); }
+  100% { transform: scale(0);    opacity: 0; filter: brightness(2.8); box-shadow: 0 0 40px rgba(255,120,220,0.70); }
 }
 
 .mg-tile--shake {
