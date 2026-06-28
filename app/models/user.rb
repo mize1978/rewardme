@@ -200,14 +200,18 @@ end
   end
 
   PUZZLE_IMAGES = [
-    { id: 9, name: "お花見",           file: "puzzle_9.png", unlock_at: 0  },
-    { id: 2, name: "サマービーチ",     file: "puzzle_2.png", unlock_at: 5  },
-    { id: 6, name: "バーベキュー",     file: "puzzle_6.png", unlock_at: 10 },
-    { id: 7, name: "花火大会",         file: "puzzle_7.png", unlock_at: 20 },
-    { id: 3, name: "ハロウィンナイト", file: "puzzle_3.png", unlock_at: 30 },
-    { id: 4, name: "クリスマスナイト", file: "puzzle_4.png", unlock_at: 40 },
-    { id: 8, name: "パジャマパーティー", file: "puzzle_8.png", unlock_at: 50 },
-    { id: 5, name: "3プリンセス",     file: "puzzle_5.png", unlock_at: 60 },
+    { id: 12, name: "たまごだっこ",        file: "puzzle_12.png", unlock_at: 0  },
+    { id: 9,  name: "お花見",             file: "puzzle_9.png",  unlock_at: 5  },
+    { id: 2,  name: "サマービーチ",       file: "puzzle_2.png",  unlock_at: 10 },
+    { id: 6,  name: "バーベキュー",       file: "puzzle_6.png",  unlock_at: 15 },
+    { id: 7,  name: "花火大会",           file: "puzzle_7.png",  unlock_at: 20 },
+    { id: 3,  name: "ハロウィンナイト",   file: "puzzle_3.png",  unlock_at: 30 },
+    { id: 10, name: "バースデーパーティー", file: "puzzle_10.png", unlock_at: 40 },
+    { id: 4,  name: "クリスマスナイト",   file: "puzzle_4.png",  unlock_at: 50 },
+    { id: 8,  name: "パジャマパーティー", file: "puzzle_8.png",  unlock_at: 60 },
+    { id: 11, name: "今日も全部終わったね", file: "puzzle_11.png", unlock_at: 70 },
+    { id: 13, name: "遊園地",             file: "puzzle_13.png", unlock_at: 75 },
+    { id: 5,  name: "3プリンセス",       file: "puzzle_5.png",  unlock_at: 80 },
   ].freeze
 
   def owned_puzzle_images

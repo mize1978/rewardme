@@ -113,10 +113,11 @@ class GamesController < ApplicationController
       return
     end
 
+    coins = params[:coins].to_i.clamp(50, 200)
     prev_clears = current_user.puzzle_clears_count
     current_user.record_puzzle_play!
     current_user.update!(
-      coins:               current_user.coins + PUZZLE_COINS,
+      coins:               current_user.coins + coins,
       puzzle_clears_count: current_user.puzzle_clears_count + 1
     )
 

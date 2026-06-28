@@ -143,7 +143,14 @@
         </div>
         <div id="not-done-tasks">
           <% if @not_done_tasks.empty? %>
-            <p class="tasks-empty">今日はゆっくりでも大丈夫♪<br><span class="tasks-empty-sub">新しいタスクを追加してみよう！</span></p>
+            <% if @done_tasks.any? %>
+              <div class="tasks-all-done">
+                <%= image_tag "puzzle_11.png", class: "tasks-all-done-img", alt: "今日も全部終わったね！" %>
+                <p class="tasks-all-done-msg">今日も全部終わったね！🎉</p>
+              </div>
+            <% else %>
+              <p class="tasks-empty">今日はゆっくりでも大丈夫♪<br><span class="tasks-empty-sub">新しいタスクを追加してみよう！</span></p>
+            <% end %>
           <% else %>
             <% @not_done_tasks.each do |task| %>
               <div class="task-card <%= "priority-#{task.priority}" %>">

@@ -36,6 +36,31 @@
         <% end %>
       </div>
 
+      <%# 難易度選択 %>
+      <div class="pz-difficulty">
+        <p class="pz-difficulty-label">難易度</p>
+        <div class="pz-difficulty-btns">
+          <button class="pz-diff-btn pz-diff-btn--easy"
+                  data-action="puzzle#setDifficulty"
+                  data-size="3" data-coins="50">
+            <span class="pz-diff-name">初級</span>
+            <span class="pz-diff-info">3×3 / 🪙50</span>
+          </button>
+          <button class="pz-diff-btn pz-diff-btn--normal pz-diff-btn--active"
+                  data-action="puzzle#setDifficulty"
+                  data-size="4" data-coins="100">
+            <span class="pz-diff-name">中級</span>
+            <span class="pz-diff-info">4×4 / 🪙100</span>
+          </button>
+          <button class="pz-diff-btn pz-diff-btn--hard"
+                  data-action="puzzle#setDifficulty"
+                  data-size="5" data-coins="200">
+            <span class="pz-diff-name">上級</span>
+            <span class="pz-diff-info">5×5 / 🪙200</span>
+          </button>
+        </div>
+      </div>
+
       <%# 選択中のプレビュー %>
       <div class="pz-preview-wrap" data-puzzle-target="previewWrap">
         <%= image_tag @selected_file,

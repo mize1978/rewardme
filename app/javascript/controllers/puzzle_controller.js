@@ -1,6 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
-const SIZE = 4
+const DIFFICULTY = {
+  easy:   { size: 3, coins: 50  },
+  normal: { size: 4, coins: 100 },
+  hard:   { size: 5, coins: 200 },
+}
 
 export default class extends Controller {
   static targets = [
@@ -19,10 +23,22 @@ export default class extends Controller {
     this.imageUrl = this.element.dataset.puzzleImage
     this.resultUrl = this.element.dataset.puzzleResultUrl
     this.selectUrl = this.element.dataset.puzzleSelectUrl
+    this.size  = 4
+    this.coins = 100
   }
 
   disconnect() {
     clearInterval(this.timerInterval)
+  }
+
+  // ─── 難易度選択 ───────────────────────────────────────────
+  setDifficulty(e) {
+    const btn = e.currentTarget
+    this.size  = parseInt(btn.dataset.size)
+    this.coins = parseInt(btn.dataset.coins)
+
+    this.element.querySelectorAll(".pz-diff-btn").forEach(b => b.classList.remove("pz-diff-btn--active"))
+    btn.classList.add("pz-diff-btn--active")
   }
 
   // ─── 絵柄選択 ─────────────────────────────────────────────
@@ -94,16 +110,18 @@ export default class extends Controller {
 
   // ─── ボードロジック ────────────────────────────────────────
   initBoard() {
-    this.tiles = [...Array(SIZE * SIZE - 1).keys()].map(i => i + 1)
+    const n = this.size
+    this.tiles = [...Array(n * n - 1).keys()].map(i => i + 1)
     this.tiles.push(null)
   }
 
   emptyIndex() { return this.tiles.indexOf(null) }
 
   canMove(idx) {
+    const n = this.size
     const empty = this.emptyIndex()
-    const row = Math.floor(idx / SIZE), col = idx % SIZE
-    const eRow = Math.floor(empty / SIZE), eCol = empty % SIZE
+    const row = Math.floor(idx / n), col = idx % n
+    const eRow = Math.floor(empty / n), eCol = empty % n
     return (row === eRow && Math.abs(col - eCol) === 1) ||
            (col === eCol && Math.abs(row - eRow) === 1)
   }
@@ -117,8 +135,9 @@ export default class extends Controller {
   }
 
   shuffleBoard() {
+    const shuffleMoves = this.size === 3 ? 100 : this.size === 4 ? 300 : 600
     let last = -1
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < shuffleMoves; i++) {
       const empty = this.emptyIndex()
       const neighbors = this.getNeighbors(empty).filter(n => n !== last)
       const pick = neighbors[Math.floor(Math.random() * neighbors.length)]
@@ -129,39 +148,42 @@ export default class extends Controller {
   }
 
   getNeighbors(idx) {
-    const row = Math.floor(idx / SIZE), col = idx % SIZE
+    const n = this.size
+    const row = Math.floor(idx / n), col = idx % n
     const result = []
-    if (row > 0) result.push(idx - SIZE)
-    if (row < SIZE - 1) result.push(idx + SIZE)
+    if (row > 0) result.push(idx - n)
+    if (row < n - 1) result.push(idx + n)
     if (col > 0) result.push(idx - 1)
-    if (col < SIZE - 1) result.push(idx + 1)
+    if (col < n - 1) result.push(idx + 1)
     return result
   }
 
   isSolved() {
-    for (let i = 0; i < SIZE * SIZE - 1; i++) {
+    const n = this.size
+    for (let i = 0; i < n * n - 1; i++) {
       if (this.tiles[i] !== i + 1) return false
     }
-    return this.tiles[SIZE * SIZE - 1] === null
+    return this.tiles[n * n - 1] === null
   }
 
   // ─── 描画 ──────────────────────────────────────────────────
   renderBoard() {
+    const n = this.size
     const board = this.boardTarget
     board.innerHTML = ""
-    board.style.setProperty("--pz-size", SIZE)
+    board.style.setProperty("--pz-size", n)
 
     this.tiles.forEach((val, idx) => {
       const tile = document.createElement("div")
       tile.className = "pz-tile" + (val === null ? " pz-tile--empty" : "")
 
       if (val !== null) {
-        const origRow = Math.floor((val - 1) / SIZE)
-        const origCol = (val - 1) % SIZE
+        const origRow = Math.floor((val - 1) / n)
+        const origCol = (val - 1) % n
         tile.style.backgroundImage = `url('${this.imageUrl}')`
-        tile.style.backgroundSize = `${SIZE * 100}% ${SIZE * 100}%`
+        tile.style.backgroundSize = `${n * 100}% ${n * 100}%`
         tile.style.backgroundPosition =
-          `${origCol * (100 / (SIZE - 1))}% ${origRow * (100 / (SIZE - 1))}%`
+          `${origCol * (100 / (n - 1))}% ${origRow * (100 / (n - 1))}%`
         tile.dataset.idx = idx
         tile.addEventListener("click", () => this.handleTileClick(idx))
       }
@@ -206,7 +228,8 @@ export default class extends Controller {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
           "Content-Type": "application/json"
-        }
+        },
+        body: JSON.stringify({ size: this.size, coins: this.coins })
       })
       const data = await resp.json()
 
