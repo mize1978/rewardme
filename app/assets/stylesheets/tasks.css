@@ -7678,6 +7678,57 @@ body.flash-super::after {
 /* ─────────────────────────────────────
    GitHub カード（リニューアル）
 ───────────────────────────────────── */
+/* ── ゲームラインナップ（特徴カード内） ── */
+.lp-game-lineup {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+.lp-game-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255,160,230,0.08);
+  border: 1px solid rgba(255,160,220,0.22);
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+  transition: background 0.2s;
+}
+.lp-game-chip:hover {
+  background: rgba(255,160,230,0.15);
+}
+.lp-game-chip--soon {
+  background: rgba(120,80,200,0.10);
+  border-color: rgba(160,120,255,0.22);
+  opacity: 0.72;
+}
+.lp-game-chip-ico  { font-size: 1.3rem; }
+.lp-game-chip-name { font-size: 11px; font-weight: 700; color: rgba(255,220,255,0.95); }
+.lp-game-chip-sub  { font-size: 10px; color: rgba(200,170,230,0.65); }
+
+/* ── GitHubカード・ロゴ ── */
+.lp-github-logo-wrap {
+  text-align: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 4px;
+}
+.lp-github-logo-big {
+  width: 220px;
+  max-width: 80%;
+  filter: drop-shadow(0 0 20px rgba(200,100,255,0.35));
+}
+.lp-github-logo-tagline {
+  margin: 6px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: rgba(200,170,255,0.55);
+  text-transform: uppercase;
+}
+
 .lp-github-card {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.12);
