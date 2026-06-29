@@ -11,8 +11,15 @@ class TasksController < ApplicationController
 # 一覧表示
 # =====================
 def index
+  # 日付が変わったら前日以前に完了したタスクを未完了に戻す
+  current_user.tasks
+    .where(done: true)
+    .where("completed_at < ?", Date.current.beginning_of_day)
+    .update_all(done: false, completed_at: nil)
+
   @not_done_tasks = current_user.tasks.where(done: false)
-  @done_tasks = current_user.tasks.where(done: true)
+  @done_tasks     = current_user.tasks.where(done: true)
+  @has_any_tasks  = current_user.tasks.exists?
 
   @today_done_count = current_user.tasks
     .where(done: true)
@@ -55,6 +62,11 @@ end
   # タスク一覧ページ（サイドメニュー「タスク」）
   # =====================
   def list
+    current_user.tasks
+      .where(done: true)
+      .where("completed_at < ?", Date.current.beginning_of_day)
+      .update_all(done: false, completed_at: nil)
+
     @not_done = current_user.tasks.where(done: false).order(created_at: :desc)
     @done_tasks = current_user.tasks.where(done: true).order(completed_at: :desc)
     @total = @not_done.count + @done_tasks.count
