@@ -7363,8 +7363,25 @@ body.flash-super::after {
   margin: 0;
 }
 
+.lp-mock-games-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  padding: 8px 4px;
+}
+.lp-mock-game-chip {
+  background: rgba(255,160,230,0.12);
+  border: 1px solid rgba(255,160,220,0.28);
+  border-radius: 20px;
+  color: rgba(255,220,255,0.9);
+  font-size: 11px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
 /* ─────────────────────────────────────
-   07 モバイルカード（2カラム span）
+   08 モバイルカード（2カラム span）
 ───────────────────────────────────── */
 .lp-screen-card--wide {
   grid-column: span 2;

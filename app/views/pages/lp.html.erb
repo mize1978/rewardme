@@ -117,6 +117,10 @@
         <span class="lp-proof-ico">🏠</span>
         <span class="lp-proof-label">部屋カスタム</span>
       </div>
+      <div class="lp-proof-item">
+        <span class="lp-proof-ico">🎮</span>
+        <span class="lp-proof-label">ミニゲーム5種</span>
+      </div>
     </div>
   </div>
 </section>
@@ -182,6 +186,7 @@
           <li>✔ EXP & コイン獲得</li>
           <li>✔ 連続記録ストリーク</li>
           <li>✔ 毎日のガチャ報酬</li>
+          <li>✔ ミニゲーム5種</li>
           <li>✔ 習慣化サポート</li>
         </ul>
       </div>
@@ -424,44 +429,92 @@
         </div>
       </div>
 
-      <%# 06 リボンキャッチ %>
-      <div class="lp-screen-card lp-reveal">
+      <%# 06 ミニゲームロビー %>
+      <div class="lp-screen-card lp-screen-card--featured lp-reveal">
         <div class="lp-screen-card-hd">
           <span class="lp-screen-num">06</span>
-          <h3 class="lp-screen-info-title">リボンキャッチゲーム</h3>
+          <h3 class="lp-screen-info-title">ミニゲームロビー（5種）</h3>
         </div>
-        <p class="lp-screen-card-desc">30秒間で画面から落ちてくるリボンをタップしてキャッチするミニゲーム。スキマ時間に気軽に遊べて、ハイスコアを更新するたびに達成感がある。</p>
+        <p class="lp-screen-card-desc">毎日遊んでコインを稼ぐミニゲームが5種類。スキマ時間に気軽に遊べて、ハイスコアやクリアのたびに達成感がある。</p>
+        <div class="lp-screen-featured-body">
+          <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
+            <div class="lp-browser-bar">
+              <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
+              <span class="lp-browser-url">…/games</span>
+            </div>
+            <div class="lp-browser-screen lp-screen--tap">
+              <div class="lp-mock-tap-wrap">
+                <div class="lp-mock-tap-header">
+                  <span class="lp-mock-tap-timer">🎮 ミニゲーム</span>
+                  <span class="lp-mock-tap-score">🪙 コインでアンロック</span>
+                </div>
+                <div class="lp-mock-games-grid">
+                  <div class="lp-mock-game-chip">🧪 リボンポーション</div>
+                  <div class="lp-mock-game-chip">🧩 リボンパズル</div>
+                  <div class="lp-mock-game-chip">✨ リボンマッチ</div>
+                  <div class="lp-mock-game-chip">🎀 リボンキャッチ</div>
+                  <div class="lp-mock-game-chip">🎲 ガチャ</div>
+                </div>
+              </div>
+            </div>
+            <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
+          </div>
+          <div class="lp-screen-featured-side">
+            <p class="lp-screen-featured-label">5種のゲーム</p>
+            <ul class="lp-screen-featured-list">
+              <li>🧪 <strong>リボンポーション</strong> — 魔法陣で錬成する5Stageパズル</li>
+              <li>🧩 <strong>リボンパズル</strong> — スライドパズル（1日3回・解放画像）</li>
+              <li>✨ <strong>リボンマッチ</strong> — 60秒マッチ3ゲーム</li>
+              <li>🎀 <strong>リボンキャッチ</strong> — 30秒タップゲーム</li>
+              <li>🎲 <strong>ガチャ</strong> — コインで1回・10連</li>
+            </ul>
+            <div class="lp-screen-tags">
+              <span>Stimulus.js</span><span>デイリー報酬</span><span>ハイスコア記録</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%# 07 リボンポーション %>
+      <div class="lp-screen-card lp-reveal">
+        <div class="lp-screen-card-hd">
+          <span class="lp-screen-num">07</span>
+          <h3 class="lp-screen-info-title">リボンポーション — 魔法陣錬成パズル</h3>
+        </div>
+        <p class="lp-screen-card-desc">試験管の色を並び替えて同じ色に揃えると、中央の魔法陣が輝き星型ポーションが誕生する。やさしい〜むずかしい の5ステージ構成。</p>
         <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
           <div class="lp-browser-bar">
             <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
-            <span class="lp-browser-url">…/tap_game</span>
+            <span class="lp-browser-url">…/potion_game</span>
           </div>
           <div class="lp-browser-screen lp-screen--tap">
             <div class="lp-mock-tap-wrap">
               <div class="lp-mock-tap-header">
-                <span class="lp-mock-tap-timer">⏱ 残り 18秒</span>
-                <span class="lp-mock-tap-score">🎀 スコア: 14</span>
+                <span class="lp-mock-tap-timer">🧪 Stage 3</span>
+                <span class="lp-mock-tap-score">⚗️ 魔法陣: 50%</span>
               </div>
-              <div class="lp-mock-tap-field">
-                <span class="lp-mock-tap-ribbon" style="top:18%;left:22%">🎀</span>
-                <span class="lp-mock-tap-ribbon" style="top:42%;left:60%">🎀</span>
-                <span class="lp-mock-tap-ribbon" style="top:65%;left:35%">🎀</span>
-                <span class="lp-mock-tap-ribbon" style="top:28%;left:75%">🎀</span>
+              <div class="lp-mock-tap-field" style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:8px;">
+                <div style="text-align:center;font-size:0.7rem;color:rgba(255,180,255,0.8)">
+                  <div>🧪🧪🧪</div>
+                  <div style="margin-top:4px">✨魔法陣✨</div>
+                  <div style="font-size:1.2rem;margin-top:2px">⭕</div>
+                  <div>🧪🧪🧪</div>
+                </div>
               </div>
-              <p class="lp-mock-tap-hint">タップしてリボンをキャッチ！</p>
+              <p class="lp-mock-tap-hint">試験管を揃えて魔法陣を完成させよう！</p>
             </div>
           </div>
           <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
         </div>
         <div class="lp-screen-tags">
-          <span>30秒チャレンジ</span><span>ハイスコア記録</span><span>Stimulus.js</span>
+          <span>5ステージ</span><span>魔法陣アニメーション</span><span>Stimulus.js</span>
         </div>
       </div>
 
-      <%# 07 モバイル対応 %>
+      <%# 08 モバイル対応 %>
       <div class="lp-screen-card lp-screen-card--featured lp-reveal">
         <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">07</span>
+          <span class="lp-screen-num">08</span>
           <h3 class="lp-screen-info-title">📱 モバイル対応</h3>
         </div>
         <p class="lp-screen-card-desc">タスク管理・ガチャ・マイルームなど全機能がスマートフォンでも快適に動作。</p>
@@ -486,7 +539,7 @@
               </li>
               <li>
                 <span class="lp-mobile3-ico">🎮</span>
-                <span class="lp-mobile3-text"><strong>リボンキャッチ</strong></span>
+                <span class="lp-mobile3-text"><strong>ミニゲーム5種</strong></span>
               </li>
               <li>
                 <span class="lp-mobile3-ico">🏠</span>
@@ -637,6 +690,9 @@
         <span class="lp-github-tech-tag lp-github-tech-tag--auth">🔐 自作認証</span>
         <span class="lp-github-tech-tag lp-github-tech-tag--js">🎵 部屋別BGM</span>
         <span class="lp-github-tech-tag lp-github-tech-tag--char">🎀 リボンキャッチ</span>
+        <span class="lp-github-tech-tag lp-github-tech-tag--char">🧪 リボンポーション</span>
+        <span class="lp-github-tech-tag lp-github-tech-tag--char">🧩 リボンパズル</span>
+        <span class="lp-github-tech-tag lp-github-tech-tag--char">✨ リボンマッチ</span>
       </div>
       <a href="https://github.com/mize1978" target="_blank" rel="noopener" class="lp-github-link-btn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
