@@ -100,18 +100,6 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
 |:---:|:---:|:---:|
 | <img src="docs/screenshots/gacha.gif" width="100%"> | <img src="docs/screenshots/demo_evolution.gif" width="100%"> | <img src="docs/screenshots/demo_catch.gif" width="100%"> |
 
-## デモGIF
-
-<p align="center">
-  <img src="docs/screenshots/gacha.gif" width="30%">
-  <img src="docs/screenshots/demo_evolution.gif" width="30%">
-  <img src="docs/screenshots/demo_catch.gif" width="30%">
-</p>
-
-<p align="center">
-  <b>ガチャ演出</b>　　　<b>進化アニメーション</b>　　　<b>リボンキャッチ</b>
-</p>
-
 ---
 
 ## 技術スタック
