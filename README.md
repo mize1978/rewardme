@@ -97,9 +97,9 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
 <h2>デモGIF</h2>
 
 <p align="center">
-  <img src="docs/screenshots/gacha_v2.gif" width="31%">
-  <img src="docs/screenshots/evolution_v2.gif" width="31%">
-  <img src="docs/screenshots/potion_v1.gif" width="31%">
+  <img src="docs/screenshots/gacha_v2.gif" height="220">
+  <img src="docs/screenshots/evolution_v2.gif" height="220">
+  <img src="docs/screenshots/potion_v1.gif" height="220">
 </p>
 
 <p align="center">
