@@ -185,7 +185,7 @@
                     <%= button_to tasks_path,
                           method: :post,
                           class: "tasks-zero-chip",
-                          params: { task: { title: t[:label], category: t[:category], priority: t[:priority], date: Time.current.in_time_zone("Tokyo").to_date } } do %>
+                          params: { task: { title: t[:label], category: t[:category], priority: t[:priority], date: Time.current.in_time_zone("Tokyo").to_date, done: false } } do %>
                       <span><%= t[:emoji] %> <%= t[:label] %></span>
                       <span class="tasks-zero-chip-plus">＋</span>
                     <% end %>
