@@ -89,9 +89,9 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
 <div align="center">
   <img src="docs/screenshots/dashboard.jpg" alt="マイルームダッシュボード" width="100%">
   <br><br>
-  <img src="docs/screenshots/choose_egg.jpg" alt="パートナー選択" width="100%">
+  <img src="docs/screenshots/choose_egg.jpg" alt="パートナー選択" width="72%">
   <br><br>
-  <img src="docs/screenshots/shop.jpg" alt="部屋ショップ" width="100%">
+  <img src="docs/screenshots/shop.jpg" alt="部屋ショップ" width="72%">
 </div>
 
 ### デモ GIF
