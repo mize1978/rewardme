@@ -103,9 +103,10 @@
           <%= link_to settings_path, class: "header-profile-item" do %>
             <span>⚙️</span><span>設定</span>
           <% end %>
-          <%= link_to "ログアウト", logout_path,
+          <%= button_to "ログアウト", logout_path,
+                method: :delete,
                 class: "header-profile-item header-profile-item--logout",
-                data: { turbo_method: :delete } %>
+                form: { data: { turbo: false } } %>
         </div>
       </div>
     <% else %>
@@ -192,8 +193,10 @@
     <% end %>
   </nav>
   <div class="mobile-drawer-footer">
-    <%= link_to "ログアウト", logout_path, class: "mobile-drawer-logout",
-          data: { turbo_method: :delete } %>
+    <%= button_to "ログアウト", logout_path,
+          method: :delete,
+          class: "mobile-drawer-logout",
+          form: { data: { turbo: false } } %>
   </div>
 </div>
 

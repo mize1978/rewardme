@@ -97,7 +97,7 @@ end
 def benny_image
   c = (egg_color.presence || "pink").to_s
   c = "purple" if c == "yellow"
-  "stage2_#{c}.png"
+  "benny_#{c}.png"
 end
 
 def ribbon_stage_gold_bg?

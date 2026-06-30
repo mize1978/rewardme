@@ -147,6 +147,25 @@
           <p class="panel-title">今日のタスク</p>
           <%= link_to "+ 追加", new_task_path, class: "tasks-add-btn" %>
         </div>
+
+        <div class="tasks-benny-row" data-controller="benny">
+          <div class="tasks-benny-float">
+            <%= image_tag current_user.benny_image,
+                  class: "tasks-benny-img",
+                  alt: "ベニーリボン",
+                  "data-benny-target": "img" %>
+          </div>
+          <div class="tasks-benny-bubble" data-benny-target="bubble">
+            <% if @done_tasks.any? && @not_done_tasks.empty? %>
+              今日も全部終わったね！🎉
+            <% elsif @not_done_tasks.any? %>
+              一緒にがんばろうね♡
+            <% else %>
+              今日は何から始める？♡
+            <% end %>
+          </div>
+        </div>
+
         <div id="not-done-tasks">
           <% if @not_done_tasks.empty? %>
             <% if @done_tasks.any? %>
@@ -154,18 +173,8 @@
                 <%= image_tag "puzzle_11.png", class: "tasks-all-done-img", alt: "今日も全部終わったね！" %>
                 <p class="tasks-all-done-msg">今日も全部終わったね！🎉</p>
               </div>
-            <% elsif !@has_any_tasks %>
-              <div class="tasks-zero-state" data-controller="benny">
-                <div class="tasks-zero-chara">
-                  <div class="tasks-zero-float">
-                    <%= image_tag current_user.benny_image,
-                          class: "tasks-zero-img",
-                          alt: "ベニーリボン",
-                          "data-benny-target": "img" %>
-                  </div>
-                  <div class="tasks-zero-bubble" data-benny-target="bubble">今日は何から始める？♡</div>
-                </div>
-                <div class="tasks-zero-chips">
+            <% else %>
+              <div class="tasks-zero-chips">
                   <% [
                     { emoji: "💪", label: "ストレッチ",     category: "health", priority: "low"    },
                     { emoji: "🧹", label: "部屋を片付ける", category: "other",  priority: "medium" },
@@ -182,7 +191,6 @@
                     <% end %>
                   <% end %>
                 </div>
-              </div>
             <% end %>
           <% else %>
             <% @not_done_tasks.each do |task| %>

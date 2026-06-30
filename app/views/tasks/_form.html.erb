@@ -26,7 +26,7 @@
 
   <div class="tf-group">
     <%= form.label :date, "日付", class: "tf-label" %>
-    <%= form.date_field :date, class: "form-input" %>
+    <%= form.date_field :date, class: "form-input", value: task.date || Time.current.in_time_zone("Tokyo").to_date %>
   </div>
 
   <div class="tf-check">

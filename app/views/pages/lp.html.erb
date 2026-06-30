@@ -22,65 +22,65 @@
     <div class="lp-hero2-orb lp-hero2-orb--3"></div>
   </div>
 
-  <div class="lp-hero2-2col">
-    <%# ① 左カラム：コピー ＋ キャラ %>
-    <div class="lp-hero2-left">
-      <div class="lp-hero2-eyebrow">
-        <span class="lp-hero2-eyebrow-dot"></span>
-        GAME × PRODUCTIVITY
-        <span class="lp-hero2-eyebrow-dot"></span>
-      </div>
-
-      <div class="lp-hero2-chara-wrap">
-        <%= image_tag "stage4_pink.png", class: "lp-hero2-chara", alt: "リボンちゃん" %>
-        <div class="lp-hero2-chara-glow"></div>
-      </div>
-
-      <div class="lp-hero2-social">
-        <span class="lp-hero2-stars">★★★★★</span>
-        <span class="lp-hero2-social-text">200人以上が毎日利用中</span>
-      </div>
-
-      <%# ① キャッチコピー %>
-      <h1 class="lp-hero2-tagline">
-        タスクが、<br>
-        毎日<span class="lp-hero2-accent">ちょっと</span><br>
-        楽しみになる。
-      </h1>
-      <p class="lp-hero2-sub">
-        リボンちゃんと一緒に、ゲーム感覚で続けるタスク管理。<br>
-        こなすほど育つキャラクター・毎日のガチャ・あなただけのマイルーム。
-      </p>
-
-      <div class="lp-hero2-btns">
-        <%= link_to signup_path, class: "lp-btn-primary lp-btn-large" do %>
-          🎀 無料ではじめる
-        <% end %>
-        <%= link_to login_path, class: "lp-btn-ghost" do %>
-          ログイン
-        <% end %>
-      </div>
-      <p class="lp-hero2-note">登録無料・クレジットカード不要</p>
+  <%# ── 上段：キャラ + コピー（縦中央寄せ） ── %>
+  <div class="lp-hero2-center">
+    <div class="lp-hero2-eyebrow">
+      <span class="lp-hero2-eyebrow-dot"></span>
+      GAME × PRODUCTIVITY
+      <span class="lp-hero2-eyebrow-dot"></span>
     </div>
+    <div class="lp-hero2-chara-wrap lp-hero2-chara-wrap--sm">
+      <%= image_tag "stage4_pink.png", class: "lp-hero2-chara lp-hero2-chara--sm", alt: "リボンちゃん" %>
+      <div class="lp-hero2-chara-glow"></div>
+    </div>
+    <h1 class="lp-hero2-tagline lp-hero2-tagline--center">
+      タスクが、毎日<span class="lp-hero2-accent">ちょっと</span>楽しくなる。
+    </h1>
+    <p class="lp-hero2-sub lp-hero2-sub--center">
+      リボンちゃんと一緒に、ゲーム感覚で続けるタスク管理。
+    </p>
+    <div class="lp-hero2-btns lp-hero2-btns--center">
+      <%= link_to signup_path, class: "lp-btn-primary lp-btn-large" do %>
+        🎀 無料ではじめる
+      <% end %>
+      <%= link_to login_path, class: "lp-btn-ghost" do %>
+        ログイン
+      <% end %>
+    </div>
+    <p class="lp-hero2-note lp-hero2-note--center">登録無料・クレジットカード不要</p>
+  </div>
 
-    <%# 右カラム：ダッシュボードスクリーンショット %>
-    <div class="lp-hero2-right">
-      <div class="lp-hero2-frame-shell">
-        <div class="lp-hero2-frame-glow lp-hero2-frame-glow--1"></div>
-        <div class="lp-hero2-frame-glow lp-hero2-frame-glow--2"></div>
-        <div class="lp-browser-frame lp-hero2-frame" data-lightbox>
-          <div class="lp-browser-bar">
-            <span class="lp-browser-dot"></span>
-            <span class="lp-browser-dot"></span>
-            <span class="lp-browser-dot"></span>
-            <span class="lp-browser-url">reward-task-app.onrender.com/dashboard</span>
-          </div>
-          <div class="lp-browser-screen lp-screen--shot">
-            <%= image_tag "lp_screen_dash_crop.jpg", class: "lp-shot-img", alt: "ダッシュボード" %>
-          </div>
+  <%# ── 下段：大きな横長ブラウザ ── %>
+  <div class="lp-hero2-browser-wrap">
+    <div class="lp-hero2-frame-shell lp-hero2-frame-shell--wide">
+      <div class="lp-hero2-frame-glow lp-hero2-frame-glow--1"></div>
+      <div class="lp-hero2-frame-glow lp-hero2-frame-glow--2"></div>
+      <div class="lp-browser-frame lp-hero2-frame--wide" id="lp-slider">
+        <div class="lp-browser-bar">
+          <span class="lp-browser-dot"></span>
+          <span class="lp-browser-dot"></span>
+          <span class="lp-browser-dot"></span>
+          <span class="lp-browser-url">reward-task-app.onrender.com</span>
         </div>
-        <div class="lp-hero2-frame-deco lp-hero2-frame-deco--tl">✨</div>
-        <div class="lp-hero2-frame-deco lp-hero2-frame-deco--br">🎀</div>
+        <div class="lp-slider-track lp-slider-track--wide">
+          <% [
+            { img: "lp_slide_room.jpg",   label: "① マイルーム" },
+            { img: "lp_slide_tasks.jpg",  label: "② タスク管理" },
+            { img: "lp_slide_games.jpg",  label: "③ ミニゲーム" },
+            { img: "lp_slide_gacha.jpg",  label: "④ ガチャ" },
+            { img: "lp_slide_potion.jpg", label: "⑤ ポーションゲーム" },
+          ].each_with_index do |s, i| %>
+            <div class="lp-slide <%= i == 0 ? 'lp-slide--active' : '' %>" data-index="<%= i %>">
+              <%= image_tag s[:img], class: "lp-shot-img lp-slide-img", alt: s[:label] %>
+              <span class="lp-slide-label"><%= s[:label] %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="lp-slider-dots" id="lp-slider-dots">
+        <% 5.times do |i| %>
+          <button class="lp-slider-dot <%= i == 0 ? 'lp-slider-dot--active' : '' %>" data-dot="<%= i %>"></button>
+        <% end %>
       </div>
       <p class="lp-hero2-frame-hint">クリックで拡大 🔍</p>
     </div>
@@ -182,38 +182,11 @@
         </div>
         <h3 class="lp-feature-title">ゲーム感覚で続く</h3>
         <p class="lp-feature-desc">タスクを完了するたびにEXPとコインを獲得。毎日のミニゲームで達成感が習慣を作る。</p>
-        <div class="lp-game-lineup">
-          <div class="lp-game-chip">
-            <span class="lp-game-chip-ico">🧪</span>
-            <span class="lp-game-chip-name">リボンポーション</span>
-            <span class="lp-game-chip-sub">魔法陣錬成パズル</span>
-          </div>
-          <div class="lp-game-chip">
-            <span class="lp-game-chip-ico">🧩</span>
-            <span class="lp-game-chip-name">リボンパズル</span>
-            <span class="lp-game-chip-sub">スライドパズル</span>
-          </div>
-          <div class="lp-game-chip">
-            <span class="lp-game-chip-ico">✨</span>
-            <span class="lp-game-chip-name">リボンマッチ</span>
-            <span class="lp-game-chip-sub">60秒マッチ3</span>
-          </div>
-          <div class="lp-game-chip">
-            <span class="lp-game-chip-ico">🎀</span>
-            <span class="lp-game-chip-name">リボンキャッチ</span>
-            <span class="lp-game-chip-sub">30秒タップ</span>
-          </div>
-          <div class="lp-game-chip">
-            <span class="lp-game-chip-ico">🎲</span>
-            <span class="lp-game-chip-name">ガチャ</span>
-            <span class="lp-game-chip-sub">コインで挑戦</span>
-          </div>
-          <div class="lp-game-chip lp-game-chip--soon">
-            <span class="lp-game-chip-ico">🚧</span>
-            <span class="lp-game-chip-name">リボンクエスト</span>
-            <span class="lp-game-chip-sub">Coming Soon</span>
-          </div>
-        </div>
+        <ul class="lp-feature-bullets">
+          <li>EXP でレベルアップ</li>
+          <li>コインをためてガチャ</li>
+          <li>5種類のミニゲーム</li>
+        </ul>
       </div>
       <div class="lp-feature-card lp-reveal" style="--reveal-delay: 90ms">
         <div class="lp-feature-img-wrap">
@@ -294,54 +267,71 @@
       </div>
 
       <%# 02 デイリーBOX %>
-      <div class="lp-screen-card lp-screen-card--featured lp-reveal">
+      <div class="lp-screen-card lp-reveal">
         <div class="lp-screen-card-hd">
           <span class="lp-screen-num">02</span>
           <h3 class="lp-screen-info-title">デイリーBOX ガチャ</h3>
         </div>
-        <p class="lp-screen-card-desc">1日1回だけ開けられる特別なBOX。コインやレアアイテムが手に入る毎日のお楽しみ。</p>
-        <div class="lp-screen-featured-body">
-          <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
-            <div class="lp-browser-bar">
-              <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
-              <span class="lp-browser-url">…/dashboard</span>
-            </div>
-            <div class="lp-browser-screen lp-screen--box">
-              <div class="lp-mockbox-panel">
-                <p class="lp-mockbox-title">🎁 今日のリボンBOX</p>
-                <div class="lp-mockbox-img-wrap">
-                  <%= image_tag "ribbon_box.png", class: "lp-mockbox-img lp-mockbox-float", alt: "" %>
-                </div>
-                <div class="lp-mockbox-btn">✨ タップして開ける！</div>
-                <div class="lp-mockbox-result">
-                  <span class="lp-mockbox-ico">🪙</span>
-                  <span class="lp-mockbox-label">コイン 100</span>
-                  <span class="lp-mockbox-rarity" data-rarity="good">GOOD</span>
-                </div>
+        <p class="lp-screen-card-desc">1日1回だけ開けられる特別なBOX。コインやレアアイテムが手に入る毎日のお楽しみ。<br>毎日開くのが楽しみになる、ごほうびBOX。</p>
+        <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
+          <div class="lp-browser-bar">
+            <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
+            <span class="lp-browser-url">…/dashboard</span>
+          </div>
+          <div class="lp-browser-screen lp-screen--box">
+            <div class="lp-mockbox-panel">
+              <p class="lp-mockbox-title">🎁 今日のリボンBOX</p>
+              <div class="lp-mockbox-img-wrap">
+                <%= image_tag "ribbon_box.png", class: "lp-mockbox-img lp-mockbox-float", alt: "" %>
+              </div>
+              <div class="lp-mockbox-btn">✨ タップして開ける！</div>
+              <div class="lp-mockbox-result">
+                <span class="lp-mockbox-ico">🪙</span>
+                <span class="lp-mockbox-label">コイン 100</span>
+                <span class="lp-mockbox-rarity" data-rarity="good">GOOD</span>
               </div>
             </div>
-            <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
           </div>
-          <div class="lp-screen-featured-side">
-            <p class="lp-screen-featured-label">主な機能</p>
-            <ul class="lp-screen-featured-list">
-              <li>🎁 1日1回の開封チャンス</li>
-              <li>🪙 コイン・アイテム獲得</li>
-              <li>✨ レアリティ判定付き</li>
-              <li>📅 毎日のログインボーナス</li>
-              <li>🎰 加重ガチャで公平設計</li>
-            </ul>
-            <div class="lp-screen-tags">
-              <span>CSSアニメーション</span><span>Fetch API</span><span>加重ガチャ</span>
-            </div>
-          </div>
+          <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
+        </div>
+        <div class="lp-screen-tags">
+          <span>CSSアニメーション</span><span>Fetch API</span><span>加重ガチャ</span>
         </div>
       </div>
 
-      <%# 03 進化 %>
+      <%# 03 ガチャ %>
       <div class="lp-screen-card lp-reveal">
         <div class="lp-screen-card-hd">
           <span class="lp-screen-num">03</span>
+          <h3 class="lp-screen-info-title">ガチャシステム</h3>
+        </div>
+        <p class="lp-screen-card-desc">タスクで貯めたコインで、1回または10連ガチャに挑戦できる。NORMAL・GOOD・GREAT・EXCELLENTの4段階レアリティで、毎回ドキドキの開封体験が待っている。</p>
+        <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
+          <div class="lp-browser-bar">
+            <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
+            <span class="lp-browser-url">…/gacha</span>
+          </div>
+          <div class="lp-browser-screen lp-screen--gacha">
+            <div class="lp-mock-gacha-wrap">
+              <%= image_tag "gacha_machine.png", class: "lp-mock-gacha-machine", alt: "ガチャ" %>
+              <div class="lp-mock-gacha-btns">
+                <div class="lp-mock-gacha-btn lp-mock-gacha-btn--single">1回 <span>🪙 50</span></div>
+                <div class="lp-mock-gacha-btn lp-mock-gacha-btn--ten">10連 <span>🪙 450</span></div>
+              </div>
+              <p class="lp-mock-gacha-coins">所持コイン 🪙 280</p>
+            </div>
+          </div>
+          <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
+        </div>
+        <div class="lp-screen-tags">
+          <span>加重ガチャ</span><span>コイン経済</span><span>Stimulus.js</span>
+        </div>
+      </div>
+
+      <%# 04 進化 %>
+      <div class="lp-screen-card lp-reveal">
+        <div class="lp-screen-card-hd">
+          <span class="lp-screen-num">04</span>
           <h3 class="lp-screen-info-title">キャラクター進化システム</h3>
         </div>
         <p class="lp-screen-card-desc">タスクをこなすほど、リボンちゃんが育っていく。たまご・ベビー・リボンちゃん・プリンセスの4段階で進化。毎日続けるほどキャラクターが変わるので、習慣が楽しみになる。</p>
@@ -376,10 +366,10 @@
         </div>
       </div>
 
-      <%# 04 部屋の背景テーマ %>
+      <%# 05 部屋の背景テーマ %>
       <div class="lp-screen-card lp-reveal">
         <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">04</span>
+          <span class="lp-screen-num">05</span>
           <h3 class="lp-screen-info-title">お部屋の背景テーマ</h3>
         </div>
         <p class="lp-screen-card-desc">タスクで貯めたコインを使って、18種類の部屋テーマを解放できる。星空・スイーツ・プリンセスなど、好みのインテリアでリボンちゃんのお部屋をカスタマイズしよう。</p>
@@ -425,35 +415,6 @@
         </div>
       </div>
 
-      <%# 05 ガチャ %>
-      <div class="lp-screen-card lp-reveal">
-        <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">05</span>
-          <h3 class="lp-screen-info-title">ガチャシステム</h3>
-        </div>
-        <p class="lp-screen-card-desc">タスクで貯めたコインで、1回または10連ガチャに挑戦できる。NORMAL・GOOD・GREAT・EXCELLENTの4段階レアリティで、毎回ドキドキの開封体験が待っている。</p>
-        <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
-          <div class="lp-browser-bar">
-            <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
-            <span class="lp-browser-url">…/gacha</span>
-          </div>
-          <div class="lp-browser-screen lp-screen--gacha">
-            <div class="lp-mock-gacha-wrap">
-              <%= image_tag "gacha_machine.png", class: "lp-mock-gacha-machine", alt: "ガチャ" %>
-              <div class="lp-mock-gacha-btns">
-                <div class="lp-mock-gacha-btn lp-mock-gacha-btn--single">1回 <span>🪙 50</span></div>
-                <div class="lp-mock-gacha-btn lp-mock-gacha-btn--ten">10連 <span>🪙 450</span></div>
-              </div>
-              <p class="lp-mock-gacha-coins">所持コイン 🪙 280</p>
-            </div>
-          </div>
-          <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
-        </div>
-        <div class="lp-screen-tags">
-          <span>加重ガチャ</span><span>コイン経済</span><span>Stimulus.js</span>
-        </div>
-      </div>
-
       <%# 06 ミニゲームロビー %>
       <div class="lp-screen-card lp-screen-card--featured lp-reveal">
         <div class="lp-screen-card-hd">
@@ -467,20 +428,8 @@
               <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
               <span class="lp-browser-url">…/games</span>
             </div>
-            <div class="lp-browser-screen lp-screen--tap">
-              <div class="lp-mock-tap-wrap">
-                <div class="lp-mock-tap-header">
-                  <span class="lp-mock-tap-timer">🎮 ミニゲーム</span>
-                  <span class="lp-mock-tap-score">🪙 コインでアンロック</span>
-                </div>
-                <div class="lp-mock-games-grid">
-                  <div class="lp-mock-game-chip">🧪 リボンポーション</div>
-                  <div class="lp-mock-game-chip">🧩 リボンパズル</div>
-                  <div class="lp-mock-game-chip">✨ リボンマッチ</div>
-                  <div class="lp-mock-game-chip">🎀 リボンキャッチ</div>
-                  <div class="lp-mock-game-chip">🎲 ガチャ</div>
-                </div>
-              </div>
+            <div class="lp-browser-screen lp-screen--shot lp-screen--shot-lg">
+              <%= image_tag "games_lobby_bg.jpg", class: "lp-shot-img", alt: "ミニゲームロビー" %>
             </div>
             <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
           </div>
@@ -500,46 +449,10 @@
         </div>
       </div>
 
-      <%# 07 リボンポーション %>
-      <div class="lp-screen-card lp-reveal">
-        <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">07</span>
-          <h3 class="lp-screen-info-title">リボンポーション — 魔法陣錬成パズル</h3>
-        </div>
-        <p class="lp-screen-card-desc">試験管の色を並び替えて同じ色に揃えると、中央の魔法陣が輝き星型ポーションが誕生する。やさしい〜むずかしい の5ステージ構成。</p>
-        <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
-          <div class="lp-browser-bar">
-            <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
-            <span class="lp-browser-url">…/potion_game</span>
-          </div>
-          <div class="lp-browser-screen lp-screen--tap">
-            <div class="lp-mock-tap-wrap">
-              <div class="lp-mock-tap-header">
-                <span class="lp-mock-tap-timer">🧪 Stage 3</span>
-                <span class="lp-mock-tap-score">⚗️ 魔法陣: 50%</span>
-              </div>
-              <div class="lp-mock-tap-field" style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:8px;">
-                <div style="text-align:center;font-size:0.7rem;color:rgba(255,180,255,0.8)">
-                  <div>🧪🧪🧪</div>
-                  <div style="margin-top:4px">✨魔法陣✨</div>
-                  <div style="font-size:1.2rem;margin-top:2px">⭕</div>
-                  <div>🧪🧪🧪</div>
-                </div>
-              </div>
-              <p class="lp-mock-tap-hint">試験管を揃えて魔法陣を完成させよう！</p>
-            </div>
-          </div>
-          <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
-        </div>
-        <div class="lp-screen-tags">
-          <span>5ステージ</span><span>魔法陣アニメーション</span><span>Stimulus.js</span>
-        </div>
-      </div>
-
-      <%# 08 モバイル対応 %>
+      <%# 07 モバイル対応 %>
       <div class="lp-screen-card lp-screen-card--featured lp-reveal">
         <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">08</span>
+          <span class="lp-screen-num">07</span>
           <h3 class="lp-screen-info-title">📱 モバイル対応</h3>
         </div>
         <p class="lp-screen-card-desc">タスク管理・ガチャ・マイルームなど全機能がスマートフォンでも快適に動作。</p>
@@ -635,9 +548,7 @@
     </div>
   </div>
   <div class="lp-section-inner lp-cta-inner lp-reveal">
-    <h2 class="lp-cta-title">あなたは<br>どのリボンちゃんを選ぶ？</h2>
-    <p class="lp-cta-quote">❤ ピンク &nbsp;·&nbsp; 💜 パープル &nbsp;·&nbsp; 💙 ブルー</p>
-    <p class="lp-cta-closing">毎日のタスクを、<br>少しだけ楽しみに変えてみませんか？</p>
+    <h2 class="lp-cta-title">今日から<br>リボンちゃんとの生活を始めよう。</h2>
     <%= link_to signup_path, class: "lp-btn-primary lp-btn-large" do %>
       🎀 無料ではじめる
     <% end %>
@@ -648,7 +559,6 @@
       <span>·</span>
       <span>🎁 完全無料</span>
     </div>
-    <p class="lp-cta-micro">今日からリボンちゃんとの生活が始まります。</p>
   </div>
 </section>
 
@@ -882,3 +792,62 @@
     <p class="lp-footer-copy">© 2026 RewardMe — mize1978</p>
   </div>
 </footer>
+
+<script>
+(function() {
+  var slides = document.querySelectorAll('.lp-slide');
+  var dots   = document.querySelectorAll('.lp-slider-dot');
+  if (!slides.length) return;
+
+  var current = 0;
+  var timer;
+
+  function goTo(n) {
+    slides[current].classList.remove('lp-slide--active');
+    dots[current].classList.remove('lp-slider-dot--active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('lp-slide--active');
+    dots[current].classList.add('lp-slider-dot--active');
+  }
+
+  function start() {
+    timer = setInterval(function() { goTo(current + 1); }, 3500);
+  }
+
+  function restart() {
+    clearInterval(timer);
+    start();
+  }
+
+  dots.forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      goTo(parseInt(dot.dataset.dot));
+      restart();
+    });
+  });
+
+  // ライトボックス
+  var lightbox = document.createElement('div');
+  lightbox.id = 'lp-lightbox';
+  lightbox.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,5,25,0.92);cursor:zoom-out;align-items:center;justify-content:center;';
+  var lbImg = document.createElement('img');
+  lbImg.style.cssText = 'max-width:92vw;max-height:90vh;border-radius:12px;box-shadow:0 0 60px rgba(200,100,255,0.4);';
+  lightbox.appendChild(lbImg);
+  document.body.appendChild(lightbox);
+
+  slides.forEach(function(slide) {
+    slide.addEventListener('click', function() {
+      var img = slide.querySelector('img');
+      if (!img) return;
+      lbImg.src = img.src;
+      lightbox.style.display = 'flex';
+    });
+  });
+
+  lightbox.addEventListener('click', function() {
+    lightbox.style.display = 'none';
+  });
+
+  start();
+})();
+</script>

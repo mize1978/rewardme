@@ -11,20 +11,19 @@ class TasksController < ApplicationController
 # 一覧表示
 # =====================
 def index
-  # 日付が変わったら前日以前に完了したタスクを未完了に戻す
-  current_user.tasks
-    .where(done: true)
-    .where("completed_at < ?", Date.current.beginning_of_day)
-    .update_all(done: false, completed_at: nil)
+  today = Time.current.in_time_zone("Tokyo").to_date
 
-  @not_done_tasks = current_user.tasks.where(done: false)
-  @done_tasks     = current_user.tasks.where(done: true)
-  @has_any_tasks  = current_user.tasks.exists?
+  @not_done_tasks = current_user.tasks
+    .where(done: false)
+    .where("date IS NULL OR date = ?", today)
 
-  @today_done_count = current_user.tasks
+  @done_tasks = current_user.tasks
     .where(done: true)
-    .where(completed_at: Time.current.all_day)
-    .count
+    .where(completed_at: today.beginning_of_day..today.end_of_day)
+
+  @has_any_tasks = current_user.tasks.exists?
+
+  @today_done_count = @done_tasks.count
 
   @total_count = current_user.completed_count
 
@@ -62,11 +61,6 @@ end
   # タスク一覧ページ（サイドメニュー「タスク」）
   # =====================
   def list
-    current_user.tasks
-      .where(done: true)
-      .where("completed_at < ?", Date.current.beginning_of_day)
-      .update_all(done: false, completed_at: nil)
-
     @not_done = current_user.tasks.where(done: false).order(created_at: :desc)
     @done_tasks = current_user.tasks.where(done: true).order(completed_at: :desc)
     @total = @not_done.count + @done_tasks.count
@@ -100,7 +94,6 @@ end
     @task = current_user.tasks.build(task_params)
 
     if @task.save
-      # 保存成功 → 一覧へ＋メッセージ
       redirect_to tasks_path, notice: "✨えらい💖"
     else
       # 失敗 → 入力画面に戻る
@@ -136,7 +129,7 @@ def update
       @task.update(completed_at: nil)
     end
 
-    redirect_to tasks_path, notice: "🎉 えらい！がんばり達成！ #{current_user.badge}"
+    redirect_back fallback_location: tasks_path, notice: "🎉 えらい！がんばり達成！ #{current_user.badge}"
   else
     render :edit, status: :unprocessable_entity
   end
@@ -149,7 +142,7 @@ end
     @task.destroy
 
     # 削除後一覧へ
-    redirect_to tasks_path, notice: "削除したよ"
+    redirect_back fallback_location: tasks_path, notice: "削除したよ"
   end
 
   private
