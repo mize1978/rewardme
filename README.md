@@ -98,7 +98,7 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
 
 | ガチャ演出 | 進化アニメーション | リボンキャッチ |
 |:---:|:---:|:---:|
-| <img src="docs/screenshots/gacha.gif" width="100%"> | <img src="docs/screenshots/demo_evolution.gif" width="100%"> | <img src="docs/screenshots/demo_catch.gif" width="100%"> |
+| <img src="docs/screenshots/gacha.gif" width="95%"> | <img src="docs/screenshots/demo_evolution.gif" width="100%"> | <img src="docs/screenshots/demo_catch.gif" width="100%"> |
 
 ---
 
