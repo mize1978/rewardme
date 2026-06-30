@@ -94,11 +94,17 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
   <img src="docs/screenshots/shop.jpg" alt="部屋ショップ" width="72%">
 </div>
 
-## デモGIF
+<h2>デモGIF</h2>
 
-| ガチャ演出 | 進化アニメーション | リボンキャッチ |
-|:---:|:---:|:---:|
-| <img src="docs/screenshots/gacha.gif" width="95%"> | <img src="docs/screenshots/demo_evolution.gif" width="100%"> | <img src="docs/screenshots/demo_catch.gif" width="100%"> |
+<p align="center">
+  <img src="docs/screenshots/gacha.gif" width="31%">
+  <img src="docs/screenshots/demo_evolution.gif" width="31%">
+  <img src="docs/screenshots/demo_catch.gif" width="31%">
+</p>
+
+<p align="center">
+  <b>ガチャ演出</b>　　<b>進化アニメーション</b>　　<b>リボンキャッチ</b>
+</p>
 
 ---
 
