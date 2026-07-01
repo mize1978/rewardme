@@ -6826,6 +6826,15 @@ body.flash-super::after {
   margin-left: calc(-13% + 3px);
   margin-top: 4px;
 }
+/* スクリーンショットを縦6%拡大 */
+.lp-hero2-2col .lp-slider-track {
+  aspect-ratio: 2934 / 1772;
+}
+/* eyebrowをリボンちゃんの中心に揃える */
+.lp-hero2-2col .lp-hero2-eyebrow {
+  align-self: center;
+  margin-left: 37px;
+}
 /* インジケーターをブラウザフレーム真下に揃える */
 .lp-hero2-2col .lp-slider-dots {
   width: 100%;
@@ -7085,6 +7094,7 @@ body.flash-super::after {
 .lp-hero2-chara-wrap {
   position: relative;
   margin-bottom: -8px;
+  margin-top: 16px;
   align-self: center;
   margin-left: 37px;
 }
