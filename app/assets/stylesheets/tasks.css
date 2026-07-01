@@ -6822,8 +6822,8 @@ body.flash-super::after {
   gap: 3px;
 }
 .lp-hero2-2col .lp-hero2-frame-shell {
-  width: 108%;
-  margin-left: calc(-8% + 15px);
+  width: 113%;
+  margin-left: calc(-13% + 3px);
   margin-top: 4px;
 }
 /* インジケーターをブラウザフレーム真下に揃える */
@@ -7086,7 +7086,7 @@ body.flash-super::after {
   position: relative;
   margin-bottom: -8px;
   align-self: center;
-  margin-left: 20px;
+  margin-left: 37px;
 }
 
 .lp-hero2-chara {
