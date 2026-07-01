@@ -75,6 +75,29 @@
 
   <%# ━━━ 結果画面 ━━━ %>
   <div class="gacha-result" data-gacha-target="resultScreen" hidden>
+    <%# ━━━ 魔法陣（カード背後） ━━━ %>
+    <div class="gacha-magic-bg" aria-hidden="true">
+      <div class="gacha-mc-glow"></div>
+      <div class="gacha-mc-ring gacha-mc-ring--1"></div>
+      <div class="gacha-mc-ring gacha-mc-ring--2"></div>
+      <div class="gacha-mc-ring gacha-mc-ring--3"></div>
+      <svg class="gacha-mc-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="150" cy="150" r="140" fill="none" stroke="rgba(200,100,255,0.18)" stroke-width="0.8"/>
+        <circle cx="150" cy="150" r="120" fill="none" stroke="rgba(255,120,200,0.15)" stroke-width="0.6"/>
+        <circle cx="150" cy="150" r="90"  fill="none" stroke="rgba(200,100,255,0.20)" stroke-width="0.8" stroke-dasharray="6 4"/>
+        <polygon points="150,20 174,95 252,95 189,140 212,215 150,170 88,215 111,140 48,95 126,95"
+                 fill="none" stroke="rgba(220,130,255,0.22)" stroke-width="1.2"/>
+        <polygon points="150,60 163,102 207,102 172,127 185,169 150,145 115,169 128,127 93,102 137,102"
+                 fill="none" stroke="rgba(255,140,210,0.18)" stroke-width="0.8"/>
+        <% 8.times do |i| %>
+          <% angle = i * 45 * Math::PI / 180 %>
+          <circle cx="<%= (150 + 120 * Math.sin(angle)).round(1) %>"
+                  cy="<%= (150 - 120 * Math.cos(angle)).round(1) %>"
+                  r="3" fill="rgba(255,160,230,0.35)"/>
+        <% end %>
+      </svg>
+    </div>
+
     <h2 class="gacha-result-heading">✨ 結果発表！</h2>
     <div class="gacha-cards-area" data-gacha-target="cardsArea"></div>
     <div class="gacha-summary" data-gacha-target="summary"></div>
