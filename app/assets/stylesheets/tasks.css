@@ -6823,8 +6823,8 @@ body.flash-super::after {
 }
 .lp-hero2-2col .lp-hero2-frame-shell {
   width: 108%;
-  margin-left: -8%;
-  margin-top: 11px;
+  margin-left: calc(-8% + 15px);
+  margin-top: 4px;
 }
 /* インジケーターをブラウザフレーム真下に揃える */
 .lp-hero2-2col .lp-slider-dots {
