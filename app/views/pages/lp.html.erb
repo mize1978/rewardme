@@ -32,15 +32,14 @@
       </div>
 
       <div class="lp-hero2-chara-wrap">
-        <%= image_tag "ribbonchan.png", class: "lp-hero2-chara", alt: "リボンちゃん" %>
+        <%= image_tag "stage4_pink.png", class: "lp-hero2-chara", alt: "リボンちゃん" %>
         <div class="lp-hero2-chara-glow"></div>
       </div>
 
-      <%= image_tag "rewardme_logo.png", class: "lp-hero2-logo", alt: "RewardMe" %>
-
       <h1 class="lp-hero2-tagline">
         タスクが、<br>
-        毎日<span class="lp-hero2-accent">ちょっと楽しみ</span>になる。
+        毎日<span class="lp-hero2-accent">ちょっと</span><br>
+        楽しみになる。
       </h1>
       <p class="lp-hero2-sub">
         リボンちゃんと一緒に、ゲーム感覚で続けるタスク管理。<br>
@@ -58,29 +57,40 @@
       <p class="lp-hero2-note">登録無料・クレジットカード不要</p>
     </div>
 
-    <%# ② 右カラム：ダッシュボードモックアップ %>
+    <%# ② 右カラム：スライドショー %>
     <div class="lp-hero2-right">
-      <div class="lp-browser-frame lp-hero2-frame" data-lightbox>
-        <div class="lp-browser-bar">
-          <span class="lp-browser-dot"></span>
-          <span class="lp-browser-dot"></span>
-          <span class="lp-browser-dot"></span>
-          <span class="lp-browser-url">reward-task-app.onrender.com/dashboard</span>
-        </div>
-        <div class="lp-browser-screen lp-screen--dashboard">
-          <%= image_tag "room_stage_1.png", class: "lp-screen-room-bg", alt: "マイルーム" %>
-          <div class="lp-screen-overlay">
-            <div class="lp-screen-stat"><span>★ Lv.12</span><span>🪙 280</span><span>❤️ 5/5</span></div>
-            <div class="lp-screen-chara-wrap">
-              <%= image_tag "stage_baby.png", class: "lp-screen-chara", alt: "" %>
-            </div>
-            <div class="lp-screen-tasks">
-              <div class="lp-screen-task lp-screen-task--done">✓ 朝のストレッチ</div>
-              <div class="lp-screen-task lp-screen-task--done">✓ 英語30分</div>
-              <div class="lp-screen-task">〇 日記を書く</div>
-            </div>
+      <div class="lp-hero2-frame-shell">
+        <div class="lp-hero2-frame-glow lp-hero2-frame-glow--1"></div>
+        <div class="lp-hero2-frame-glow lp-hero2-frame-glow--2"></div>
+        <div class="lp-browser-frame lp-hero2-frame" id="lp-slider">
+          <div class="lp-browser-bar">
+            <span class="lp-browser-dot"></span>
+            <span class="lp-browser-dot"></span>
+            <span class="lp-browser-dot"></span>
+            <span class="lp-browser-url">reward-task-app.onrender.com</span>
+          </div>
+          <div class="lp-slider-track">
+            <% [
+              { img: "lp_slide_room.jpg",   label: "① マイルーム" },
+              { img: "lp_slide_tasks.jpg",  label: "② タスク管理" },
+              { img: "lp_slide_games.jpg",  label: "③ ミニゲーム" },
+              { img: "lp_slide_gacha.jpg",  label: "④ ガチャ" },
+              { img: "lp_slide_potion.jpg", label: "⑤ ポーションゲーム" },
+            ].each_with_index do |s, i| %>
+              <div class="lp-slide <%= i == 0 ? 'lp-slide--active' : '' %>" data-index="<%= i %>">
+                <%= image_tag s[:img], class: "lp-shot-img lp-slide-img", alt: s[:label] %>
+                <span class="lp-slide-label"><%= s[:label] %></span>
+              </div>
+            <% end %>
           </div>
         </div>
+        <div class="lp-slider-dots" id="lp-slider-dots">
+          <% 5.times do |i| %>
+            <button class="lp-slider-dot <%= i == 0 ? 'lp-slider-dot--active' : '' %>" data-dot="<%= i %>"></button>
+          <% end %>
+        </div>
+        <div class="lp-hero2-frame-deco lp-hero2-frame-deco--tl">✨</div>
+        <div class="lp-hero2-frame-deco lp-hero2-frame-deco--br">🎀</div>
       </div>
       <p class="lp-hero2-frame-hint">クリックで拡大 🔍</p>
     </div>
