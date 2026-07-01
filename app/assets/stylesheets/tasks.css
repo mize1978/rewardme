@@ -10857,8 +10857,26 @@ body.flash-super::after {
 }
 
 /* ── 結果画面 ── */
-.gacha-result { padding: 24px 0 80px; }
+.gacha-result {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: linear-gradient(160deg, rgba(20,5,50,0.97) 0%, rgba(60,10,80,0.97) 100%);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 32px;
+  overflow-y: auto;
+  animation: gacha-result-in 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+}
 .gacha-result[hidden] { display: none !important; }
+
+@keyframes gacha-result-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
 
 .gacha-result-heading {
   text-align: center;
