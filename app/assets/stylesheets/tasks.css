@@ -8614,6 +8614,9 @@ body.flash-super::after {
 }
 
 .lp-chara-showcase-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   margin: 0 auto 22px;
   max-width: 960px;
