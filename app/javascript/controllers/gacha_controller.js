@@ -94,6 +94,10 @@ export default class extends Controller {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => card.classList.add("gacha-card--flipped"))
         })
+        // SR以上でフラッシュ
+        if (["SR", "SSR"].includes(item.rarity)) {
+          setTimeout(() => this._flashScreen(item.rarity), 350)
+        }
         if (item.rarity === "SSR") {
           setTimeout(() => card.classList.add("gacha-card--shine"), 400)
         }
@@ -120,6 +124,13 @@ export default class extends Controller {
     }, delay + 200)
   }
 
+  _flashScreen(rarity) {
+    const flash = document.createElement("div")
+    flash.className = `gacha-flash gacha-flash--${rarity.toLowerCase()}`
+    this.resultScreenTarget.appendChild(flash)
+    setTimeout(() => flash.remove(), 700)
+  }
+
   _spawnParticles(rarity) {
     const palettes = {
       SSR: ["rgba(255,220,50,0.95)",  "rgba(255,240,120,0.80)", "rgba(255,200,30,0.90)"],
@@ -128,7 +139,7 @@ export default class extends Controller {
       N:   ["rgba(190,170,255,0.90)", "rgba(210,200,255,0.75)", "rgba(200,180,255,0.85)"],
     }
     const colors = palettes[rarity] || palettes.N
-    for (let i = 0; i < 28; i++) {
+    for (let i = 0; i < 22; i++) {
       const p = document.createElement("div")
       p.className = "gacha-particle"
       const size = 2 + Math.random() * 4
@@ -141,6 +152,27 @@ export default class extends Controller {
         animation-duration:${3 + Math.random() * 4}s;
       `
       this.resultScreenTarget.appendChild(p)
+    }
+
+    // SR以上: 絵文字パーティクルを追加
+    if (["SR", "SSR"].includes(rarity)) {
+      const emojis = rarity === "SSR"
+        ? ["⭐", "💎", "✨", "🌟", "👑"]
+        : ["🎀", "⭐", "💎", "✨", "🎀"]
+      for (let i = 0; i < 16; i++) {
+        const e = document.createElement("div")
+        e.className = "gacha-emoji-particle"
+        e.textContent = emojis[i % emojis.length]
+        const size = 14 + Math.random() * 10
+        e.style.cssText = `
+          left:${Math.random() * 100}%;
+          bottom:${Math.random() * 15}%;
+          font-size:${size}px;
+          animation-delay:${Math.random() * 4}s;
+          animation-duration:${3.5 + Math.random() * 3}s;
+        `
+        this.resultScreenTarget.appendChild(e)
+      }
     }
   }
 
