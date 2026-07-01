@@ -22,39 +22,32 @@
     <div class="lp-hero2-orb lp-hero2-orb--3"></div>
   </div>
 
-  <%# ── 上段：キャラ（左）+ コピー（右） ── %>
-  <div class="lp-hero2-split">
-    <%# 左：大きめキャラ %>
-    <div class="lp-hero2-chara-col">
-      <div class="lp-hero2-chara-wrap">
-        <%= image_tag "stage4_pink.png", class: "lp-hero2-chara lp-hero2-chara--hero", alt: "リボンちゃん" %>
-        <div class="lp-hero2-chara-glow lp-hero2-chara-glow--hero"></div>
-      </div>
+  <%# ── 上段：キャラ + コピー（縦中央寄せ） ── %>
+  <div class="lp-hero2-center">
+    <div class="lp-hero2-eyebrow">
+      <span class="lp-hero2-eyebrow-dot"></span>
+      GAME × PRODUCTIVITY
+      <span class="lp-hero2-eyebrow-dot"></span>
     </div>
-
-    <%# 右：コピー %>
-    <div class="lp-hero2-copy-col">
-      <div class="lp-hero2-eyebrow">
-        <span class="lp-hero2-eyebrow-dot"></span>
-        GAME × PRODUCTIVITY
-        <span class="lp-hero2-eyebrow-dot"></span>
-      </div>
-      <h1 class="lp-hero2-tagline">
-        タスクが、毎日<span class="lp-hero2-accent">ちょっと</span>楽しくなる。
-      </h1>
-      <p class="lp-hero2-sub">
-        リボンちゃんと一緒に、ゲーム感覚で続けるタスク管理。
-      </p>
-      <div class="lp-hero2-btns">
-        <%= link_to signup_path, class: "lp-btn-primary lp-btn-large" do %>
-          🎀 無料ではじめる
-        <% end %>
-        <%= link_to login_path, class: "lp-btn-ghost" do %>
-          ログイン
-        <% end %>
-      </div>
-      <p class="lp-hero2-note">登録無料・クレジットカード不要</p>
+    <div class="lp-hero2-chara-wrap lp-hero2-chara-wrap--sm">
+      <%= image_tag "stage4_pink.png", class: "lp-hero2-chara lp-hero2-chara--sm", alt: "リボンちゃん" %>
+      <div class="lp-hero2-chara-glow"></div>
     </div>
+    <h1 class="lp-hero2-tagline lp-hero2-tagline--center">
+      タスクが、毎日<span class="lp-hero2-accent">ちょっと</span>楽しくなる。
+    </h1>
+    <p class="lp-hero2-sub lp-hero2-sub--center">
+      リボンちゃんと一緒に、ゲーム感覚で続けるタスク管理。
+    </p>
+    <div class="lp-hero2-btns lp-hero2-btns--center">
+      <%= link_to signup_path, class: "lp-btn-primary lp-btn-large" do %>
+        🎀 無料ではじめる
+      <% end %>
+      <%= link_to login_path, class: "lp-btn-ghost" do %>
+        ログイン
+      <% end %>
+    </div>
+    <p class="lp-hero2-note lp-hero2-note--center">登録無料・クレジットカード不要</p>
   </div>
 
   <%# ── 下段：大きな横長ブラウザ ── %>

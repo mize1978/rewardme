@@ -6768,73 +6768,6 @@ body.flash-super::after {
 .lp-hero2-btns--center { justify-content: center; }
 .lp-hero2-note--center { text-align: center; }
 
-/* ── 2カラムヒーロー ── */
-.lp-hero2-split {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 48px 0 0;
-  display: flex;
-  align-items: flex-end;
-  gap: 0;
-}
-
-.lp-hero2-chara-col {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: flex-end;
-  margin-left: -32px;
-}
-
-.lp-hero2-chara--hero {
-  width: auto !important;
-  height: 420px !important;
-  object-fit: contain;
-  object-position: bottom;
-  filter: brightness(1.10) contrast(1.06)
-          drop-shadow(0 8px 24px rgba(255, 143, 172, 0.40))
-          drop-shadow(0 0 48px rgba(201, 111, 255, 0.20));
-}
-
-.lp-hero2-chara-glow--hero {
-  width: 220px;
-  height: 40px;
-  bottom: 0;
-}
-
-.lp-hero2-copy-col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 48px 0 40px;
-}
-
-@media (max-width: 680px) {
-  .lp-hero2-split {
-    flex-direction: column;
-    align-items: center;
-    padding: 0 20px;
-  }
-  .lp-hero2-chara-col {
-    margin-left: 0;
-  }
-  .lp-hero2-chara--hero {
-    height: 240px !important;
-  }
-  .lp-hero2-copy-col {
-    align-items: center;
-    text-align: center;
-    padding: 0 0 32px;
-  }
-  .lp-hero2-btns {
-    justify-content: center;
-  }
-}
-
 .lp-hero2-browser-wrap {
   position: relative;
   z-index: 1;
@@ -7078,7 +7011,7 @@ body.flash-super::after {
 ───────────────────────────────────── */
 .lp-hero2 {
   position: relative;
-  overflow: clip;
+  overflow: hidden;
   padding: 52px 0 0;
   display: flex;
   flex-direction: column;
