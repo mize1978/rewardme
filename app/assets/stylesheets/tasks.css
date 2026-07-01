@@ -8341,6 +8341,17 @@ body.flash-super::after {
     0 24px 64px rgba(0, 0, 0, 0.35),
     0 2px 0 rgba(255, 255, 255, 0.06) inset,
     0 -2px 12px rgba(201, 111, 255, 0.12) inset;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.lp-hero2-frame-shell .lp-browser-frame:hover {
+  transform: scale(1.025);
+  box-shadow:
+    0 0 0 1px rgba(201, 111, 255, 0.35),
+    0 12px 40px rgba(0, 0, 0, 0.55),
+    0 32px 80px rgba(0, 0, 0, 0.4),
+    0 2px 0 rgba(255, 255, 255, 0.08) inset,
+    0 -2px 20px rgba(201, 111, 255, 0.22) inset;
 }
 
 .lp-hero2-frame-deco {
