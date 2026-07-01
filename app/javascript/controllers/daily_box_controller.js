@@ -78,7 +78,8 @@ export default class extends Controller {
   }
 
   showPrize(prize) {
-    const icons       = { coins: '<i class="coin-ico--lg"></i>', exp: "⭐" }
+    const coinUrl = document.body.dataset.coinUrl
+    const icons   = { coins: `<img src="${coinUrl}" class="coin-img coin-img--lg" alt="コイン">`, exp: "⭐" }
     const rarityNames = { normal: "NORMAL", good: "GOOD", rare: "RARE", epic: "EPIC", super: "LEGEND" }
 
     this.prizeIcoTarget.innerHTML      = icons[prize.type] || "🎁"
@@ -97,7 +98,8 @@ export default class extends Controller {
 
   updateTodayPrize(prize) {
     if (!this.hasTodayPrizePanelTarget) return
-    const icons = { coins: '<i class="coin-ico--md"></i>', exp: "⭐" }
+    const coinUrl = document.body.dataset.coinUrl
+    const icons = { coins: `<img src="${coinUrl}" class="coin-img coin-img--md" alt="コイン">`, exp: "⭐" }
 
     if (this.hasTodayPrizeEmptyTarget) this.todayPrizeEmptyTarget.remove()
 

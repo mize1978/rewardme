@@ -108,8 +108,9 @@ export default class extends Controller {
     const card = document.createElement("div")
     card.className = `gacha-card gacha-card--${item.rarity.toLowerCase()}`
 
+    const coinUrl   = document.body.dataset.coinUrl
     const emojiHtml = item.type === "coin"
-      ? `<i class="coin-ico--lg"></i>`
+      ? `<img src="${coinUrl}" class="coin-img coin-img--lg" alt="コイン">`
       : `<span class="gacha-card-emoji">${item.emoji}</span>`
     card.innerHTML = `
       <div class="gacha-card-inner">
@@ -131,7 +132,7 @@ export default class extends Controller {
               : best.rarity === "R"   ? "👏 R 出たよ！"
               : "また引いてみてね♪"
     return `<p class="gacha-summary-msg">${msg}</p>
-            <p class="gacha-summary-coins">残りコイン: <i class="coin-ico" style="vertical-align:middle;margin-right:3px;"></i>${totalCoins}</p>`
+            <p class="gacha-summary-coins">残りコイン: <img src="${document.body.dataset.coinUrl}" class="coin-img coin-img--sm" alt="コイン" style="vertical-align:middle;margin-right:3px;">${totalCoins}</p>`
   }
 
   _setButtons(disabled) {

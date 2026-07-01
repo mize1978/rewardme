@@ -26,6 +26,7 @@
 
   <body data-room-theme="<%= current_user&.current_room_bg || 'default' %>"
         data-egg-color="<%= current_user&.egg_color || 'pink' %>"
+        data-coin-url="<%= asset_path('coin_ribbon.png') %>"
         data-controller="bgm"
         data-bgm-room="<%= current_user ? (current_user.current_room_bg || 'default') : 'login' %>">
 

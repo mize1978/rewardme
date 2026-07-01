@@ -16,7 +16,7 @@
       </div>
       <span class="header-stage"><%= current_user.ribbon_stage_name %></span>
       <span class="header-lives">❤️ <%= current_user.lives %> / 5</span>
-      <span class="header-coins"><i class="coin-ico"></i><%= number_with_delimiter(current_user.coins) %></span>
+      <span class="header-coins"><%= image_tag "coin_ribbon.png", class: "coin-img coin-img--sm", alt: "コイン" %><%= number_with_delimiter(current_user.coins) %></span>
       <span class="header-gems">💎 350</span>
     </div>
   <% end %>
