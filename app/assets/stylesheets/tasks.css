@@ -7086,6 +7086,7 @@ body.flash-super::after {
   position: relative;
   margin-bottom: -8px;
   align-self: center;
+  margin-left: 20px;
 }
 
 .lp-hero2-chara {
