@@ -6823,10 +6823,14 @@ body.flash-super::after {
 }
 .lp-hero2-2col .lp-hero2-frame-shell {
   width: 118%;
-  /* 右端固定のまま左へ35px寄せる */
-  margin-left: calc(-18% - 35px);
-  /* コピーと高さを揃えるため下へずらす */
-  margin-top: 18px;
+  margin-left: calc(-18% - 10px);
+  margin-top: 11px;
+}
+/* インジケーターをブラウザフレーム真下に揃える */
+.lp-hero2-2col .lp-slider-dots {
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
 }
 
 .lp-hero2-frame-hint {
