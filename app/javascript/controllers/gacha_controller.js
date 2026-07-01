@@ -69,6 +69,10 @@ export default class extends Controller {
 
   _revealCards(results, totalCoins) {
     this._hideOverlay()
+
+    // 古いパーティクルを削除
+    this.resultScreenTarget.querySelectorAll(".gacha-particle").forEach(el => el.remove())
+
     this.resultScreenTarget.hidden = false
     this.cardsAreaTarget.innerHTML = ""
 
@@ -77,23 +81,35 @@ export default class extends Controller {
       (RARITY_ORDER[b.rarity] || 0) > (RARITY_ORDER[a.rarity] || 0) ? b : a
     )
 
+    // レア度に応じた色テーマをセット
+    this.resultScreenTarget.dataset.rarity = best.rarity.toLowerCase()
+
+    // 浮遊パーティクルを生成
+    this._spawnParticles(best.rarity)
+
     results.forEach((item, i) => {
       setTimeout(() => {
-        const card = this._buildCard(item)
+        const card = this._buildCard(item, i)
         this.cardsAreaTarget.appendChild(card)
-        // 少し遅らせてフリップ（マウント後に class 付与）
         requestAnimationFrame(() => {
           requestAnimationFrame(() => card.classList.add("gacha-card--flipped"))
         })
-        // SSR はフリップ後に追加輝き
         if (item.rarity === "SSR") {
           setTimeout(() => card.classList.add("gacha-card--shine"), 400)
         }
       }, i * 180)
     })
 
+    // 魔法陣サイズをカードエリアに合わせる
+    const delay = results.length * 180 + 300
+    setTimeout(() => {
+      const area = this.cardsAreaTarget.getBoundingClientRect()
+      const size = Math.max(area.width, area.height, 220) * 1.25
+      const mc   = this.resultScreenTarget.querySelector(".gacha-magic-bg")
+      if (mc) mc.style.setProperty("--mc-size", `${size}px`)
+    }, delay)
+
     // サマリー（コイン更新 + 最高レアの報告）
-    const delay = results.length * 180 + 500
     setTimeout(() => {
       this.coinDisplayTarget.textContent = totalCoins
       if (this.hasSummaryTarget) {
@@ -101,12 +117,37 @@ export default class extends Controller {
       }
       this._setButtons(false)
       this._checkButtons()
-    }, delay)
+    }, delay + 200)
   }
 
-  _buildCard(item) {
+  _spawnParticles(rarity) {
+    const palettes = {
+      SSR: ["rgba(255,220,50,0.95)",  "rgba(255,240,120,0.80)", "rgba(255,200,30,0.90)"],
+      SR:  ["rgba(255,80,190,0.95)",  "rgba(255,150,220,0.80)", "rgba(255,100,200,0.90)"],
+      R:   ["rgba(60,170,255,0.95)",  "rgba(120,210,255,0.80)", "rgba(80,190,255,0.90)"],
+      N:   ["rgba(190,170,255,0.90)", "rgba(210,200,255,0.75)", "rgba(200,180,255,0.85)"],
+    }
+    const colors = palettes[rarity] || palettes.N
+    for (let i = 0; i < 28; i++) {
+      const p = document.createElement("div")
+      p.className = "gacha-particle"
+      const size = 2 + Math.random() * 4
+      p.style.cssText = `
+        left:${Math.random() * 100}%;
+        bottom:${Math.random() * 20}%;
+        width:${size}px; height:${size}px;
+        background:${colors[i % colors.length]};
+        animation-delay:${Math.random() * 5}s;
+        animation-duration:${3 + Math.random() * 4}s;
+      `
+      this.resultScreenTarget.appendChild(p)
+    }
+  }
+
+  _buildCard(item, index = 0) {
     const card = document.createElement("div")
     card.className = `gacha-card gacha-card--${item.rarity.toLowerCase()}`
+    card.style.animationDelay = `${index * 0.07}s`
 
     const coinUrl   = document.body.dataset.coinUrl
     const emojiHtml = item.type === "coin"
@@ -127,10 +168,10 @@ export default class extends Controller {
   }
 
   _buildSummary(best, totalCoins) {
-    const msg = best.rarity === "SSR" ? "✨ SSR 出たーーー！！！おめでとう♡"
-              : best.rarity === "SR"  ? "🎉 SR ゲット！すごい！"
-              : best.rarity === "R"   ? "👏 R 出たよ！"
-              : "また引いてみてね♪"
+    const msg = best.rarity === "SSR" ? "🌟 SSR 召喚！！おめでとう♡"
+              : best.rarity === "SR"  ? "✨ SR GET！！すごい！"
+              : best.rarity === "R"   ? "🎉 R アイテム獲得！"
+              : "💫 N ゲット！また引いてみてね♪"
     return `<p class="gacha-summary-msg">${msg}</p>
             <p class="gacha-summary-coins">残りコイン: <img src="${document.body.dataset.coinUrl}" class="coin-img coin-img--sm" alt="コイン" style="vertical-align:middle;margin-right:3px;">${totalCoins}</p>`
   }

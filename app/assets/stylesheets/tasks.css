@@ -10857,32 +10857,51 @@ body.flash-super::after {
 }
 
 /* ── 結果画面 ── */
+/* ── レア度カラーテーマ ── */
+.gacha-result {
+  --mc-c1:    rgba(200,100,255,0.50);
+  --mc-c2:    rgba(255,120,200,0.40);
+  --mc-glow:  rgba(180,80,255,0.30);
+  --p-color:  rgba(220,160,255,0.85);
+}
+.gacha-result[data-rarity="n"]  { --mc-c1: rgba(180,170,255,0.50); --mc-c2: rgba(200,190,255,0.38); --mc-glow: rgba(200,180,255,0.28); --p-color: rgba(210,200,255,0.85); }
+.gacha-result[data-rarity="r"]  { --mc-c1: rgba(50,160,255,0.60);  --mc-c2: rgba(100,200,255,0.45); --mc-glow: rgba(60,180,255,0.38);  --p-color: rgba(120,200,255,0.90); }
+.gacha-result[data-rarity="sr"] { --mc-c1: rgba(255,70,180,0.60);  --mc-c2: rgba(255,130,210,0.45); --mc-glow: rgba(255,90,190,0.38);  --p-color: rgba(255,160,230,0.90); }
+.gacha-result[data-rarity="ssr"]{ --mc-c1: rgba(255,210,40,0.65);  --mc-c2: rgba(255,230,110,0.50); --mc-glow: rgba(255,220,60,0.45);  --p-color: rgba(255,230,100,0.95); }
+
 /* ── 魔法陣 ── */
 .gacha-magic-bg {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 340px;
-  height: 340px;
+  width: var(--mc-size, 320px);
+  height: var(--mc-size, 320px);
   pointer-events: none;
   z-index: 0;
+  animation: mc-flash-in 1.4s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes mc-flash-in {
+  0%   { opacity: 0; transform: translate(-50%,-50%) scale(0.5); filter: brightness(4); }
+  25%  { opacity: 1; transform: translate(-50%,-50%) scale(1.12); filter: brightness(3); }
+  55%  { transform: translate(-50%,-50%) scale(0.98); filter: brightness(1.5); }
+  100% { transform: translate(-50%,-50%) scale(1); filter: brightness(1); }
 }
 .gacha-mc-glow {
   position: absolute;
-  inset: 20px;
+  inset: 10px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(200,80,255,0.18) 0%, rgba(255,80,180,0.10) 45%, transparent 70%);
-  animation: mc-pulse 4s ease-in-out infinite;
+  background: radial-gradient(circle, var(--mc-glow) 0%, transparent 68%);
+  animation: mc-pulse 3.5s ease-in-out infinite;
 }
 .gacha-mc-ring {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(210,120,255,0.25);
+  border: 1.5px solid var(--mc-c1);
 }
 .gacha-mc-ring--1 { inset: 0;    border-style: dashed; animation: spin-cw  9s linear infinite; }
-.gacha-mc-ring--2 { inset: 28px; border-color: rgba(255,130,210,0.20); animation: spin-ccw 13s linear infinite; }
-.gacha-mc-ring--3 { inset: 56px; border-style: dotted; border-color: rgba(200,100,255,0.30); animation: spin-cw  7s linear infinite; }
+.gacha-mc-ring--2 { inset: 24px; border-color: var(--mc-c2); animation: spin-ccw 13s linear infinite; }
+.gacha-mc-ring--3 { inset: 48px; border-style: dotted; animation: spin-cw  7s linear infinite; }
 .gacha-mc-svg {
   position: absolute;
   inset: 0;
@@ -10890,11 +10909,66 @@ body.flash-super::after {
   height: 100%;
   animation: spin-cw 18s linear infinite;
 }
+.gacha-mc-svg circle  { stroke: var(--mc-c1); }
+.gacha-mc-svg polygon { stroke: var(--mc-c2); }
+.gacha-mc-svg circle[r="3"] { fill: var(--mc-c2); stroke: none; }
+
 @keyframes spin-cw  { to { transform: rotate(360deg);  } }
 @keyframes spin-ccw { to { transform: rotate(-360deg); } }
 @keyframes mc-pulse {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50%       { opacity: 1;   transform: scale(1.08); }
+  0%, 100% { opacity: 0.75; transform: scale(1); }
+  50%       { opacity: 1;    transform: scale(1.10); }
+}
+
+/* ── 浮遊パーティクル ── */
+.gacha-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: particle-rise linear infinite;
+}
+@keyframes particle-rise {
+  0%   { transform: translateY(0)    scale(1);    opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateY(-90vh) scale(0.3); opacity: 0; }
+}
+
+/* ── カード召喚アニメーション ── */
+.gacha-card {
+  animation: card-summon 0.55s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes card-summon {
+  0%   { opacity: 0; transform: translateY(44px) scale(0.75); }
+  65%  { transform: translateY(-7px) scale(1.05); }
+  82%  { transform: translateY(3px)  scale(0.98); }
+  100% { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* ── 背景の星 ── */
+.gacha-result::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,0.75) 0%, transparent 100%),
+    radial-gradient(1px 1px   at 28% 55%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 45% 30%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(1px 1px   at 62% 72%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 78% 20%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(1px 1px   at 88% 60%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px   at 20% 80%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 55% 88%, rgba(255,255,255,0.60) 0%, transparent 100%),
+    radial-gradient(1px 1px   at 35% 10%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px   at 92% 40%, rgba(255,255,255,0.45) 0%, transparent 100%);
+  animation: stars-twinkle 3.5s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes stars-twinkle {
+  0%   { opacity: 0.35; }
+  100% { opacity: 0.90; }
 }
 
 .gacha-result {
