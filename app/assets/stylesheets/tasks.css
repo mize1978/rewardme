@@ -11862,8 +11862,10 @@ body.flash-super::after {
   margin: 0;
 }
 .pz-preview-img-wrap {
-  width: min(260px, 72vw);
-  height: min(260px, 72vw);
+  width: 72vw;
+  max-width: 260px;
+  height: 72vw;
+  max-height: 260px;
   border-radius: 20px;
   overflow: hidden;
   border: 2px solid rgba(255, 143, 200, 0.5);
@@ -11975,7 +11977,8 @@ body.flash-super::after {
 .pz-board {
   --pz-size: 4;
   --pz-gap: 4px;
-  --pz-tile-size: min(80px, calc((100dvw - 48px) / var(--pz-size)));
+  --pz-tile-size: calc((100dvw - 48px) / var(--pz-size));
+  max-width: 332px;
   display: grid;
   grid-template-columns: repeat(var(--pz-size), var(--pz-tile-size));
   grid-template-rows: repeat(var(--pz-size), var(--pz-tile-size));
@@ -12022,7 +12025,8 @@ body.flash-super::after {
 }
 
 .pz-result-chara {
-  width: min(320px, 90vw);
+  width: 90vw;
+  max-width: 320px;
   height: auto;
   border-radius: 16px;
   object-fit: cover;
