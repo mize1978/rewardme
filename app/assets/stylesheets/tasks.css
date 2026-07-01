@@ -7440,7 +7440,9 @@ body.flash-super::after {
 /* ── Hero Slider ── */
 .lp-slider-track {
   position: relative;
-  height: 340px;
+  width: 100%;
+  aspect-ratio: 2934 / 1672;
+  height: auto;
   overflow: hidden;
 }
 .lp-slide {
@@ -7455,7 +7457,7 @@ body.flash-super::after {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: left top;
+  object-position: top center;
   display: block;
 }
 .lp-slide-label {
