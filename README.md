@@ -13,7 +13,7 @@
 
   <br>
 
-  🔗 **[デモを見る](https://reward-task-app.onrender.com)**　|　📖 **[GitHubリポジトリ](https://github.com/mize1978)**
+  🔗 **[デモを見る](https://rewardme-qaq3.onrender.com)**　|　📖 **[GitHubリポジトリ](https://github.com/mize1978/rewardme)**
 
   <br>
 
@@ -94,14 +94,14 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
   <img src="docs/screenshots/shop.jpg" alt="部屋ショップ" width="72%">
 </div>
 
-<h2>主な演出</h2>
+### デモ GIF
 
-<p align="center">
-  <img src="docs/screenshots/gacha_v3.gif" width="30%">&nbsp;&nbsp;&nbsp;<img src="docs/screenshots/evolution_v3.gif" width="30%">&nbsp;&nbsp;&nbsp;<img src="docs/screenshots/potion_v2.gif" width="30%">
-</p>
-<p align="center">
-  <b>ガチャ演出</b>（アイテム獲得）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>進化アニメーション</b>（タスク達成）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>リボンポーション</b>（ミニゲーム）
-</p>
+| ガチャ演出 | 進化アニメーション | リボンキャッチ |
+|:---:|:---:|:---:|
+| ![gacha](docs/screenshots/gacha.gif) | ![evolution](docs/screenshots/demo_evolution.gif) | ![catch](docs/screenshots/demo_catch.gif) |
+| コインで1回・10連 | たまご → プリンセス | 30秒タップゲーム |
+
+> GIFファイルは `docs/screenshots/` に配置してください
 
 ---
 
