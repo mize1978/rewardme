@@ -6934,8 +6934,8 @@ body.flash-super::after {
   position: absolute;
   bottom: 8px;
   right: 10px;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.35);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.2s;
@@ -7120,7 +7120,7 @@ body.flash-super::after {
 /* ① ribbonchan キャラ */
 .lp-hero2-chara-wrap {
   position: relative;
-  margin-bottom: -8px;
+  margin-bottom: -18px;
   margin-top: 16px;
   align-self: center;
   margin-left: 37px;
