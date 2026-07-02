@@ -9614,14 +9614,7 @@ body.flash-super::after {
   }
 
   /* ② セリフ吹き出し — コンパクトに */
-  .room-speech {
-    padding: 10px 14px;
-    max-width: 240px;
-    bottom: 10px;
-    left: 10px;
-  }
-  .room-speech-text { font-size: 14px; }
-  .room-speech-label { font-size: 10px; }
+  .room-speech { display: none; }
 
   /* ③ フッターGitHubバッジを非表示（ボトムナビと重なる・UX的に不要） */
   .site-footer { display: none; }

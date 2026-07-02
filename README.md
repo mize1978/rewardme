@@ -13,7 +13,7 @@
 
   <br>
 
-  🔗 **[デモを見る](https://rewardme-qaq3.onrender.com)**　|　📖 **[GitHubリポジトリ](https://github.com/mize1978/rewardme)**
+  🔗 **[デモを見る](https://rewardme-qaq3.onrender.com)**　|　📖 **[GitHubリポジトリ](https://github.com/mize1978/rewardme)**　|　📝 **[Zenn記事](https://zenn.dev/mizel1978/articles/a10a4368b282d3)**
 
   <br>
 
