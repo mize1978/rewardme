@@ -6822,8 +6822,8 @@ body.flash-super::after {
   gap: 3px;
 }
 .lp-hero2-2col .lp-hero2-frame-shell {
-  width: 113%;
-  margin-left: calc(-13% + 3px);
+  width: 120%;
+  margin-left: calc(-20% + 3px);
   margin-top: 4px;
 }
 /* スクリーンショットを縦6%拡大 */
@@ -7123,7 +7123,7 @@ body.flash-super::after {
   margin-bottom: -18px;
   margin-top: 16px;
   align-self: center;
-  margin-left: 37px;
+  margin-left: 52px;
 }
 
 .lp-hero2-chara {
@@ -7185,6 +7185,11 @@ body.flash-super::after {
   line-height: 1.7;
   margin: 0;
   max-width: 500px;
+}
+
+.lp-hero2-sub-2nd {
+  display: block;
+  margin-top: 0.5em;
 }
 
 .lp-hero2-btns {
@@ -9575,24 +9580,24 @@ body.flash-super::after {
     padding: 0;
     gap: 0;
   }
-  /* キャラ（col-center）を上、BOX（col-left）を下に */
-  .col-center { order: 1; }
-  .col-left   { order: 2; position: static; padding: 0 12px; }
+  /* col-centerを解体してroom→BOX→タスクの順に並べる */
+  .dashboard-layout .col-center { display: contents; }
+  .col-left   { order: 2; position: static; padding: 12px 12px 12px; }
   .col-right  { display: none; }
 
   /* マイルームをフル幅・大きめに */
-  .col-center { width: 100%; padding: 0; }
   .my-room {
+    order: 1;
     height: 320px;
     min-height: 280px;
-    margin: 0 0 16px;
+    margin: 0 0 0;
     border-radius: 0 !important;
     width: 100%;
   }
   .room-title { display: none; }
 
   /* カレンダーとお部屋成長は非表示、タスクは表示 */
-  .center-bottom { display: block; padding: 0 12px; }
+  .center-bottom { display: block; padding: 0 12px; order: 3; }
   .calendar-panel { display: none; }
   .week-panel { display: none; }
   .room-growth-panel { display: none; }
