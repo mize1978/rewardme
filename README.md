@@ -96,12 +96,10 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
 
 ### デモ GIF
 
-| ガチャ演出 | 進化アニメーション | リボンキャッチ |
+| ガチャ演出 | 進化アニメーション | リボンポーション |
 |:---:|:---:|:---:|
-| ![gacha](docs/screenshots/gacha.gif) | ![evolution](docs/screenshots/demo_evolution.gif) | ![catch](docs/screenshots/demo_catch.gif) |
-| コインで1回・10連 | たまご → プリンセス | 30秒タップゲーム |
-
-> GIFファイルは `docs/screenshots/` に配置してください
+| ![gacha](docs/screenshots/gacha.gif) | ![evolution](docs/screenshots/demo_evolution.gif) | ![potion](docs/screenshots/potion_v2.gif) |
+| コインで1回・10連 | たまご → プリンセス | 魔法陣錬成パズル |
 
 ---
 
