@@ -17,7 +17,7 @@
 
   <br>
 
-  <img src="docs/screenshots/lp_hero.jpg" alt="RewardMe ランディングページ" width="82%">
+  <img src="docs/screenshots/ogp_hero.png" alt="RewardMe" width="100%">
 </div>
 
 ---

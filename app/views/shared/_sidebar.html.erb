@@ -91,6 +91,11 @@
     <span>ホーム</span>
   <% end %>
 
+  <%= link_to shop_path, class: "side-menu-item #{shop_active ? 'active' : ''}" do %>
+    <span class="menu-icon-emoji">🏠</span>
+    <span>背景ショップ</span>
+  <% end %>
+
   <%= link_to my_tasks_path, class: "side-menu-item #{tasks_active ? 'active' : ''}" do %>
     <span class="menu-icon-emoji">📋</span>
     <span>タスク</span>
