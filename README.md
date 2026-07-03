@@ -1,7 +1,6 @@
 <div align="center">
   <img src="app/assets/images/rewardme_logo.png" alt="RewardMe" width="300">
-  <br>
-  <p>ゲーム感覚で続けられる、育成型タスク管理アプリ</p>
+  <p style="margin-top: 8px">ゲーム感覚で続けられる、育成型タスク管理アプリ</p>
 
   <img src="docs/screenshots/ogp_hero.png" alt="RewardMe" width="100%">
 
