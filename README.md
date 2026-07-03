@@ -1,6 +1,11 @@
 <div align="center">
   <img src="app/assets/images/rewardme_logo.png" alt="RewardMe" width="300">
   <br>
+  <p>ゲーム感覚で続けられる、育成型タスク管理アプリ</p>
+
+  <img src="docs/screenshots/ogp_hero.png" alt="RewardMe" width="100%">
+
+  <br>
 
   ![Ruby](https://img.shields.io/badge/Ruby-3.x-CC342D?style=flat-square&logo=ruby)
   ![Rails](https://img.shields.io/badge/Rails-7.0-CC0000?style=flat-square&logo=rubyonrails)
@@ -14,10 +19,6 @@
   <br>
 
   🔗 **[デモを見る](https://rewardme-qaq3.onrender.com)**　|　📖 **[GitHubリポジトリ](https://github.com/mize1978/rewardme)**　|　📝 **[Zenn記事](https://zenn.dev/mizel1978/articles/a10a4368b282d3)**
-
-  <br>
-
-  <img src="docs/screenshots/ogp_hero.png" alt="RewardMe" width="100%">
 </div>
 
 ---
