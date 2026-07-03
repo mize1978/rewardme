@@ -98,7 +98,7 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
 
 | ガチャ演出 | 進化アニメーション | リボンポーション |
 |:---:|:---:|:---:|
-| ![gacha](docs/screenshots/gacha.gif) | ![evolution](docs/screenshots/demo_evolution.gif) | ![potion](docs/screenshots/potion_v2.gif) |
+| <img src="docs/screenshots/gacha.gif" width="260"> | <img src="docs/screenshots/demo_evolution.gif" width="260"> | <img src="docs/screenshots/potion_v2.gif" width="260"> |
 | コインで1回・10連 | たまご → プリンセス | 魔法陣錬成パズル |
 
 ---
