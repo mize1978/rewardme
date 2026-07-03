@@ -1,6 +1,6 @@
 <div align="center">
   <img src="app/assets/images/rewardme_logo.png" alt="RewardMe" width="300">
-  <br><br>
+  <br>
 
   ![Ruby](https://img.shields.io/badge/Ruby-3.x-CC342D?style=flat-square&logo=ruby)
   ![Rails](https://img.shields.io/badge/Rails-7.0-CC0000?style=flat-square&logo=rubyonrails)
