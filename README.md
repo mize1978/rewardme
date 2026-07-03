@@ -96,7 +96,7 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
 
 ### デモ GIF
 
-| ガチャ演出 | 進化アニメーション | リボンポーション |
+| ガチャ（抽選演出） | リボンちゃん育成 | ミニゲーム |
 |:---:|:---:|:---:|
 | <img src="docs/screenshots/gacha.gif" width="260"> | <img src="docs/screenshots/evolution.gif" width="260"> | <img src="docs/screenshots/potion_v2.gif" width="260"> |
 | コインで1回・10連 | たまご → プリンセス | 魔法陣錬成パズル |
