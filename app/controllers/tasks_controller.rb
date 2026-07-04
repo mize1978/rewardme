@@ -115,11 +115,8 @@ def update
 
       after_stage = current_user.ribbon_stage
       if after_stage > before_stage
-        session[:seen_evolutions] ||= []
-        is_first = !session[:seen_evolutions].include?(after_stage)
-        session[:seen_evolutions] << after_stage
         flash[:evolution_stage]      = after_stage.to_s
-        flash[:evolution_first_time] = is_first.to_s
+        flash[:evolution_first_time] = "true"
       end
     end
 
