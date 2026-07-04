@@ -1056,9 +1056,6 @@ body[data-time-period="night"] .my-room::after {
   z-index: 3;
   display: flex;
   align-items: flex-end;
-  /* グレー背景の矩形端をフェードアウト */
-  mask-image: radial-gradient(ellipse 82% 88% at 50% 58%, black 45%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 82% 88% at 50% 58%, black 45%, transparent 100%);
 }
 .room-character--stage3 { height: 43%; }
 .room-character--stage4 { height: 43%; }
@@ -1067,6 +1064,9 @@ body[data-time-period="night"] .my-room::after {
   height: 100%;
   width: auto;
   object-fit: contain;
+  /* グレー背景の矩形端をフェードアウト（img自体に当てることで浮遊時も追従） */
+  mask-image: radial-gradient(ellipse 82% 88% at 50% 58%, black 45%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 82% 88% at 50% 58%, black 45%, transparent 100%);
   animation:
     roomCharaFloat   4.5s ease-in-out infinite,
     roomCharaSparkle 8.0s ease-in-out infinite;
