@@ -6262,19 +6262,11 @@ body.flash-super::after {
   gap: 8px;
 }
 .lp-feature-bullets li::before {
-  content: "✓";
+  content: "✔";
   flex-shrink: 0;
-  width: 16px;
-  height: 16px;
-  background: linear-gradient(135deg, #ff8fac, #c96fff);
-  border-radius: 50%;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
+  color: rgba(255, 140, 220, 0.9);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 /* ── how it works ── */
