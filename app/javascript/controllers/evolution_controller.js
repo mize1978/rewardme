@@ -16,6 +16,8 @@ export default class extends Controller {
     const stage = this.stageValue
     const add = (cls, ms) => setTimeout(() => this.element.classList.add(cls), ms)
 
+    if (typeof window.launchConfetti === "function") window.launchConfetti()
+
     // Phase 1: overlay fades in, bg appears
     add("evo--phase-1", 80)
 
