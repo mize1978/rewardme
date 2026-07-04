@@ -6257,15 +6257,27 @@ body.flash-super::after {
   font-size: 13px;
   color: rgba(255, 220, 245, 0.85);
   font-weight: 600;
-  padding-left: 1em;
+  padding-left: 22px;
   position: relative;
 }
 .lp-feature-bullets li::before {
   content: "✓";
   position: absolute;
   left: 0;
-  color: rgba(255, 140, 220, 0.9);
-  font-weight: 700;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #ff8fac, #c96fff);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  text-align: center;
 }
 
 /* ── how it works ── */
