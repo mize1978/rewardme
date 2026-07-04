@@ -9548,6 +9548,9 @@ body.flash-super::after {
   .lp-nav-logo { height: 48px; }
   .lp-nav-login { display: none; }
   .lp-nav-cta { padding: 8px 16px; font-size: 13px; white-space: nowrap; }
+  .lp-mobile4-wrap { grid-template-columns: 1fr; }
+  .lp-mobile4-home-card .lp-phone-mockup-screen { height: 260px; }
+  .lp-mobile4-phone-card { display: none; }
   .lp-screen-row { grid-template-columns: 1fr; gap: 28px; }
   .lp-screen-row--rev .lp-screen-info { order: 1; }
   .lp-screen-row--rev .lp-browser-frame { order: 2; }
