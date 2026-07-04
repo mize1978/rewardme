@@ -9560,7 +9560,7 @@ body.flash-super::after {
   .lp-browser-frame--grid .lp-screen--evo,
   .lp-browser-frame--grid .lp-screen--deco { height: 200px; }
   .lp-browser-frame--grid .lp-screen--shot { height: 200px; }
-  .lp-stats-row { grid-template-columns: repeat(3, 1fr); }
+  .lp-stats-row { grid-template-columns: repeat(2, 1fr); }
 
   /* サイドバーレイアウトをモバイルで1カラムに */
   .page-sidebar-layout {
