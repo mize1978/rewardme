@@ -5956,6 +5956,8 @@ body.flash-super::after {
   transition: color 0.15s;
 }
 
+.lp-sub-br { display: none; }
+
 .lp-nav-login:hover { color: #fff; }
 
 .lp-nav-cta {
@@ -9530,6 +9532,7 @@ body.flash-super::after {
   .lp-hero2-tagline { font-size: 24px; }
   .lp-hero2-logo { height: 44px; }
   .lp-nav-anchors { display: none; }
+  .lp-sub-br { display: inline; }
   .lp-nav-logo { height: 48px; }
   .lp-nav-login { display: none; }
   .lp-nav-cta { padding: 8px 16px; font-size: 13px; white-space: nowrap; }
