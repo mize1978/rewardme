@@ -39,7 +39,7 @@
 
 ## Architecture
 
-> `completed_count`（累計完了タスク数）を唯一のソースとし、ゲームシステム全体を計算で導く設計。
+> `completed_count`（累計完了タスク数）だけを永続化し、レベル・EXP・進化・称号などはすべて計算で導出する設計です。
 
 ```mermaid
 graph TD
