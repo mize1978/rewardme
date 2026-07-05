@@ -27,13 +27,13 @@
 
 ### 公開中
 - 📝 [Reactなし。Rails × Hotwireだけでゲームのような進化演出を実装してみた](https://zenn.dev/mizel1978/articles/e29a2510e3c546)<br>
-  Turbo・Stimulusだけでゲームライクな演出を実装した工夫
+  Turbo・Stimulusだけでゲームライクな進化演出を実装した工夫
 - 📝 [ゲーム感覚で続けられるタスク管理アプリ「RewardMe」を作った理由](https://zenn.dev/mizel1978/articles/a10a4368b282d3)<br>
-  なぜタスク管理をゲーム化しようと思ったのか
+  タスク管理をゲーム化しようと考えた背景と設計思想
 
-### 執筆予定
-- `completed_count` をソース・オブ・トゥルースにした設計
-- CSSカスタムプロパティで18種類のテーマを管理した方法
+### Coming Soon
+- `completed_count` だけでレベル・EXP・進化を管理する設計
+- CSS変数だけで18種類のテーマを切り替える設計
 
 ---
 
