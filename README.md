@@ -37,6 +37,26 @@
 
 ---
 
+## Architecture
+
+> `completed_count`（累計完了タスク数）を唯一のソースとし、ゲームシステム全体を計算で導く設計。
+
+```mermaid
+graph TD
+    CC["🎯 completed_count<br/>唯一のソース・オブ・トゥルース"]
+
+    CC --> LV["⚡ Level"]
+    CC --> EX["📊 EXP %"]
+    CC --> ST["🌱 Stage  1 → 4"]
+    CC --> MS["💬 Messages"]
+    CC --> TL["🏆 Titles"]
+    CC --> GC["🎰 Gacha weight"]
+
+    style CC fill:#d946a8,color:#fff,stroke:#d946a8
+```
+
+---
+
 ## 目次
 
 - [3行で分かる RewardMe](#3行で分かる-rewardme)
