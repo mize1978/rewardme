@@ -24,8 +24,10 @@
   📚 **開発記事**
 
   **公開中**
-  - 📝 [Reactなし。Rails × Hotwireだけでゲームのような進化演出を実装してみた](https://zenn.dev/mizel1978/articles/e29a2510e3c546)
-  - 📝 [ゲーム感覚で続けられるタスク管理アプリ「RewardMe」を作った理由](https://zenn.dev/mizel1978/articles/a10a4368b282d3)
+  - 📝 [Reactなし。Rails × Hotwireだけでゲームのような進化演出を実装してみた](https://zenn.dev/mizel1978/articles/e29a2510e3c546)<br>
+    Turbo・Stimulusだけでゲームライクな演出を実装した工夫
+  - 📝 [ゲーム感覚で続けられるタスク管理アプリ「RewardMe」を作った理由](https://zenn.dev/mizel1978/articles/a10a4368b282d3)<br>
+    なぜタスク管理をゲーム化しようと思ったのか
 
   **執筆予定**
   - `completed_count` をソース・オブ・トゥルースにした設計
