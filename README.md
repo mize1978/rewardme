@@ -568,7 +568,7 @@ RewardMe の企画・設計・デザイン・実装・デプロイまでを一�
   <br><br>
   <b>ご覧いただきありがとうございました。</b>
   <br><br>
-  <sub>個人開発 / Ruby on Rails 7 / 2026</sub>
+  <sub>Built with Ruby on Rails</sub>
   <br>
-  <sub>Made with 🎀 by <a href="https://github.com/mize1978">mize1978</a></sub>
+  <sub>Designed &amp; Developed by <a href="https://github.com/mize1978">mize1978</a></sub>
 </div>
