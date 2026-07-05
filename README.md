@@ -17,7 +17,20 @@
 
   <br>
 
-  🔗 **[デモを見る](https://rewardme-qaq3.onrender.com)**　|　📖 **[GitHubリポジトリ](https://github.com/mize1978/rewardme)**　|　📝 **[Zenn記事](https://zenn.dev/mizel1978/articles/a10a4368b282d3)**
+  🔗 **[デモを見る](https://rewardme-qaq3.onrender.com)**　|　📖 **[GitHubリポジトリ](https://github.com/mize1978/rewardme)**
+
+  <br>
+
+  📚 **開発記事**
+
+  **公開中**
+  - 📝 [Reactなし。Rails × Hotwireだけでゲームのような進化演出を実装してみた](https://zenn.dev/mizel1978/articles/e29a2510e3c546)
+  - 📝 [ゲーム感覚で続けられるタスク管理アプリ「RewardMe」を作った理由](https://zenn.dev/mizel1978/articles/a10a4368b282d3)
+
+  **執筆予定**
+  - `completed_count` をソース・オブ・トゥルースにした設計
+  - CSSカスタムプロパティで18種類のテーマを管理した方法
+
 </div>
 
 ---
