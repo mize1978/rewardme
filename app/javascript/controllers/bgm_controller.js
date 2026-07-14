@@ -26,7 +26,7 @@ export default class extends Controller {
   static targets = ["btn", "popover", "slider", "muteBtn", "wrap"]
 
   connect() {
-    this._muted  = localStorage.getItem("bgm_muted") === "true"
+    this._muted  = localStorage.getItem("bgm_muted") !== "false"
     this._volume = parseFloat(localStorage.getItem("bgm_volume") ?? "0.30")
 
     let audio = document.getElementById("bgm-audio")

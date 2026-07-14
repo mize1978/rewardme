@@ -2744,8 +2744,12 @@ body[data-time-period="night"] .my-room::after {
   background: rgba(255,100,200,0.14);
 }
 .header-profile-item--logout {
-  color: rgba(255,140,160,0.80);
-  border-top: 1px solid rgba(255,160,200,0.12);
+  color: rgba(255,100,130,1.0);
+  border-top: 1px solid rgba(255,160,200,0.25);
+  width: 100%;
+  background: none;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .header-icon:hover {
@@ -12061,7 +12065,7 @@ body.flash-super::after {
 .pz-board {
   --pz-size: 4;
   --pz-gap: 4px;
-  --pz-tile-size: calc((100dvw - 48px) / var(--pz-size));
+  --pz-tile-size: min(calc((100dvw - 48px) / var(--pz-size)), calc((320px - var(--pz-gap) * (var(--pz-size) - 1)) / var(--pz-size)));
   max-width: 332px;
   display: grid;
   grid-template-columns: repeat(var(--pz-size), var(--pz-tile-size));

@@ -105,13 +105,14 @@ end
 # タスク更新処理
 # =====================
 def update
-  if @task.update(task_params)
+  ActiveRecord::Base.transaction do
+    @task.update!(task_params)
 
     if @task.saved_change_to_done? && @task.done?
       before_stage = current_user.ribbon_stage
       current_user.increment!(:completed_count)
       current_user.increment!(:coins, @task.coin_reward)
-      @task.update(completed_at: Time.current)
+      @task.update!(completed_at: Time.current)
 
       after_stage = current_user.ribbon_stage
       if after_stage > before_stage
@@ -123,13 +124,13 @@ def update
     if @task.saved_change_to_done? && !@task.done?
       current_user.decrement!(:completed_count) if current_user.completed_count > 0
       current_user.decrement!(:coins, @task.coin_reward) if current_user.coins >= @task.coin_reward
-      @task.update(completed_at: nil)
+      @task.update!(completed_at: nil)
     end
-
-    redirect_back fallback_location: tasks_path, notice: "🎉 えらい！がんばり達成！ #{current_user.badge}"
-  else
-    render :edit, status: :unprocessable_entity
   end
+
+  redirect_back fallback_location: tasks_path, notice: "🎉 えらい！がんばり達成！ #{current_user.badge}"
+rescue ActiveRecord::RecordInvalid
+  render :edit, status: :unprocessable_entity
 end
 
   # =====================

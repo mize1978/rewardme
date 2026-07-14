@@ -8,7 +8,7 @@ const COLOR_META = {
   purple: { gradient: "linear-gradient(to bottom, #d090ff, #9040e8)" },
   yellow: { gradient: "linear-gradient(to bottom, #ffe878, #ffb820)" },
   green:  { gradient: "linear-gradient(to bottom, #90ffcc, #30c880)" },
-  rose:   { gradient: "linear-gradient(to bottom, #ffb0c8, #e83070)" },
+  rose:   { gradient: "linear-gradient(to bottom, #ff6666, #cc0011)" },
   orange: { gradient: "linear-gradient(to bottom, #ffd080, #ff8020)" },
 }
 

@@ -913,6 +913,11 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(255, 143, 171, 0.2);
 }
 
+select option {
+  background: #2a0a40;
+  color: #f5e6ff;
+}
+
 /* ボタンをぷにっと */
 button,
 input[type="submit"],

@@ -139,14 +139,16 @@ end
     roll   = rand(total)
     cumul  = 0
     prize  = BOX_PRIZES.find { |p| (cumul += p[:weight]) > roll }
-    case prize[:type]
-    when :coins then increment!(:coins, prize[:amount])
-    when :exp   then increment!(:completed_count, prize[:amount])
+    ActiveRecord::Base.transaction do
+      case prize[:type]
+      when :coins then increment!(:coins, prize[:amount])
+      when :exp   then increment!(:completed_count, prize[:amount])
+      end
+      update!(
+        last_box_opened_at: Time.current,
+        last_box_prize: { type: prize[:type].to_s, label: prize[:label], rarity: prize[:rarity] }
+      )
     end
-    update!(
-      last_box_opened_at: Time.current,
-      last_box_prize: { type: prize[:type].to_s, label: prize[:label], rarity: prize[:rarity] }
-    )
     prize
   end
 

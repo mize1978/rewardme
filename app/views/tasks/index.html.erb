@@ -92,6 +92,85 @@
 
     <div class="center-bottom">
 
+      <div class="tasks-panel">
+        <div class="tasks-panel-header">
+          <p class="panel-title">今日のタスク</p>
+          <%= link_to "+ 追加", new_task_path, class: "tasks-add-btn" %>
+        </div>
+
+        <div class="tasks-benny-row" data-controller="benny">
+          <div class="tasks-benny-float">
+            <%= image_tag current_user.benny_image,
+                  class: "tasks-benny-img",
+                  alt: "ベニーリボン",
+                  "data-benny-target": "img" %>
+          </div>
+          <div class="tasks-benny-bubble" data-benny-target="bubble">
+            <% if @done_tasks.any? && @not_done_tasks.empty? %>
+              今日も全部終わったね！🎉
+            <% elsif @not_done_tasks.any? %>
+              一緒にがんばろうね♡
+            <% else %>
+              今日は何から始める？♡
+            <% end %>
+          </div>
+        </div>
+
+        <div id="not-done-tasks">
+          <% if @not_done_tasks.empty? %>
+            <% if @done_tasks.any? %>
+              <div class="tasks-all-done">
+                <%= image_tag "puzzle_11.png", class: "tasks-all-done-img", alt: "今日も全部終わったね！" %>
+                <p class="tasks-all-done-msg">今日も全部終わったね！🎉</p>
+              </div>
+            <% else %>
+              <div class="tasks-zero-chips">
+                  <% [
+                    { emoji: "💪", label: "ストレッチ",     category: "健康", priority: "low"    },
+                    { emoji: "🧹", label: "部屋を片付ける", category: "家事",  priority: "medium" },
+                    { emoji: "💧", label: "水を飲む",       category: "健康", priority: "low"    },
+                    { emoji: "📚", label: "読書",           category: "学習",  priority: "medium" },
+                    { emoji: "🚶", label: "散歩",           category: "健康", priority: "low"    },
+                  ].each do |t| %>
+                    <%= button_to tasks_path,
+                          method: :post,
+                          class: "tasks-zero-chip",
+                          params: { task: { title: t[:label], category: t[:category], priority: t[:priority], date: Time.current.in_time_zone("Tokyo").to_date, done: false } } do %>
+                      <span><%= t[:emoji] %> <%= t[:label] %></span>
+                      <span class="tasks-zero-chip-plus">＋</span>
+                    <% end %>
+                  <% end %>
+                </div>
+            <% end %>
+          <% else %>
+            <% @not_done_tasks.each do |task| %>
+              <div class="task-card <%= "priority-#{task.priority}" %>">
+                <div class="task-card-inner">
+                  <%= button_to "", task_path(task, task: { done: true }), method: :patch, class: "task-circle-btn" %>
+                  <span class="task-title-text"><%= task.title %></span>
+                  <div class="task-right">
+                    <span class="category-chip category-<%= task.category %>"><%= task.category %></span>
+                    <span class="task-star">★</span>
+                    <span class="task-exp"><%= task.coin_reward %> EXP</span>
+                  </div>
+                  <%= button_to "×", task_path(task), method: :delete, class: "task-delete-btn" %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <% total = @not_done_tasks.count + @done_tasks.count %>
+        <% if total > 0 %>
+          <div class="tasks-panel-footer">
+            <span class="tasks-footer-count"><%= @done_tasks.count %> / <%= total %> 完了</span>
+            <% if @not_done_tasks.any? %>
+              <% remaining_coins = @not_done_tasks.sum(&:coin_reward) %>
+              <span class="tasks-footer-reward">🎁 全部終わると +<%= remaining_coins %>コイン</span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
       <div class="week-panel">
         <p class="panel-title">📅 今週の記録</p>
         <div class="week-grid">
@@ -139,85 +218,6 @@
           <%= image_tag "icon_game_ribbon.png", class: "week-games-link-icon", alt: "" %>
           <span>ミニゲームで遊ぶ</span>
           <span class="week-games-link-arrow">→</span>
-        <% end %>
-      </div>
-
-      <div class="tasks-panel">
-        <div class="tasks-panel-header">
-          <p class="panel-title">今日のタスク</p>
-          <%= link_to "+ 追加", new_task_path, class: "tasks-add-btn" %>
-        </div>
-
-        <div class="tasks-benny-row" data-controller="benny">
-          <div class="tasks-benny-float">
-            <%= image_tag current_user.benny_image,
-                  class: "tasks-benny-img",
-                  alt: "ベニーリボン",
-                  "data-benny-target": "img" %>
-          </div>
-          <div class="tasks-benny-bubble" data-benny-target="bubble">
-            <% if @done_tasks.any? && @not_done_tasks.empty? %>
-              今日も全部終わったね！🎉
-            <% elsif @not_done_tasks.any? %>
-              一緒にがんばろうね♡
-            <% else %>
-              今日は何から始める？♡
-            <% end %>
-          </div>
-        </div>
-
-        <div id="not-done-tasks">
-          <% if @not_done_tasks.empty? %>
-            <% if @done_tasks.any? %>
-              <div class="tasks-all-done">
-                <%= image_tag "puzzle_11.png", class: "tasks-all-done-img", alt: "今日も全部終わったね！" %>
-                <p class="tasks-all-done-msg">今日も全部終わったね！🎉</p>
-              </div>
-            <% else %>
-              <div class="tasks-zero-chips">
-                  <% [
-                    { emoji: "💪", label: "ストレッチ",     category: "health", priority: "low"    },
-                    { emoji: "🧹", label: "部屋を片付ける", category: "other",  priority: "medium" },
-                    { emoji: "💧", label: "水を飲む",       category: "health", priority: "low"    },
-                    { emoji: "📚", label: "読書",           category: "study",  priority: "medium" },
-                    { emoji: "🚶", label: "散歩",           category: "health", priority: "low"    },
-                  ].each do |t| %>
-                    <%= button_to tasks_path,
-                          method: :post,
-                          class: "tasks-zero-chip",
-                          params: { task: { title: t[:label], category: t[:category], priority: t[:priority], date: Time.current.in_time_zone("Tokyo").to_date, done: false } } do %>
-                      <span><%= t[:emoji] %> <%= t[:label] %></span>
-                      <span class="tasks-zero-chip-plus">＋</span>
-                    <% end %>
-                  <% end %>
-                </div>
-            <% end %>
-          <% else %>
-            <% @not_done_tasks.each do |task| %>
-              <div class="task-card <%= "priority-#{task.priority}" %>">
-                <div class="task-card-inner">
-                  <%= button_to "", task_path(task, task: { done: true }), method: :patch, class: "task-circle-btn" %>
-                  <span class="task-title-text"><%= task.title %></span>
-                  <div class="task-right">
-                    <span class="category-chip category-<%= task.category %>"><%= task.category %></span>
-                    <span class="task-star">★</span>
-                    <span class="task-exp"><%= task.coin_reward %> EXP</span>
-                  </div>
-                  <%= button_to "×", task_path(task), method: :delete, class: "task-delete-btn" %>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
-        <% total = @not_done_tasks.count + @done_tasks.count %>
-        <% if total > 0 %>
-          <div class="tasks-panel-footer">
-            <span class="tasks-footer-count"><%= @done_tasks.count %> / <%= total %> 完了</span>
-            <% if @not_done_tasks.any? %>
-              <% remaining_coins = @not_done_tasks.sum(&:coin_reward) %>
-              <span class="tasks-footer-reward">🎁 全部終わると +<%= remaining_coins %>コイン</span>
-            <% end %>
-          </div>
         <% end %>
       </div>
 
