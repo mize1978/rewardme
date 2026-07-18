@@ -1,6 +1,9 @@
 #!/bin/bash
-set -e
 
-bundle exec rails db:migrate
+echo "Waiting for database..."
+until bundle exec rails db:migrate 2>&1; do
+  echo "Database not ready, retrying in 3s..."
+  sleep 3
+done
 
 exec "$@"
