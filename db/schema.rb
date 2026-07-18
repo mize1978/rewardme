@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_07_02_120000) do
+ActiveRecord::Schema[7.0].define(version: 2026_07_18_000001) do
   create_table "tasks", charset: "utf8mb4", force: :cascade do |t|
     t.string "title"
     t.boolean "done"
@@ -33,7 +33,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_07_02_120000) do
     t.string "first_name"
     t.string "last_name"
     t.integer "completed_count", default: 0
-    t.string "nickname"
+    t.string "nickname", limit: 50, default: "", null: false
     t.integer "coins", default: 0, null: false
     t.integer "lives", default: 5, null: false
     t.json "owned_furniture"

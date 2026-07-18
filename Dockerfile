@@ -19,11 +19,10 @@ FROM ruby:3.1.4
 RUN apt-get update -qq && apt-get install -y libpq-dev
 
 WORKDIR /app
-COPY Gemfile Gemfile.lock ./
-RUN bundle install
+COPY --from=builder /usr/local/bundle /usr/local/bundle
+COPY --from=builder /app/public/assets /app/public/assets
 
 COPY . .
-COPY --from=builder /app/public/assets /app/public/assets
 
 ENV RAILS_ENV=production
 ENV RAILS_SERVE_STATIC_FILES=enabled
