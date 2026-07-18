@@ -1,0 +1,42 @@
+require:
+  - rubocop-rails
+  - rubocop-performance
+
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable
+  Exclude:
+    - "bin/**/*"
+    - "db/schema.rb"
+    - "db/migrate/**/*"
+    - "config/**/*"
+    - "vendor/**/*"
+    - "node_modules/**/*"
+
+# 行の長さは120文字まで許容
+Layout/LineLength:
+  Max: 120
+
+# メソッド長は25行まで許容
+Metrics/MethodLength:
+  Max: 25
+
+# クラス長は150行まで許容
+Metrics/ClassLength:
+  Max: 150
+
+# ABCサイズは緩め
+Metrics/AbcSize:
+  Max: 25
+
+# ブロック長は緩め
+Metrics/BlockLength:
+  Max: 40
+
+# Railsのモデル/コントローラは日本語コメント可
+Style/AsciiComments:
+  Enabled: false
+
+# frozen_string_literal はオプション
+Style/FrozenStringLiteralComment:
+  Enabled: false
