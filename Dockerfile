@@ -12,7 +12,8 @@ COPY . /app
 ENV RAILS_ENV=production
 ENV RAILS_SERVE_STATIC_FILES=enabled
 ENV RAILS_LOG_TO_STDOUT=enabled
-RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
+ARG SECRET_KEY_BASE=dummy
+RUN bundle exec rails assets:precompile
 EXPOSE 3000
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
