@@ -1,9 +1,8 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  email: MyString
-  password_digest: MyString
-
-two:
-  email: MyString
-  password_digest: MyString
+  email: test@example.com
+  password_digest: <%= BCrypt::Password.create('password') %>
+  nickname: テストユーザー
+  coins: 0
+  completed_count: 0
+  egg_color: pink
+  current_room_bg: default

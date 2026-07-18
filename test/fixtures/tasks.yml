@@ -1,9 +1,5 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  title: MyString
+  title: テストタスク
   done: false
-
-two:
-  title: MyString
-  done: false
+  coin_reward: 10
+  user: one
