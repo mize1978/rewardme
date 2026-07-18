@@ -29,7 +29,3 @@ group :development do
   gem "rubocop-performance", require: false
 end
 
-group :test do
-  gem "capybara"
-  gem "selenium-webdriver"
-end

@@ -253,4 +253,13 @@ end
 
   validates :email, presence: true, uniqueness: true
   validates :nickname, presence: true
+  validate :last_box_prize_structure, if: -> { last_box_prize.present? }
+
+  private
+
+  def last_box_prize_structure
+    return if last_box_prize.is_a?(Hash) &&
+              %w[type label rarity].all? { |k| last_box_prize.key?(k) }
+    errors.add(:last_box_prize, "は不正な形式です")
+  end
 end
