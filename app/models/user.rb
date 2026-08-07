@@ -134,12 +134,15 @@ end
   end
 
   def open_box!
-    return nil unless box_available?
-    total  = BOX_PRIZES.sum { |p| p[:weight] }
-    roll   = rand(total)
-    cumul  = 0
-    prize  = BOX_PRIZES.find { |p| (cumul += p[:weight]) > roll }
-    ActiveRecord::Base.transaction do
+    # 行ロックを取り、ロック取得後に box_available? を再チェックしてから付与する。
+    # これで並列リクエストでも同日に BOX が複数回開くことはない（二重取得の防止）。
+    with_lock do
+      next nil unless box_available?
+
+      total = BOX_PRIZES.sum { |p| p[:weight] }
+      roll  = rand(total)
+      cumul = 0
+      prize = BOX_PRIZES.find { |p| (cumul += p[:weight]) > roll }
       case prize[:type]
       when :coins then increment!(:coins, prize[:amount])
       when :exp   then increment!(:completed_count, prize[:amount])
@@ -148,8 +151,8 @@ end
         last_box_opened_at: Time.current,
         last_box_prize: { type: prize[:type].to_s, label: prize[:label], rarity: prize[:rarity] }
       )
+      prize
     end
-    prize
   end
 
   def today_prize
