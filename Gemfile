@@ -3,29 +3,28 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.1.4"
 
-gem "rails", "~> 7.0.10"
-gem "sprockets-rails"
-gem "sassc-rails"
-gem "importmap-rails"
-gem "turbo-rails"
-gem "stimulus-rails"
-gem "jbuilder"
 gem "bcrypt", "~> 3.1.7"
-gem "simple_calendar"
-gem "puma", ">= 5.0"
 gem "bootsnap", require: false
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "importmap-rails"
+gem "jbuilder"
+gem "puma", ">= 5.0"
+gem "rails", "~> 7.0.10"
+gem "sassc-rails"
+gem "simple_calendar"
+gem "sprockets-rails"
+gem "stimulus-rails"
+gem "turbo-rails"
+gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 gem "mysql2", group: %i[development test]
 gem "pg", group: :production
 
 group :development, :test do
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "debug", platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
-  gem "web-console"
-  gem "rubocop-rails", require: false
   gem "rubocop-performance", require: false
+  gem "rubocop-rails", require: false
+  gem "web-console"
 end
-
