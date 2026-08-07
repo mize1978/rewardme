@@ -14,21 +14,20 @@ class GamesController < ApplicationController
   end
 
   def tap_game_result
-    if current_user.tap_game_played_today?
-      render json: { error: "already_played" }, status: :unprocessable_entity
-      return
+    result = current_user.with_lock do
+      next { error: "already_played", status: :unprocessable_entity } if current_user.tap_game_played_today?
+
+      score = params[:score].to_i.clamp(0, 999)
+      coins = coins_for(score)
+      current_user.update!(
+        coins:                   current_user.coins + coins,
+        tap_game_last_played_at: Time.current,
+        tap_game_high_score:     [current_user.tap_game_high_score, score].max
+      )
+      { coins: coins, total_coins: current_user.coins }
     end
 
-    score = params[:score].to_i.clamp(0, 999)
-    coins = coins_for(score)
-
-    current_user.update!(
-      coins:                   current_user.coins + coins,
-      tap_game_last_played_at: Time.current,
-      tap_game_high_score:     [current_user.tap_game_high_score, score].max
-    )
-
-    render json: { coins: coins, total_coins: current_user.coins }
+    render_game_result(result)
   end
 
   # ===================== ガチャ =====================
@@ -63,28 +62,26 @@ class GamesController < ApplicationController
   end
 
   def puzzle_result
-    if current_user.puzzle_played_out?
-      render json: { error: "played_out" }, status: :unprocessable_entity
-      return
+    result = current_user.with_lock do
+      next { error: "played_out", status: :unprocessable_entity } if current_user.puzzle_played_out?
+
+      prev_clears = current_user.puzzle_clears_count
+      current_user.record_puzzle_play!
+      # 付与額はサーバ側で決定する。クライアント送信の coins は信頼しない。
+      current_user.update!(
+        coins:               current_user.coins + PUZZLE_COINS,
+        puzzle_clears_count: current_user.puzzle_clears_count + 1
+      )
+      {
+        coins:          PUZZLE_COINS,
+        total_coins:    current_user.coins,
+        plays_left:     current_user.puzzle_plays_remaining,
+        clears:         current_user.puzzle_clears_count,
+        newly_unlocked: current_user.newly_unlocked_puzzles(prev_clears).map { |p| p.except(:file) }
+      }
     end
 
-    coins = params[:coins].to_i.clamp(50, 200)
-    prev_clears = current_user.puzzle_clears_count
-    current_user.record_puzzle_play!
-    current_user.update!(
-      coins:               current_user.coins + coins,
-      puzzle_clears_count: current_user.puzzle_clears_count + 1
-    )
-
-    newly_unlocked = current_user.newly_unlocked_puzzles(prev_clears)
-
-    render json: {
-      coins:          PUZZLE_COINS,
-      total_coins:    current_user.coins,
-      plays_left:     current_user.puzzle_plays_remaining,
-      clears:         current_user.puzzle_clears_count,
-      newly_unlocked: newly_unlocked.map { |p| p.except(:file) }
-    }
+    render_game_result(result)
   end
 
   def puzzle_select
@@ -111,46 +108,55 @@ class GamesController < ApplicationController
   end
 
   def potion_game_result
-    stage = params[:stage].to_i.clamp(1, 10)
-    coins = potion_coins_for(stage)
+    result = current_user.with_lock do
+      stage    = params[:stage].to_i.clamp(1, 10)
+      high     = [current_user.potion_game_high_stage.to_i, stage].max
+      already  = current_user.potion_game_played_today?
+      coins    = already ? 0 : potion_coins_for(stage)
 
-    already = current_user.potion_game_played_today?
-    awarded_coins = already ? 0 : coins
-
-    if !already
-      current_user.update!(
-        coins:                     current_user.coins + coins,
-        potion_game_last_played_at: Time.current,
-        potion_game_high_stage:    [current_user.potion_game_high_stage.to_i, stage].max
-      )
-    else
-      current_user.update!(
-        potion_game_high_stage: [current_user.potion_game_high_stage.to_i, stage].max
-      )
+      if already
+        current_user.update!(potion_game_high_stage: high)
+      else
+        current_user.update!(
+          coins:                      current_user.coins + coins,
+          potion_game_last_played_at: Time.current,
+          potion_game_high_stage:     high
+        )
+      end
+      { coins: coins, total_coins: current_user.coins, stage: stage, already_played: already }
     end
 
-    render json: { coins: awarded_coins, total_coins: current_user.coins, stage: stage, already_played: already }
+    render_game_result(result)
   end
 
   def match_game_result
-    if current_user.match_game_played_today?
-      render json: { error: "already_played" }, status: :unprocessable_entity
-      return
+    result = current_user.with_lock do
+      next { error: "already_played", status: :unprocessable_entity } if current_user.match_game_played_today?
+
+      score = params[:score].to_i.clamp(0, 9999)
+      coins = match_coins_for(score)
+      current_user.update!(
+        coins:                     current_user.coins + coins,
+        match_game_last_played_at: Time.current,
+        match_game_high_score:     [current_user.match_game_high_score, score].max
+      )
+      { coins: coins, total_coins: current_user.coins }
     end
 
-    score = params[:score].to_i.clamp(0, 9999)
-    coins = match_coins_for(score)
-
-    current_user.update!(
-      coins:                    current_user.coins + coins,
-      match_game_last_played_at: Time.current,
-      match_game_high_score:    [current_user.match_game_high_score, score].max
-    )
-
-    render json: { coins: coins, total_coins: current_user.coins }
+    render_game_result(result)
   end
 
   private
+
+  # with_lock ブロックが返した結果を描画する。
+  # :error を含むときだけエラーレスポンス、それ以外は結果をそのまま JSON で返す。
+  def render_game_result(result)
+    if result[:error]
+      render json: { error: result[:error] }, status: result[:status]
+    else
+      render json: result
+    end
+  end
 
   def potion_coins_for(stage)
     return 200 if stage >= 6
