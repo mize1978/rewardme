@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  layout 'lp', only: [:lp]
+  layout "lp", only: [:lp]
 
   skip_before_action :require_login, only: [:lp]
   before_action :require_login, except: [:lp]

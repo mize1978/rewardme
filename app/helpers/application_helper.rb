@@ -20,12 +20,12 @@ module ApplicationHelper
     return [] unless current_user
     @notification_tasks ||= current_user.tasks
       .where(done: false)
-      .where('date IS NOT NULL AND date <= ?', Date.current)
+      .where("date IS NOT NULL AND date <= ?", Date.current)
       .order(date: :asc)
       .limit(15)
   end
 
   def ribbon_color_class(user = current_user)
-    "ribbon-color--#{user&.egg_color || 'pink'}"
+    "ribbon-color--#{user&.egg_color || "pink"}"
   end
 end

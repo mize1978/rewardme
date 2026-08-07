@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 require:
   - rubocop-rails
   - rubocop-performance
@@ -12,6 +14,7 @@ AllCops:
     - "config/**/*"
     - "vendor/**/*"
     - "node_modules/**/*"
+    - "v4_basic_bug_application/**/*"  # 別プロジェクト（git submodule・独自のRuboCop設定を持つ）
 
 # 行の長さは120文字まで許容
 Layout/LineLength:
@@ -39,4 +42,12 @@ Style/AsciiComments:
 
 # frozen_string_literal はオプション
 Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# コードベースは Rails 標準の二重引用符で統一されているため、それに合わせる
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+# 全クラスに doc コメントは必須としない（Rails アプリの一般的な方針）
+Style/Documentation:
   Enabled: false
