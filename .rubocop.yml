@@ -32,9 +32,11 @@ Metrics/ClassLength:
 Metrics/AbcSize:
   Max: 25
 
-# ブロック長は緩め
+# ブロック長は緩め（spec の describe/context は長くなるのが自然なので除外）
 Metrics/BlockLength:
   Max: 40
+  Exclude:
+    - "spec/**/*"
 
 # Railsのモデル/コントローラは日本語コメント可
 Style/AsciiComments:
