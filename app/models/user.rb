@@ -254,7 +254,8 @@ end
     PUZZLE_IMAGES.select { |p| p[:unlock_at] > prev_clears && p[:unlock_at] <= puzzle_clears_count }
   end
 
-  validates :email, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true,
+                    format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :nickname, presence: true
   validate :last_box_prize_structure, if: -> { last_box_prize.present? }
 

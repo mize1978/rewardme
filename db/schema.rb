@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_07_18_000001) do
+ActiveRecord::Schema[7.0].define(version: 2026_08_09_000001) do
   create_table "tasks", charset: "utf8mb4", force: :cascade do |t|
     t.string "title"
     t.boolean "done"
@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_07_18_000001) do
     t.integer "match_game_high_score", default: 0, null: false
     t.datetime "potion_game_last_played_at"
     t.integer "potion_game_high_stage"
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "tasks", "users"
