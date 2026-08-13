@@ -66,6 +66,13 @@
         <%= f.submit "✦ 登録する ✦", class: "login-btn-new" %>
       <% end %>
 
+      <%# 登録不要で試せる共通の逃げ道（LP・ログイン・新規登録すべてに設置。Issue #15） %>
+      <div class="login-or" aria-hidden="true"><span>または</span></div>
+
+      <%= button_to guest_login_path, class: "login-guest-btn", form: { style: "display:contents" } do %>
+        <span class="login-guest-icon">👀</span> ゲストで試す
+      <% end %>
+
       <p class="login-signup-link">
         すでにアカウントをお持ちの方は
         <%= link_to "ログイン", login_path, class: "login-link" %>
