@@ -49,6 +49,7 @@
         <%= link_to signup_path, class: "lp-btn-primary lp-btn-large" do %>
           🎀 無料ではじめる
         <% end %>
+        <%= button_to "👀 登録なしで試す", guest_login_path, class: "lp-btn-ghost", form: { style: "display:contents" } %>
         <%= link_to login_path, class: "lp-btn-ghost" do %>
           ログイン
         <% end %>
