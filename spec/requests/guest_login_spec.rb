@@ -29,5 +29,8 @@ RSpec.describe "Guest login", type: :request do
 
     get login_path
     expect(response).to have_http_status(:ok)
+    # ログイン画面のゲスト導線（ログイン → または → ゲストで試す → 新規登録）
+    expect(response.body).to include("ゲストで試す")
+    expect(response.body).to include("または")
   end
 end

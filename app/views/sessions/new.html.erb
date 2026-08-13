@@ -53,14 +53,16 @@
         <%= submit_tag "✦ ログイン ✦", class: "login-btn-new" %>
       <% end %>
 
+      <%# 登録不要で作品を試せる導線を、ログインと並ぶ「体験への入口」に昇格（Issue #15 の後追い） %>
+      <div class="login-or" aria-hidden="true"><span>または</span></div>
+
+      <%= button_to guest_login_path, class: "login-guest-btn", form: { style: "display:contents" } do %>
+        <span class="login-guest-icon">👀</span> ゲストで試す
+      <% end %>
+
       <p class="login-signup-link">
         アカウントをお持ちでない方は
         <%= link_to "新規登録", signup_path, class: "login-link" %>
-      </p>
-
-      <p class="login-signup-link">
-        登録せずに試すなら
-        <%= button_to "👀 ゲストで試す", guest_login_path, class: "login-link", form: { style: "display:inline" } %>
       </p>
     </div>
   </div>
