@@ -627,6 +627,53 @@ body:has(.login-page) {
 
 .login-link:hover { text-decoration: underline; }
 
+/* ===== 「または」区切り ===== */
+.login-or {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 2px;
+  color: rgba(240, 200, 255, 0.45);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.login-or::before,
+.login-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200, 140, 255, 0.25), transparent);
+}
+
+/* ===== ゲストで試す（セカンダリ：枠も塗りもなし・余白で見せるCTA） ===== */
+.login-guest-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  background: none;
+  border: none;
+  border-radius: 999px;
+  color: rgba(255, 200, 224, 0.85);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: color 0.2s ease, text-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.login-guest-btn:hover {
+  color: #ffd6e6;
+  text-shadow: 0 0 14px rgba(255, 140, 210, 0.55);
+  transform: translateY(-1px);
+}
+
+.login-guest-icon { font-size: 15px; }
+
 /* ===== ログイン BGM ボタン ===== */
 .login-bgm-btn {
   position: fixed;
