@@ -57,6 +57,11 @@
         アカウントをお持ちでない方は
         <%= link_to "新規登録", signup_path, class: "login-link" %>
       </p>
+
+      <p class="login-signup-link">
+        登録せずに試すなら
+        <%= button_to "👀 ゲストで試す", guest_login_path, class: "login-link", form: { style: "display:inline" } %>
+      </p>
     </div>
   </div>
 

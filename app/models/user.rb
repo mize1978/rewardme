@@ -3,6 +3,24 @@ class User < ApplicationRecord
 
   has_many :tasks, dependent: :destroy
 
+  # ===== ゲストログイン（Issue #15）=====
+  # 登録なしで即体験できるゲストを1件作る。email/password は自動生成で必須validationを満たす。
+  # egg_color は「あえて未設定」にして、既存の卵選びオンボーディングをゲストにも体験してもらう。
+  def self.create_guest!
+    create!(
+      email:    "guest-#{SecureRandom.hex(8)}@guest.rewardme.local",
+      password: SecureRandom.hex(16),
+      nickname: "ゲスト",
+      is_guest: true
+    )
+  end
+
+  # 放置ゲストの定期削除。対象は is_guest のみ＝通常ユーザーには影響しない。
+  # 関連タスクも dependent: :destroy で一緒に消えるよう destroy_all を使う。
+  def self.cleanup_guests!(older_than: 1.day)
+    where(is_guest: true).where(created_at: ...older_than.ago).destroy_all
+  end
+
 def badge
   count = completed_count || 0
 

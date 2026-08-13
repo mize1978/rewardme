@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
 
+  # ゲストログイン（登録なしで即体験。Issue #15）
+  post "guest_login", to: "sessions#guest", as: :guest_login
+
   resources :tasks
 
   get  'shop',                  to: 'furnitures#shop',   as: :shop
