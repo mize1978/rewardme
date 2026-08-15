@@ -8,7 +8,7 @@
     <div class="games-lobby-header games-lobby-hero">
       <div class="games-lobby-hero-overlay"></div>
       <h1 class="games-lobby-title">🎮 ミニゲーム</h1>
-      <p class="games-lobby-sub">毎日遊んでコインをゲットしよう！</p>
+      <p class="games-lobby-sub">今日はどれで遊ぶ？</p>
     </div>
 
     <div class="games-lobby-grid">
@@ -66,13 +66,22 @@
         </div>
         <div class="game-card-icon">🧩</div>
         <h2 class="game-card-title">リボンパズル</h2>
-        <p class="game-card-desc">4×4のスライドパズルを<br>クリアしてコインゲット！</p>
-        <div class="game-card-meta">
-          <span class="game-card-meta-item">🔄 1日3回</span>
-          <span class="game-card-meta-item">🏆 クリア数: <strong><%= current_user.puzzle_clears_count %></strong></span>
+        <p class="game-card-desc">4×4のスライドパズルを<br>そろえて絵を完成させよう</p>
+
+        <%# ===== COLLECT：次の1枚を主役にする ===== %>
+        <% nxt   = current_user.next_puzzle_image %>
+        <% to_go = current_user.puzzle_clears_to_next %>
+        <div class="game-card-focus game-card-focus--collect">
+          <% if nxt %>
+            <span class="gcf-lead">あと <strong><%= to_go %></strong> 回で</span>
+            <span class="gcf-main">「<%= nxt[:name] %>」</span>
+          <% else %>
+            <span class="gcf-main">12枚ぜんぶ集めた！</span>
+          <% end %>
         </div>
-        <div class="game-card-reward">
-          <span>クリアで</span><span class="game-card-coin">🪙 100コイン</span>
+        <div class="game-card-meta">
+          <span class="game-card-meta-item">🖼 COLLECTION <strong><%= current_user.puzzle_collection_owned %></strong> / <%= current_user.puzzle_collection_total %></span>
+          <span class="game-card-meta-item game-card-meta-item--coin">＋100 COIN</span>
         </div>
         <%= link_to puzzle_game_path, class: "game-card-btn #{current_user.puzzle_plays_remaining == 0 ? 'game-card-btn--done' : ''}" do %>
           <%= current_user.puzzle_plays_remaining == 0 ? "また明日！" : "▶ プレイ" %>

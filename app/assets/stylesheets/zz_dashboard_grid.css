@@ -1,5 +1,5 @@
 /* ============================================================
-   RewardMe – dashboard grid graft (GRAFT 01 / v16・PURPLE成長ルーム)
+   RewardMe – dashboard grid graft (GRAFT 01 / v17・ゲームロビー①)
    ------------------------------------------------------------
    完成カンプ実測（1920×1080・コンテナ1760・gap20）を規定値とする。
 
@@ -633,6 +633,56 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
     text-align: center;
     margin-top: 1px;
   }
+}
+
+/* ================================================================
+   v17: ゲームロビー① — 金色の報酬帯を「役割の帯」に置き換える
+   ----------------------------------------------------------------
+   従来 .game-card-reward は金色の背景＋金色の太字コインで、
+   4ゲームすべてを「コイン自販機」に見せていた。
+   .game-card-focus は同じ位置に座り、そのゲーム固有の
+   「次に起きること」を主役にする。色はシステムカラーとして
+   固定せず、カード既存のビジュアルに馴染む薄さに留める。
+   ================================================================ */
+.game-card-focus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 9px 10px;
+  margin: 2px 0 4px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  text-align: center;
+}
+.game-card-focus .gcf-lead {
+  font-size: 11.5px;
+  color: rgba(255, 210, 240, 0.68);
+  line-height: 1.2;
+}
+.game-card-focus .gcf-lead strong {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffd9ee;
+}
+.game-card-focus .gcf-main {
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #ffe9f7;
+}
+
+/* COLLECT（パズル）: 次の1枚に、ほんのり期待の色を乗せる */
+.game-card-focus--collect {
+  background: rgba(255, 142, 196, 0.10);
+  border-color: rgba(255, 142, 196, 0.22);
+}
+
+/* コインは副情報へ降格（金色の主張をやめ、他のメタ行と同格に） */
+.game-card-meta-item--coin {
+  color: rgba(255, 215, 120, 0.62) !important;
+  font-weight: 600;
 }
 
 /* ============================================================

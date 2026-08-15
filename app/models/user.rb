@@ -288,6 +288,22 @@ end
     PUZZLE_IMAGES.select { |p| puzzle_clears_count >= p[:unlock_at] }
   end
 
+  # ===== COLLECTION：次に出会えるイラスト =====
+  # ロビーのパズルカードで「あと○回で『お花見』」と示すために使う。
+  # 全部そろっていれば nil を返す。
+  def next_puzzle_image
+    PUZZLE_IMAGES.select { |p| p[:unlock_at] > (puzzle_clears_count || 0) }
+                 .min_by { |p| p[:unlock_at] }
+  end
+
+  def puzzle_clears_to_next
+    nxt = next_puzzle_image
+    nxt && (nxt[:unlock_at] - (puzzle_clears_count || 0))
+  end
+
+  def puzzle_collection_total = PUZZLE_IMAGES.size
+  def puzzle_collection_owned = owned_puzzle_images.size
+
   def owned_puzzle_ids
     owned_puzzle_images.map { |p| p[:id] }
   end
