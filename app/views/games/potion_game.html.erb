@@ -1,7 +1,8 @@
 <div class="pg-wrap"
      data-controller="potion-game"
      data-potion-game-result-url="<%= potion_game_result_path %>"
-     data-potion-game-already-played="<%= @already_played %>">
+     data-potion-game-already-played="<%= @already_played %>"
+     data-potion-game-best-stage="<%= current_user.potion_best_stage %>">
 
   <%# ━━━ スタート画面 ━━━ %>
   <div class="pg-screen pg-screen--start" data-potion-game-target="startScreen">
@@ -13,7 +14,11 @@
       <div class="pg-score-board">
         <div class="pg-score-item">
           <span class="pg-score-label">最高ステージ</span>
-          <span class="pg-score-value">Stage <strong><%= [@high_stage, 1].max %></strong></span>
+          <% if current_user.potion_best_stage.zero? %>
+            <span class="pg-score-value pg-score-value--used">— 未挑戦</span>
+          <% else %>
+            <span class="pg-score-value">Stage <strong><%= current_user.potion_best_stage %></strong></span>
+          <% end %>
         </div>
         <div class="pg-score-item">
           <span class="pg-score-label">今日のコイン</span>
@@ -74,7 +79,24 @@
         <div class="pg-how-step"><span class="pg-how-num">③</span><span>魔法陣を完成させよう！</span></div>
       </div>
 
-      <button class="pg-btn pg-btn--start" data-action="potion-game#start">✨ はじめる</button>
+      <%# ===== CHALLENGE：次の未攻略Stageからつづける ===== %>
+      <% pg_best = current_user.potion_best_stage %>
+      <% pg_next = current_user.potion_next_stage %>
+      <% if pg_next.nil? %>
+        <p class="pg-cleared-msg">🏆 全<%= User::POTION_MAX_STAGE %>ステージクリア！</p>
+        <button class="pg-btn pg-btn--start" data-action="potion-game#start">
+          ✨ Stage <%= User::POTION_MAX_STAGE %> をもう一度
+        </button>
+      <% elsif pg_best.zero? %>
+        <button class="pg-btn pg-btn--start" data-action="potion-game#start">✨ はじめる</button>
+      <% else %>
+        <button class="pg-btn pg-btn--start" data-action="potion-game#start">
+          ✨ Stage <%= pg_next %> からつづける
+        </button>
+      <% end %>
+      <% if pg_best > 0 %>
+        <button class="pg-restart-link" data-action="potion-game#startFromBeginning">Stage 1 から遊ぶ</button>
+      <% end %>
       <%= link_to "← ゲームに戻る", games_path, class: "game-back-link" %>
     </div>
   </div>

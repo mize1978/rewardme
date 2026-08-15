@@ -304,6 +304,19 @@ end
   def puzzle_collection_total = PUZZLE_IMAGES.size
   def puzzle_collection_owned = owned_puzzle_images.size
 
+  # ===== CHALLENGE：ポーションの到達段階 =====
+  # ゲーム本体の難易度表は Stage 1〜6（6=鬼むず・7色）。
+  # ロビーのカードで「BEST Stage n → 次は Stage n+1 へ」と示すために使う。
+  POTION_MAX_STAGE = 6
+
+  def potion_best_stage = potion_game_high_stage.to_i
+
+  # 次に挑む段階。未プレイ(0)なら 1。制覇済みなら nil。
+  def potion_next_stage
+    b = potion_best_stage
+    b >= POTION_MAX_STAGE ? nil : b + 1
+  end
+
   def owned_puzzle_ids
     owned_puzzle_images.map { |p| p[:id] }
   end

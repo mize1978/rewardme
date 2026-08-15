@@ -40,12 +40,23 @@
         <div class="game-card-icon">🧪</div>
         <h2 class="game-card-title">リボンポーション</h2>
         <p class="game-card-desc">同じ色の魔法ポーションを<br>小瓶に揃えよう！</p>
-        <div class="game-card-meta">
-          <span class="game-card-meta-item">🏆 最高: Stage <strong><%= [current_user.potion_game_high_stage.to_i, 1].max %></strong></span>
-          <span class="game-card-meta-item">5ステージ挑戦！</span>
+        <%# ===== CHALLENGE：次の一段を主役にする ===== %>
+        <% nxt_stage = current_user.potion_next_stage %>
+        <div class="game-card-focus game-card-focus--challenge">
+          <% if nxt_stage.nil? %>
+            <span class="gcf-main">全<%= User::POTION_MAX_STAGE %>ステージ制覇！</span>
+          <% elsif current_user.potion_best_stage.zero? %>
+            <%# 未プレイ: 記録が無いので「BEST Stage 0」とは書かない %>
+            <span class="gcf-lead">はじめての一段</span>
+            <span class="gcf-main">Stage 1 に挑戦</span>
+          <% else %>
+            <span class="gcf-lead">BEST <strong>Stage <%= current_user.potion_best_stage %></strong></span>
+            <span class="gcf-main">次は Stage <%= nxt_stage %> へ</span>
+          <% end %>
         </div>
-        <div class="game-card-reward">
-          <span>Stage5クリアで</span><span class="game-card-coin">🪙 150コイン</span>
+        <div class="game-card-meta">
+          <span class="game-card-meta-item">🧪 全 <strong><%= User::POTION_MAX_STAGE %></strong> ステージ</span>
+          <span class="game-card-meta-item game-card-meta-item--coin">＋50〜200 COIN</span>
         </div>
         <%= link_to potion_game_path, class: "game-card-btn #{current_user.potion_game_played_today? ? 'game-card-btn--done' : ''}" do %>
           <%= current_user.potion_game_played_today? ? "また明日！" : "▶ プレイ" %>
