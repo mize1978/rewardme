@@ -1,5 +1,5 @@
 /* ============================================================
-   RewardMe – dashboard grid graft (GRAFT 01 / v15・バナー無切断化)
+   RewardMe – dashboard grid graft (GRAFT 01 / v16・PURPLE成長ルーム)
    ------------------------------------------------------------
    完成カンプ実測（1920×1080・コンテナ1760・gap20）を規定値とする。
 
@@ -594,11 +594,45 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
     border-radius: 0 !important;
     background: none !important;
     box-shadow: none !important;
+    /* マイルームと視線を取り合わないよう光量だけ15%抑える（色・彩度不変） */
+    filter: brightness(0.85);
   }
 }
 @media (min-width: 1620px) {
   /* 帯380の予算内（ヘッダー50+完了行+ミッション帯を差し引いた枠） */
   .tasks-all-done-img { height: 150px !important; }
+}
+
+/* ================================================================
+   v16: 成長ルームのストリップ（実データ・4段階）
+   素材が16:9の横長になったため、サムネの比率と情報量を合わせる
+   ================================================================ */
+@media (min-width: 1101px) {
+  .room-growth-item { position: relative; }
+
+  /* 未到達の段階は「まだ見ぬ未来」として沈める（消さない） */
+  .room-growth-item.locked .room-growth-img {
+    filter: grayscale(0.7) brightness(0.55);
+    opacity: 0.5;
+  }
+  .room-growth-item.locked .room-growth-label,
+  .room-growth-item.locked .room-growth-req { opacity: 0.5; }
+
+  /* 現在地を明示 */
+  .room-growth-item.current .room-growth-img {
+    outline: 2px solid rgba(255, 142, 196, 0.75);
+    outline-offset: -2px;
+    box-shadow: 0 0 18px rgba(255, 142, 196, 0.35);
+  }
+
+  /* 到達条件の行（成長ルームのみ） */
+  .room-growth-req {
+    display: block;
+    font-size: 10px;
+    color: rgba(240, 200, 255, 0.5);
+    text-align: center;
+    margin-top: 1px;
+  }
 }
 
 /* ============================================================

@@ -76,11 +76,14 @@
       <div class="room-egg-tint"></div>
       <span class="room-title">マイルーム</span>
       <span class="room-neon">Good job today!</span>
-      <div class="room-character room-character--stage<%= current_user.ribbon_stage %>">
-        <div class="room-chara-shake <%= 'near-evo' if current_user.ribbon_stage < 4 && current_user.next_stage_tasks <= 3 %>">
-          <%= image_tag current_user.ribbon_stage_image, class: "room-chara-img" %>
+      <%# 成長ルームは部屋の絵にリボンちゃんが描き込まれているのでレイヤーを重ねない %>
+      <% unless current_user.growth_room? %>
+        <div class="room-character room-character--stage<%= current_user.ribbon_stage %>">
+          <div class="room-chara-shake <%= 'near-evo' if current_user.ribbon_stage < 4 && current_user.next_stage_tasks <= 3 %>">
+            <%= image_tag current_user.ribbon_stage_image, class: "room-chara-img" %>
+          </div>
         </div>
-      </div>
+      <% end %>
       <div class="room-speech">
         <p class="room-speech-text"
            data-controller="ribbon"
@@ -125,21 +128,43 @@
 
     </div>
 
-    <%# ===== お部屋の成長ストリップ（ダミー表示） ===== %>
+    <%# ===== お部屋の成長ストリップ ===== %>
     <div class="room-growth-panel">
       <div class="room-growth-head">
         <p class="panel-title">🏠 お部屋の成長</p>
-        <span class="room-growth-sub">タスクをこなすほどお部屋がにぎやかに！</span>
+        <span class="room-growth-sub">タスクをこなすほどお部屋が育っていくよ！</span>
       </div>
-      <div class="room-growth-strip">
-        <% ["0〜10", "11〜30", "31〜50", "51〜100", "101〜150", "151〜200"].each_with_index do |label, i| %>
-          <div class="room-growth-item <%= 'current' if i.zero? %>">
-            <%= image_tag "room_stage_1.png", class: "room-growth-img" %>
-            <span class="room-growth-label"><%= label %>タスク</span>
-          </div>
-          <% if i < 5 %><span class="room-growth-arrow">›</span><% end %>
-        <% end %>
-      </div>
+
+      <% if current_user.growth_room? %>
+        <%# 成長ルーム: 実データ（自分の色の s1〜s4・現在地をハイライト） %>
+        <% g_stages = RoomBackground.growth_stages(current_user.current_room_bg) %>
+        <% g_cur    = current_user.ribbon_stage %>
+        <div class="room-growth-strip">
+          <% g_stages.each_with_index do |g, i| %>
+            <% reached = g[:stage] <= g_cur %>
+            <div class="room-growth-item <%= 'current' if g[:stage] == g_cur %> <%= 'locked' unless reached %>">
+              <%= image_tag RoomBackground.growth_image(current_user.current_room_bg, g[:stage]),
+                    class: "room-growth-img", alt: "#{g[:tier]} #{g[:label]}" %>
+              <span class="room-growth-label"><%= g[:tier] %>／<%= g[:label] %></span>
+              <span class="room-growth-req">
+                <%= g[:from].zero? ? "はじめから" : "#{g[:from]}タスク〜" %>
+              </span>
+            </div>
+            <% if i < g_stages.size - 1 %><span class="room-growth-arrow">›</span><% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <%# 通常の部屋: 従来表示 %>
+        <div class="room-growth-strip">
+          <% ["0〜10", "11〜30", "31〜50", "51〜100", "101〜150", "151〜200"].each_with_index do |label, i| %>
+            <div class="room-growth-item <%= 'current' if i.zero? %>">
+              <%= image_tag "room_stage_1.png", class: "room-growth-img" %>
+              <span class="room-growth-label"><%= label %>タスク</span>
+            </div>
+            <% if i < 5 %><span class="room-growth-arrow">›</span><% end %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
 
     <%# ===== お部屋のデコレーション（第4段右・カンプ準拠） ===== %>

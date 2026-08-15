@@ -150,8 +150,41 @@ class RoomBackground
     },
   ].freeze
 
+  # ===== 成長ルーム =====
+  # 育成段階（User#ribbon_stage 1〜4）に応じて部屋の絵そのものが変わる部屋。
+  # 画像にリボンちゃんが描き込まれているため、表示側ではキャラの透過PNG
+  # レイヤーを重ねない（重ねるとキャラが2人になる）。
+  #
+  # 現在は PURPLE のみ。実機確認後に他カラーへ展開する。
+  GROWTH_ROOMS = {
+    "purple" => {
+      prefix: "room_purple_s",
+      stages: [
+        { stage: 1, tier: "BASE",   label: "たまご",       from: 0  },
+        { stage: 2, tier: "BASE",   label: "ベビー",       from: 10 },
+        { stage: 3, tier: "COZY",   label: "リボンちゃん", from: 20 },
+        { stage: 4, tier: "DELUXE", label: "プリンセス",   from: 40 },
+      ]
+    }
+  }.freeze
+
   def self.all  = CATALOG
   def self.find(id) = CATALOG.find { |b| b[:id] == id }
+
+  # 成長ルームかどうか
+  def self.growth?(id) = GROWTH_ROOMS.key?(id.to_s)
+
+  # 成長ルームの、その段階の画像名
+  def self.growth_image(id, stage)
+    conf = GROWTH_ROOMS[id.to_s]
+    return nil unless conf
+    "#{conf[:prefix]}#{stage.clamp(1, conf[:stages].size)}.png"
+  end
+
+  # 成長ルームの全段階（成長ストリップ用）
+  def self.growth_stages(id)
+    GROWTH_ROOMS.dig(id.to_s, :stages) || []
+  end
 
   def self.available_now?(bg)
     return true unless bg[:event_months]

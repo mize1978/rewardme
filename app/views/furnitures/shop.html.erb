@@ -79,7 +79,9 @@
       <div class="shop-mini-room">
         <%= image_tag current_user.room_bg_image, class: "shop-mini-room-bg", alt: "マイルーム" %>
         <div class="shop-mini-chara">
-          <%= image_tag current_user.ribbon_stage_image, class: "shop-mini-chara-img", style: ribbon_color_style %>
+          <% unless current_user.growth_room? %>
+            <%= image_tag current_user.ribbon_stage_image, class: "shop-mini-chara-img", style: ribbon_color_style %>
+          <% end %>
         </div>
       </div>
       <p class="shop-room-hint-text">タスクをこなしてコインを集めよう！</p>

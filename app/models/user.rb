@@ -123,7 +123,18 @@ def ribbon_stage_gold_bg?
 end
 
   # ===== お部屋の背景 =====
+
+  # 成長ルーム（育成段階で部屋の絵が変わる部屋）に住んでいるか。
+  # true のとき、部屋画像にリボンちゃんが描き込まれているので
+  # 表示側でキャラの透過PNGレイヤーを重ねない。
+  def growth_room?
+    RoomBackground.growth?(current_room_bg)
+  end
+
   def room_bg_image
+    if growth_room?
+      return RoomBackground.growth_image(current_room_bg, ribbon_stage)
+    end
     bg = RoomBackground.find(current_room_bg || "default")
     bg ? bg[:image] : "room_stage_1.png"
   end
