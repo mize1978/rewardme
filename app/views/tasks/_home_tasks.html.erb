@@ -1,5 +1,13 @@
 <%# ホーム「今日のタスク」領域（turbo_streamで差し替える単位） %>
 <div id="home-tasks" style="display: contents;">
+        <%# ===== 全部完了のお祝いバナー（"その瞬間に目に入る"よう最上部へ） ===== %>
+        <% if @not_done_tasks.empty? && @done_tasks.any? %>
+          <div class="tasks-all-done">
+            <%= image_tag current_user.all_done_banner_image, class: "tasks-all-done-img", alt: "今日も全部終わったね！" %>
+            <p class="tasks-all-done-msg">今日も全部終わったね！🎉</p>
+          </div>
+        <% end %>
+
         <%# ===== 完了済みタスク（カンプ準拠: ピンク✓＋打ち消し線で残す） ===== %>
         <% if @done_tasks.any? %>
           <div id="done-tasks">
@@ -22,12 +30,7 @@
         <% end %>
         <div id="not-done-tasks">
           <% if @not_done_tasks.empty? %>
-            <% if @done_tasks.any? %>
-              <div class="tasks-all-done">
-                <%= image_tag current_user.all_done_banner_image, class: "tasks-all-done-img", alt: "今日も全部終わったね！" %>
-                <p class="tasks-all-done-msg">今日も全部終わったね！🎉</p>
-              </div>
-            <% else %>
+            <% unless @done_tasks.any? %>
               <div class="tasks-zero-chips">
                   <% [
                     { emoji: "💪", label: "ストレッチ",     category: "健康", priority: "low"    },
