@@ -93,8 +93,8 @@ export default class extends Controller {
     "startScreen", "gameScreen", "clearScreen",
     "topRow", "leftCol", "rightCol", "bottomRow",
     "moveCount", "stageBadge",
-    "magicCircle", "magicPct", "magicMsg", "starPotion",
-    "clearStageMsg", "clearCoins", "nextBtn",
+    "magicCircle", "magicPct", "magicMsg",
+    "clearStageMsg", "clearCoins", "nextBtn", "clearPotion",
   ]
 
   connect() {
@@ -110,6 +110,7 @@ export default class extends Controller {
     this.coinAwarded   = false
     this.initialFilled = 0
     this.animating     = false
+    this.lastCompletedColor = null
   }
 
   // 次の未攻略Stageから始める（BEST 4 なら Stage 5）。
@@ -152,13 +153,13 @@ export default class extends Controller {
     this.selected      = null
     this.moves         = 0
     this.history       = []
+    this.lastCompletedColor = null
     this.stageBadgeTarget.textContent = `Stage ${idx + 1}`
     this.moveCountTarget.textContent  = "0"
     // 魔法陣をリセット
     this.magicCircleTarget.dataset.level = "0"
     this.magicPctTarget.textContent      = ""
     this.magicMsgTarget.textContent      = ""
-    this.starPotionTarget.classList.remove("pg-star-potion--born")
     this._render()
   }
 
@@ -263,6 +264,7 @@ export default class extends Controller {
     //    ここで液体にはしない。盤面はあくまで“素材の魔法雫を4つ揃える”場所で、
     //    完成したポーションはステージクリア画面で初めて登場する。
     if (to.length + units === CAPACITY && to.every(c => c === color)) {
+      this.lastCompletedColor = color     // クリア画面の主役はこの色になる
       await this._animateComplete(toEl, color)
     }
 
@@ -498,22 +500,25 @@ export default class extends Controller {
   // ─── クリア演出 ───
 
   async _showClear() {
-    // 魔法陣MAX発光
-    this.magicCircleTarget.dataset.level = "5"
-    this.magicMsgTarget.textContent = "錬成完了！🔮"
+    // 盤面はここで静かに終わる。派手な打ち上げはしない。
+    //
+    // かつてここは level = "5" を立てていた。これは tasks.css の
+    //   .pg-magic-circle[data-level="5"] { animation: pgMagicExplode ... }
+    //   .pg-magic-circle[data-level="5"] .pg-magic-core { background:#fff; ... }
+    // を踏んで、魔法陣の中心を純白にし 1.4 倍へ膨らませる演出だった。
+    // ★虹色ポリゴンと対で「クリアを豪華に見せる」ための仕掛けだが、
+    // 完成ポーションの初登場より先に画面を光らせてしまうので使わない。
+    // 魔法陣は最後の完成で自然に上がった level 4 のまま。
+    // メッセージも _updateMagicCircle が既に「魔法の雫がすべて揃った！」を
+    // 出しているので、ここで書き換えない（切り替わり際の変化を1つ減らす）。
+    await new Promise(r => setTimeout(r, 950))
 
-    await new Promise(r => setTimeout(r, 700))
-
-    // 星型ポーション誕生
-    this.starPotionTarget.classList.add("pg-star-potion--born")
-
-    await new Promise(r => setTimeout(r, 1400))
-
-    // クリア画面へ
     const stageNum = this.currentStage + 1
+    this._buildClearPotion(this.lastCompletedColor || this.vials.find(v => v.length)?.[0] || "pink")
+
     this.gameScreenTarget.hidden  = true
     this.clearScreenTarget.hidden = false
-    this.clearStageMsgTarget.textContent = `Stage ${stageNum} クリア！`
+    this.clearStageMsgTarget.textContent = `Stage ${stageNum} CLEAR`
     this.nextBtnTarget.hidden = this.currentStage + 1 >= STAGES.length
 
     if (!this.coinAwarded) {
@@ -530,16 +535,58 @@ export default class extends Controller {
         if (data.coins > 0) {
           this.coinAwarded = true
           this.clearCoinsTarget.innerHTML =
-            `<span class="pg-clear-coin">🪙 +${data.coins} コイン獲得！</span>`
+            `<span class="pg-clear-coin">+${data.coins} COIN</span>`
         } else {
           this.clearCoinsTarget.innerHTML =
-            `<span class="pg-clear-coin pg-clear-coin--used">（今日のコインは獲得済み）</span>`
+            `<span class="pg-clear-coin pg-clear-coin--used">今日のコインは獲得済み</span>`
         }
       } catch { this.clearCoinsTarget.textContent = "" }
     } else {
       this.clearCoinsTarget.innerHTML =
         `<span class="pg-clear-coin pg-clear-coin--used">続けて遊んでいます♡</span>`
     }
+  }
+
+  // ═══════════════════════════════════════════════
+  //  クリア画面の主役 — 完成したポーション瓶
+  //  盤面で使っている部品（ガラス胴・リム・反射）をそのまま組み直し、
+  //  中身だけ雫ではなく液体にする。器が同じだから、
+  //  「さっき集めた雫が、これになった」と読める。
+  // ═══════════════════════════════════════════════
+  _buildClearPotion(color) {
+    if (!this.hasClearPotionTarget) return
+    const wrap = this.clearPotionTarget
+    wrap.innerHTML = ""
+
+    const vial = document.createElement("div")
+    vial.className = "pg-vial pg-vial--hero"
+
+    const body = document.createElement("div")
+    body.className = "pg-vial-body"
+    body.appendChild(this._makePotion(color))
+
+    const sh1 = document.createElement("div"); sh1.className = "pg-glass-shine"
+    const sh2 = document.createElement("div"); sh2.className = "pg-glass-shine2"
+    body.appendChild(sh1); body.appendChild(sh2)
+    vial.appendChild(body)
+
+    const rim = document.createElement("div")
+    rim.className = "pg-vial-rim"
+    vial.appendChild(rim)
+
+    // 周囲のごく小さな光。3つを別々の間隔で瞬かせて、規則性を感じさせない。
+    for (let i = 1; i <= 3; i++) {
+      const sp = document.createElement("div")
+      sp.className = `pg-hero-spark pg-hero-spark--${i}`
+      vial.appendChild(sp)
+    }
+
+    // 瓶の背後のほのかな色光
+    const halo = document.createElement("div")
+    halo.className = "pg-hero-halo"
+    halo.style.setProperty("--glow", COLOR_META[color].glow)
+    wrap.appendChild(halo)
+    wrap.appendChild(vial)
   }
 
   // ══════════════════════════════

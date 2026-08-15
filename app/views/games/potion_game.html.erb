@@ -158,8 +158,6 @@
 
               <%# 中央オーブ %>
               <div class="pg-magic-core"></div>
-              <%# 錬成後にポーションが飛び出す %>
-              <div class="pg-star-potion" data-potion-game-target="starPotion"></div>
             </div>
 
             <div class="pg-magic-info">
@@ -187,10 +185,10 @@
   <%# ━━━ クリア画面 ━━━ %>
   <div class="pg-screen pg-screen--clear" data-potion-game-target="clearScreen" hidden>
     <div class="pg-clear-inner">
-      <div class="pg-clear-potion-wrap">
-        <div class="pg-clear-star-icon">⭐</div>
-      </div>
-      <p class="pg-clear-title">錬成完了！✨</p>
+      <%# 主役。ここで初めて「液体のポーション」が登場する。
+          盤面は最後まで雫のままなので、この瓶が初お目見えになる。 %>
+      <div class="pg-clear-potion-wrap" data-potion-game-target="clearPotion"></div>
+      <p class="pg-clear-title">ポーション完成！</p>
       <p class="pg-clear-stage" data-potion-game-target="clearStageMsg"></p>
       <div class="pg-clear-coins" data-potion-game-target="clearCoins"></div>
       <div class="pg-clear-btns">

@@ -947,7 +947,10 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
   position: absolute; left: 0; right: 0; bottom: 0;
   height: 168px; z-index: 2;
   border-radius: 0 0 30px 30px;
-  background: linear-gradient(180deg, var(--c1) 0%, var(--c2) 52%, var(--c3) 100%);
+  background:
+    linear-gradient(180deg,
+      var(--c1) 0%, var(--c2) 34%, var(--c2) 52%, var(--c3) 100%),
+    radial-gradient(120% 60% at 50% 0%, rgba(255,255,255,.28), transparent 60%);
   box-shadow:
     inset 0 -10px 18px rgba(0,0,0,.28),
     inset 0 0 22px rgba(255,255,255,.16),
@@ -1033,6 +1036,136 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
     inset 7px 0 13px -5px rgba(255,255,255,.32),
     inset -6px 0 11px -5px rgba(0,0,0,.32) !important;
 }
+
+/* ================================================================
+   v22: ステージクリア画面 — 完成ポーションを初登場の主役にする
+   ----------------------------------------------------------------
+   旧: 主役の位置に絵文字の ⭐ が置かれ、その下の「錬成完了！✨」が
+       全部を言葉で説明していた。さらに魔法陣からは★型の虹色ポリゴンが
+       飛び出していて、クリア画面の前に山場を先取りしていた。
+   新: 盤面が最後まで雫のままになったので、ここが液体の初登場になる。
+       瓶そのものに仕事をさせ、文字は肩書きに下げる。
+       ★虹色ポリゴンは引退（.pg-star-potion / pgPotionRainbow は未使用）。
+   ================================================================ */
+
+.pg-clear-potion-wrap {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  width: 190px; height: 300px;
+  margin-bottom: 2px;
+}
+
+/* 主役の瓶。盤面と同じ部品を 1.5 倍で組み直す */
+.pg-vial--hero {
+  position: relative;
+  zoom: 1.5;
+  animation: pgHeroBorn .78s cubic-bezier(.24,.72,.32,1) both,
+             pgHeroFloat 3.6s ease-in-out .78s infinite;
+}
+.pg-vial--hero:hover { transform: none; }
+
+/* 登場: 下から静かに浮き上がる。跳ねさせない（「ジャーン」にしない） */
+@keyframes pgHeroBorn {
+  0%   { opacity: 0; transform: translateY(16px) scale(.90); filter: blur(6px) brightness(1.5); }
+  46%  { opacity: 1;                                          filter: blur(1px) brightness(1.18); }
+  100% { opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0)   brightness(1); }
+}
+/* ふわっと浮く */
+@keyframes pgHeroFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-7px); }
+}
+
+/* 背後のほのかな色光。瓶より後ろ、控えめに息をする */
+@keyframes pgHeroHalo {
+  0%   { opacity: 0; transform: translate(-50%,-50%) scale(.6); }
+  40%  { opacity: .85; }
+  100% { opacity: .55; transform: translate(-50%,-50%) scale(1); }
+}
+@keyframes pgHeroHaloBreath {
+  0%, 100% { opacity: .58; }
+  50%      { opacity: .92; }
+}
+.pg-hero-halo {
+  position: absolute; left: 50%; top: 50%;
+  width: 260px; height: 260px; border-radius: 50%;
+  pointer-events: none; z-index: 0;
+  background: radial-gradient(circle,
+    rgba(var(--glow), .62) 0%, rgba(var(--glow), .28) 38%,
+    rgba(var(--glow), .10) 58%, transparent 74%);
+  filter: blur(10px);
+  animation: pgHeroHalo .9s ease-out both,
+             pgHeroHaloBreath 4.2s ease-in-out .9s infinite;
+}
+
+/* 液面のゆらぎ。中身が「液体である」ことを、動きで言う */
+@keyframes pgHeroSurface {
+  0%, 100% { transform: scaleX(1)    translateY(0);      opacity: .85; }
+  33%      { transform: scaleX(1.03) translateY(-.8px);  opacity: 1;   }
+  66%      { transform: scaleX(.985) translateY(.6px);   opacity: .78; }
+}
+.pg-vial--hero .pg-potion::before {
+  animation: pgHeroSurface 4.4s ease-in-out infinite;
+}
+/* 中の光もゆっくり回す（盤面より遅く。落ち着いて見せたい） */
+.pg-vial--hero .pg-potion::after { animation-duration: 5.2s; }
+
+/* 周囲のごく小さな光。3つを別々の周期・遅延で瞬かせる */
+@keyframes pgHeroSpark {
+  0%, 100% { transform: scale(0);   opacity: 0; }
+  50%      { transform: scale(1);   opacity: .95; }
+}
+.pg-hero-spark {
+  position: absolute; z-index: 8; pointer-events: none;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 7px rgba(255,255,255,.95), 0 0 14px rgba(255,255,255,.5);
+  opacity: 0;
+}
+.pg-hero-spark--1 { top: 14%; left: -18%; animation: pgHeroSpark 2.6s ease-in-out 1.10s infinite; }
+.pg-hero-spark--2 { top: 58%; left: 112%; animation: pgHeroSpark 3.4s ease-in-out 1.95s infinite; }
+.pg-hero-spark--3 { top: 86%; left: -10%; animation: pgHeroSpark 3.0s ease-in-out 2.70s infinite; }
+
+/* ── 文字は肩書きに下げる ──
+   主役は瓶。「ポーション完成！」だけが見出しで、
+   Stage CLEAR と COIN は結果の注記にすぎない。 */
+.pg-clear-title {
+  font-size: 30px !important;
+  letter-spacing: .02em;
+  animation: pgClearTitleIn .5s cubic-bezier(.25,.7,.35,1) .34s both;
+}
+@keyframes pgClearTitleIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.pg-clear-stage {
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: .16em;
+  color: rgba(255, 215, 0, .78) !important;
+  animation: pgClearTitleIn .5s cubic-bezier(.25,.7,.35,1) .46s both;
+}
+/* コイン額はサーバーの返答を待って後から入る。
+   先に1行分の高さを確保しておかないと、画面が出た直後に
+   カードが 17px 伸びてボタンが押し下がる（＝切り替わり際の「ガクッ」）。 */
+.pg-clear-coins {
+  font-size: 12.5px !important;
+  min-height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  animation: pgClearTitleIn .5s cubic-bezier(.25,.7,.35,1) .56s both;
+}
+.pg-clear-coin {
+  font-size: 12.5px; letter-spacing: .1em;
+  color: rgba(255, 215, 0, .78) !important;
+}
+.pg-clear-coin--used { font-size: 12px; color: rgba(220,180,255,.55) !important; }
+
+/* 見出しと注記の間を詰めて、瓶〜文字をひとかたまりに見せる */
+.pg-clear-inner { gap: 9px !important; padding: 30px 30px 34px !important; }
+.pg-clear-btns  { margin-top: 12px; }
+
+/* ★虹色ポリゴンは引退。万一どこかに残っても出てこないようにする */
+.pg-star-potion, .pg-clear-star-icon { display: none !important; }
 
 /* ============================================================
    残タスク（GRAFT 02以降・このファイルでは触らない）
