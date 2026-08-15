@@ -1,0 +1,79 @@
+<%# タスク管理ページの一覧領域（turbo_streamで差し替える単位） %>
+<div id="mytasks" style="display: contents;">
+    <%# ===== 統計バー ===== %>
+    <div class="tl-stats">
+      <div class="tl-stat">
+        <span class="tl-stat-val"><%= @total %></span>
+        <span class="tl-stat-lbl">合計</span>
+      </div>
+      <div class="tl-stat tl-stat--active">
+        <span class="tl-stat-val"><%= @not_done.count %></span>
+        <span class="tl-stat-lbl">未完了</span>
+      </div>
+      <div class="tl-stat tl-stat--done">
+        <span class="tl-stat-val"><%= @done_tasks.count %></span>
+        <span class="tl-stat-lbl">完了済み</span>
+      </div>
+      <% rate = @total > 0 ? (@done_tasks.count.to_f / @total * 100).round : 0 %>
+      <div class="tl-stat tl-stat--rate">
+        <span class="tl-stat-val"><%= rate %>%</span>
+        <span class="tl-stat-lbl">達成率</span>
+      </div>
+    </div>
+
+    <%# ===== 未完了タスク ===== %>
+    <div class="tl-section">
+      <p class="tl-section-label">⏳ 未完了 <span class="tl-count"><%= @not_done.count %></span></p>
+      <% if @not_done.empty? %>
+        <div class="tl-empty">
+          <span class="tl-empty-ico">🎉</span>
+          <p>未完了のタスクはないよ！すごい！</p>
+        </div>
+      <% else %>
+        <% @not_done.each do |task| %>
+          <div class="task-card <%= "priority-#{task.priority}" %>">
+            <div class="task-card-inner">
+              <%= button_to "", task_path(task, task: { done: true }), method: :patch, class: "task-circle-btn" %>
+              <span class="task-title-text"><%= task.title %></span>
+              <div class="task-right">
+                <span class="category-chip category-<%= task.category %>"><%= task.category %></span>
+                <span class="task-exp"><%= task.coin_reward %> EXP</span>
+                <%= link_to "✏️", edit_task_path(task), class: "tl-edit-link" %>
+              </div>
+              <%= button_to "×", task_path(task), method: :delete, class: "task-delete-btn",
+                    data: { turbo_confirm: "削除する？" } %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%# ===== 完了タスク ===== %>
+    <% if @done_tasks.any? %>
+      <div class="tl-section">
+        <p class="tl-section-label tl-section-label--done">✅ 完了済み <span class="tl-count"><%= @done_tasks.count %></span></p>
+        <% @done_tasks.each do |task| %>
+          <div class="task-card done">
+            <div class="task-card-inner">
+              <%= button_to "✓", task_path(task, task: { done: false }), method: :patch, class: "task-circle-btn is-done" %>
+              <span class="task-title-text is-done"><%= task.title %></span>
+              <div class="task-right">
+                <span class="category-chip category-<%= task.category %>"><%= task.category %></span>
+                <span class="task-exp"><%= task.coin_reward %> EXP</span>
+              </div>
+              <%= button_to "×", task_path(task), method: :delete, class: "task-delete-btn",
+                    data: { turbo_confirm: "削除する？" } %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @total == 0 %>
+      <div class="tl-empty tl-empty--full">
+        <span class="tl-empty-ico">✨</span>
+        <p>タスクがまだないよ。さっそく追加してみよう！</p>
+        <%= link_to "+ 最初のタスクを作る", new_task_path, class: "tasks-add-btn" %>
+      </div>
+    <% end %>
+</div>

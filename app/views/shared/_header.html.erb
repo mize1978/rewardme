@@ -5,16 +5,21 @@
 
   <% if current_user %>
     <div class="header-status">
-      <span class="header-lv">★ Lv.<%= current_user.ribbon_level %></span>
-      <div class="header-exp-wrap">
-        <div class="header-exp-bar">
-          <div class="header-exp-fill" style="width: <%= current_user.ribbon_exp_percent %>%;"></div>
+      <%= image_tag current_user.ribbon_stage_image, class: "header-avatar", alt: "" %>
+      <div class="header-idbox">
+        <span class="header-stage"><%= current_user.ribbon_stage_name %></span>
+        <div class="header-lv-row">
+          <span class="header-lv">★ Lv.<%= current_user.ribbon_level %></span>
+          <div class="header-exp-wrap">
+            <div class="header-exp-bar">
+              <div class="header-exp-fill" style="width: <%= current_user.ribbon_exp_percent %>%;"></div>
+            </div>
+            <span class="header-exp-text">
+              <%= current_user.ribbon_exp %> / <%= current_user.ribbon_exp_max || "MAX" %>
+            </span>
+          </div>
         </div>
-        <span class="header-exp-text">
-          <%= current_user.ribbon_exp %> / <%= current_user.ribbon_exp_max || "MAX" %>
-        </span>
       </div>
-      <span class="header-stage"><%= current_user.ribbon_stage_name %></span>
       <span class="header-lives">❤️ <%= current_user.lives %> / 5</span>
       <span class="header-coins"><%= image_tag "coin_ribbon.png", class: "coin-img coin-img--sm", alt: "コイン" %><%= number_with_delimiter(current_user.coins) %></span>
       <span class="header-gems">💎 350</span>

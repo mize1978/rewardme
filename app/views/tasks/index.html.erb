@@ -116,109 +116,11 @@
           </div>
         </div>
 
-        <div id="not-done-tasks">
-          <% if @not_done_tasks.empty? %>
-            <% if @done_tasks.any? %>
-              <div class="tasks-all-done">
-                <%= image_tag "puzzle_11.png", class: "tasks-all-done-img", alt: "今日も全部終わったね！" %>
-                <p class="tasks-all-done-msg">今日も全部終わったね！🎉</p>
-              </div>
-            <% else %>
-              <div class="tasks-zero-chips">
-                  <% [
-                    { emoji: "💪", label: "ストレッチ",     category: "健康", priority: "low"    },
-                    { emoji: "🧹", label: "部屋を片付ける", category: "家事",  priority: "medium" },
-                    { emoji: "💧", label: "水を飲む",       category: "健康", priority: "low"    },
-                    { emoji: "📚", label: "読書",           category: "学習",  priority: "medium" },
-                    { emoji: "🚶", label: "散歩",           category: "健康", priority: "low"    },
-                  ].each do |t| %>
-                    <%= button_to tasks_path,
-                          method: :post,
-                          class: "tasks-zero-chip",
-                          params: { task: { title: t[:label], category: t[:category], priority: t[:priority], date: Time.current.in_time_zone("Tokyo").to_date, done: false } } do %>
-                      <span><%= t[:emoji] %> <%= t[:label] %></span>
-                      <span class="tasks-zero-chip-plus">＋</span>
-                    <% end %>
-                  <% end %>
-                </div>
-            <% end %>
-          <% else %>
-            <% @not_done_tasks.each do |task| %>
-              <div class="task-card <%= "priority-#{task.priority}" %>">
-                <div class="task-card-inner">
-                  <%= button_to "", task_path(task, task: { done: true }), method: :patch, class: "task-circle-btn" %>
-                  <span class="task-title-text"><%= task.title %></span>
-                  <div class="task-right">
-                    <span class="category-chip category-<%= task.category %>"><%= task.category %></span>
-                    <span class="task-star">★</span>
-                    <span class="task-exp"><%= task.coin_reward %> EXP</span>
-                  </div>
-                  <%= button_to "×", task_path(task), method: :delete, class: "task-delete-btn" %>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
-        <% total = @not_done_tasks.count + @done_tasks.count %>
-        <% if total > 0 %>
-          <div class="tasks-panel-footer">
-            <span class="tasks-footer-count"><%= @done_tasks.count %> / <%= total %> 完了</span>
-            <% if @not_done_tasks.any? %>
-              <% remaining_coins = @not_done_tasks.sum(&:coin_reward) %>
-              <span class="tasks-footer-reward">🎁 全部終わると +<%= remaining_coins %>コイン</span>
-            <% end %>
-          </div>
-        <% end %>
+        <%= render "tasks/home_tasks" %>
       </div>
 
       <div class="week-panel">
-        <p class="panel-title">📅 今週の記録</p>
-        <div class="week-grid">
-          <% %w[月 火 水 木 金 土 日].each_with_index do |label, i| %>
-            <div class="week-col">
-              <span class="week-label"><%= label %></span>
-              <% day = @week_days[i] %>
-              <% if day %>
-                <div class="week-dot <%= day[:done] ? 'done' : 'empty' %> <%= day[:today] ? 'today' : '' %>">
-                  <%= day[:done] ? "✓" : "" %>
-                </div>
-                <span class="week-date <%= day[:today] ? 'today' : '' %>"><%= day[:date].day %></span>
-              <% else %>
-                <div class="week-dot future"></div>
-                <span class="week-date future">-</span>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-        <p class="week-streak">🔥 <%= @streak_days %>日連続</p>
-
-        <div class="week-stats">
-          <% week_rate = (@week_done_days * 100.0 / 7).round %>
-          <div class="week-stat-item">
-            <span class="week-stat-label">今週の達成率</span>
-            <span class="week-stat-value week-stat-value--rate">
-              <span class="week-stat-bar-wrap">
-                <span class="week-stat-bar-fill" style="width: <%= week_rate %>%;"></span>
-              </span>
-              <%= week_rate %>%
-            </span>
-          </div>
-          <div class="week-stat-item">
-            <span class="week-stat-label">今日の完了</span>
-            <span class="week-stat-value">📋 <%= @today_done_count %>件</span>
-          </div>
-          <div class="week-stat-item">
-            <span class="week-stat-label">今日のEXP</span>
-            <span class="week-stat-value week-stat-value--exp">⭐ +<%= @today_coins %></span>
-          </div>
-        </div>
-
-        <div class="week-divider"></div>
-        <%= link_to games_path, class: "week-games-link" do %>
-          <%= image_tag "icon_game_ribbon.png", class: "week-games-link-icon", alt: "" %>
-          <span>ミニゲームで遊ぶ</span>
-          <span class="week-games-link-arrow">→</span>
-        <% end %>
+        <%= render "tasks/calendar" %>
       </div>
 
     </div>
@@ -238,6 +140,14 @@
           <% if i < 5 %><span class="room-growth-arrow">›</span><% end %>
         <% end %>
       </div>
+    </div>
+
+    <%# ===== お部屋のデコレーション（第4段右・カンプ準拠） ===== %>
+    <div class="deco-panel">
+      <p class="panel-title">🛋️ お部屋のデコレーション</p>
+      <p class="deco-panel-text">コインやバッジで<br>家具やデコをゲット！</p>
+      <div class="deco-panel-emojis">🛋️ 💡 🪴 🧸 🎀 🖼️</div>
+      <%= link_to "ショップへ", shop_path, class: "deco-panel-btn" %>
     </div>
 
   </div>
@@ -381,19 +291,28 @@
   window.launchConfetti = launchConfetti
 
   function initTaskPage() {
-    // 全完了 → 紙吹雪
+    // 全完了 → 紙吹雪（ページ表示時点で全部終わってる場合）
     if (document.querySelector(".tasks-all-done")) launchConfetti()
+  }
 
-    // タスクチェック → ルームキャラがジャンプ
-    document.querySelectorAll(".task-circle-btn").forEach(function(btn) {
-      btn.addEventListener("pointerdown", function() {
-        var img = document.querySelector(".room-chara-img")
-        if (!img) return
-        img.classList.remove("room-chara--jump")
-        void img.offsetWidth
-        img.classList.add("room-chara--jump")
-        setTimeout(function(){ img.classList.remove("room-chara--jump") }, 650)
-      })
+  // 委譲バインドは1度だけ（turbo遷移で本スクリプトが再実行されても二重登録しない）
+  if (!window.__rewardTaskDelegates) {
+    window.__rewardTaskDelegates = true
+
+    // タスクチェック → ルームキャラがジャンプ（turbo_stream差し替え後の新ボタンにも効く）
+    document.addEventListener("pointerdown", function(e) {
+      if (!e.target.closest(".task-circle-btn")) return
+      var img = document.querySelector(".room-chara-img")
+      if (!img) return
+      img.classList.remove("room-chara--jump")
+      void img.offsetWidth
+      img.classList.add("room-chara--jump")
+      setTimeout(function(){ img.classList.remove("room-chara--jump") }, 650)
+    })
+
+    // 完了で今日ぶんが全部終わったら紙吹雪（turbo_stream差し替え後も維持）
+    document.addEventListener("turbo:submit-end", function() {
+      if (document.querySelector(".tasks-all-done")) window.launchConfetti && window.launchConfetti()
     })
   }
 

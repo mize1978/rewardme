@@ -1,0 +1,39 @@
+<%# タスク完了/取消の応答：ページ遷移せず該当領域だけ差し替える。
+    ホーム(dashboard)とタスク管理(list)の両方の領域を差し替え、
+    今いないページのidは Turbo が無視する（＝どちらのページから押しても効く）。 %>
+<% today = Time.current.in_time_zone("Tokyo").to_date %>
+
+<%# --- ホーム「今日のタスク」領域 --- %>
+<% @not_done_tasks = current_user.tasks.where(done: false).where("date IS NULL OR date = ?", today) %>
+<% @done_tasks     = current_user.tasks.where(done: true).where(completed_at: today.in_time_zone("Tokyo").all_day) %>
+<%= turbo_stream.replace "home-tasks" do %>
+  <%= render "tasks/home_tasks" %>
+<% end %>
+
+<%# --- タスク管理(list)一覧領域 --- %>
+<% @not_done   = current_user.tasks.where(done: false).order(created_at: :desc) %>
+<% @done_tasks = current_user.tasks.where(done: true).order(completed_at: :desc) %>
+<% @total      = @not_done.count + @done_tasks.count %>
+<%= turbo_stream.replace "mytasks" do %>
+  <%= render "tasks/mytasks" %>
+<% end %>
+
+<%# --- カレンダー（当月を再計算してドットを即時更新） --- %>
+<% @cal_month = today.beginning_of_month %>
+<% completed_by_day = current_user.tasks
+     .where(done: true).where.not(completed_at: nil)
+     .pluck(:completed_at).map { |x| x.in_time_zone("Tokyo").to_date }.tally %>
+<% planned_by_day = current_user.tasks.where.not(date: nil).group(:date).count %>
+<% @cal_status = {} %>
+<% (@cal_month..@cal_month.end_of_month).each do |d|
+     done_n = completed_by_day[d].to_i
+     plan_n = planned_by_day[d].to_i
+     @cal_status[d] =
+       if done_n.positive? && plan_n > done_n then :part
+       elsif done_n.positive?                 then :done
+       elsif plan_n.positive? && d < today    then :miss
+       end
+   end %>
+<%= turbo_stream.replace "dashboard_calendar" do %>
+  <%= render "tasks/calendar" %>
+<% end %>

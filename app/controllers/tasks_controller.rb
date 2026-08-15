@@ -4,6 +4,7 @@ class TasksController < ApplicationController
 
   def index
     today = Time.current.in_time_zone("Tokyo").to_date
+    tokyo_day = today.in_time_zone("Tokyo").all_day  # JSTの0:00〜23:59（UTC日界とのズレ防止）
 
     @not_done_tasks = current_user.tasks
       .where(done: false)
@@ -11,7 +12,7 @@ class TasksController < ApplicationController
 
     @done_tasks = current_user.tasks
       .where(done: true)
-      .where(completed_at: today.beginning_of_day..today.end_of_day)
+      .where(completed_at: tokyo_day)
 
     @has_any_tasks = current_user.tasks.exists?
     @today_done_count = @done_tasks.count
@@ -21,7 +22,7 @@ class TasksController < ApplicationController
       .where(done: true)
       .where.not(completed_at: nil)
       .pluck(:completed_at)
-      .map(&:to_date)
+      .map { |t| t.in_time_zone("Tokyo").to_date }
       .uniq
 
     streak = 0
@@ -38,10 +39,35 @@ class TasksController < ApplicationController
 
     @today_coins = current_user.tasks
       .where(done: true)
-      .where(completed_at: Time.current.all_day)
+      .where(completed_at: tokyo_day)
       .sum(:coin_reward)
 
     @week_done_days = @week_days.count { |d| d[:done] }
+
+    # ===== カレンダー（今週の記録の後継） =====
+    @cal_month = begin
+      Date.strptime(params[:cal].to_s, "%Y-%m").beginning_of_month
+    rescue ArgumentError
+      today.beginning_of_month
+    end
+
+    completed_by_day = current_user.tasks
+      .where(done: true).where.not(completed_at: nil)
+      .pluck(:completed_at)
+      .map { |t| t.in_time_zone("Tokyo").to_date }
+      .tally
+    planned_by_day = current_user.tasks.where.not(date: nil).group(:date).count
+
+    @cal_status = {}
+    (@cal_month..@cal_month.end_of_month).each do |d|
+      done_n = completed_by_day[d].to_i
+      plan_n = planned_by_day[d].to_i
+      @cal_status[d] =
+        if done_n.positive? && plan_n > done_n then :part
+        elsif done_n.positive?                 then :done
+        elsif plan_n.positive? && d < today    then :miss
+        end
+    end
   end
 
   def list
@@ -70,6 +96,8 @@ class TasksController < ApplicationController
   end
 
   def update
+    evolved = false
+
     ActiveRecord::Base.transaction do
       @task.update!(task_params)
 
@@ -83,6 +111,7 @@ class TasksController < ApplicationController
         if after_stage > before_stage
           flash[:evolution_stage]      = after_stage.to_s
           flash[:evolution_first_time] = "true"
+          evolved = true
         end
       end
 
@@ -93,7 +122,16 @@ class TasksController < ApplicationController
       end
     end
 
-    redirect_back fallback_location: tasks_path, notice: "🎉 えらい！がんばり達成！ #{current_user.badge}"
+    # 進化した時だけ従来どおりフルページ遷移＝既存の進化演出(3.2秒)をそのまま出す。
+    # 通常の完了/取消は turbo_stream で該当領域だけ差し替え、ページを再読込しない。
+    if evolved
+      redirect_back fallback_location: tasks_path, notice: "🎉 えらい！がんばり達成！ #{current_user.badge}"
+    else
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_back fallback_location: tasks_path, notice: "🎉 えらい！がんばり達成！ #{current_user.badge}" }
+      end
+    end
   rescue ActiveRecord::RecordInvalid
     render :edit, status: :unprocessable_entity
   end

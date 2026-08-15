@@ -1,0 +1,36 @@
+<%# カレンダー本体（index と update.turbo_stream の両方から描画） %>
+        <%= turbo_frame_tag "dashboard_calendar" do %>
+          <div class="cal-head">
+            <p class="panel-title">📅 <%= @cal_month.strftime("%-m月") %> <span class="cal-year"><%= @cal_month.year %></span></p>
+            <div class="cal-nav">
+              <%= link_to "‹", tasks_path(cal: (@cal_month << 1).strftime("%Y-%m")), class: "cal-nav-btn" %>
+              <%= link_to "›", tasks_path(cal: (@cal_month >> 1).strftime("%Y-%m")), class: "cal-nav-btn" %>
+            </div>
+          </div>
+          <table class="cal-grid">
+            <thead>
+              <tr><% %w[日 月 火 水 木 金 土].each do |w| %><th><%= w %></th><% end %></tr>
+            </thead>
+            <tbody>
+              <% cal_start = @cal_month - @cal_month.wday %>
+              <% cal_end = @cal_month.end_of_month + (6 - @cal_month.end_of_month.wday) %>
+              <% (cal_start..cal_end).each_slice(7) do |cal_week| %>
+                <tr>
+                  <% cal_week.each do |d| %>
+                    <% out = d.month != @cal_month.month %>
+                    <% st = out ? nil : @cal_status[d] %>
+                    <td>
+                      <div class="cal-day <%= 'out' if out %> <%= 'today' if d == Date.current && !out %>"><%= d.day %></div>
+                      <div class="cal-dots"><% if st %><i class="cal-d-<%= st %>"></i><% end %></div>
+                    </td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="cal-legend">
+            <span><i class="cal-d-done"></i>完了</span>
+            <span><i class="cal-d-part"></i>一部完了</span>
+            <span><i class="cal-d-miss"></i>未完了</span>
+          </div>
+        <% end %>

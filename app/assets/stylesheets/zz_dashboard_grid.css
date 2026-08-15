@@ -1,0 +1,584 @@
+/* ============================================================
+   RewardMe – dashboard grid graft (GRAFT 01 / v14・素材差し替え)
+   ------------------------------------------------------------
+   完成カンプ実測（1920×1080・コンテナ1760・gap20）を規定値とする。
+
+   ■ カンプ設計図（正）
+     カラム: 300 / 380 / 500(1fr) / 520
+     行:     topbar72 / 第2段478（成長263+gap20+バッジ195）/
+             第3段361横一線 / 第4段227
+   ■ v4での到達点（実測）
+     成長263（規定どおり）/ HERO472（誤差6px）/ 第3段445で横一線
+     ※第3段の絶対値361は week/tasks の中身が痩せる後工程で収束させる
+
+   撤去: このファイルを消せば即・元に戻る（ERB無変更）。
+   ============================================================ */
+
+/* ================================================================
+   TIER 1: 1101px〜 共通（3カラム＋コンポーネント補正）
+   ================================================================ */
+@media (min-width: 1101px) {
+  .dashboard-layout {
+    display: grid !important;
+    max-width: 1760px !important;
+    margin: 0 auto;
+    gap: 20px !important;
+    align-items: stretch !important;
+    grid-template-columns: 260px minmax(0, 1fr) 400px !important;
+    grid-template-areas:
+      "nav   hero  hero"
+      "nav   evo   badge"
+      "box   week  stats"
+      "prize tasks stats"
+      "grow  grow  deco" !important;
+  }
+
+  /* 既存ラッパーの透明化（ERB無変更の要） */
+  .col-left, .col-center, .col-right, .center-bottom { display: contents !important; }
+  .col-left > div:has(> .daily-box-panel) { display: contents !important; }
+
+  /* 配置 */
+  .side-menu         { grid-area: nav !important;   align-self: start !important; }
+  .my-room           { grid-area: hero !important; }
+  .evo-chain-panel   { grid-area: evo !important; }
+  .badge-panel       { grid-area: badge !important; }
+  .daily-box-panel   { grid-area: box !important; }
+  .today-prize-panel { grid-area: prize !important; align-self: start !important; }
+  .week-panel        { grid-area: week !important; }
+  .tasks-panel       { grid-area: tasks !important; }
+  .stats-panel       { grid-area: stats !important; }
+  .room-growth-panel { grid-area: grow !important; }
+
+  /* --- HERO: 部屋画像に行の高さを主張させない ---
+     room-bg（in-flow img）が 幅×画像比 で高さを決めていたのが
+     「HEROがデカすぎる」の正体。absolute化して行に従わせる。 */
+  .my-room { position: relative !important; overflow: hidden !important;
+             height: auto !important; min-height: 400px; }
+  .my-room .room-bg {
+    position: absolute !important; inset: 0 !important;
+    width: 100% !important; height: 100% !important; object-fit: cover !important;
+  }
+
+  /* --- 成長チェーン: 縦積み→横1列（カンプ規定263px枠に収める） --- */
+  .evo-chain-panel { padding: 14px 16px !important; }
+  .evo-chain-panel .panel-title { margin-bottom: 8px !important; }
+  .evo-chain-panel .evo-vertical-chain {
+    display: flex !important; flex-direction: row !important;
+    align-items: stretch; justify-content: space-between; gap: 4px;
+  }
+  .evo-v-item {
+    display: flex !important; flex-direction: column !important;
+    align-items: center; text-align: center; flex: 1 1 0; gap: 4px;
+    padding: 6px 2px !important; margin: 0 !important;
+  }
+  .evo-v-item--current { flex: 1.4 1 0; } /* 今ここカードは少し広く */
+  .evo-v-arrow { align-self: center; transform: rotate(-90deg);
+                 padding: 0 !important; margin: 0 !important; }
+  .evo-v-img { width: 44px !important; height: 44px !important; object-fit: contain; }
+  .evo-v-img-wrap { width: auto !important; }
+  .evo-v-name { font-size: 11px !important; line-height: 1.3; }
+  .evo-v-lv { font-size: 10px !important; }
+  .evo-v-progress { height: 6px !important; margin: 2px 0 !important; }
+  .evo-v-progress-text { font-size: 10px !important; }
+
+  /* --- 第3段の横一線: 各パネルの自前heightを外し stretch を通す --- */
+  .daily-box-panel, .week-panel, .tasks-panel, .stats-panel { height: auto !important; }
+  .stats-panel { align-self: stretch !important; }
+  /* バッジは中身の高さのまま（stretchで水膨れさせない） */
+  .badge-panel { align-self: start !important; }
+}
+
+/* ================================================================
+   TIER 2: 1620px〜 カンプと同じ4カラム格子＋行の規定値
+   ================================================================ */
+@media (min-width: 1620px) {
+  .dashboard-layout {
+    grid-template-columns: 300px 380px minmax(0, 1fr) 520px !important;
+    grid-template-areas:
+      "nav   hero  hero  evo"
+      "nav   hero  hero  badge"
+      "box   week  tasks stats"
+      "prize week  tasks stats"
+      "grow  grow  grow  deco" !important;
+    /* 行の規定値: 成長263 / バッジ195（中身が収まれば HERO=478）
+       第3段は固定: 260 + gap20 + 100 = 帯380（合意レンジ350〜380の上限）
+       → 中身が増えてもrowは伸びない。はみ出しはパネル内部で処理 */
+    grid-template-rows: minmax(263px, auto) minmax(195px, auto) 260px 100px minmax(227px, auto) !important;
+  }
+  /* 4カラムでは行が高さを規定するので min-height は不要 */
+  .my-room { min-height: 0 !important; }
+}
+
+/* ---- 1100px以下：何もしない（既存のモバイル/タブレットCSSに委ねる） ---- */
+
+/* ================================================================
+   第4段の完成（grow + deco）と盤面密度 v5/v6
+   ================================================================ */
+@media (min-width: 1101px) {
+  /* 盤面密度: ブラウザ90%表示で確認した見え方を100%ズームで再現
+     （実測: zoom=0.90 ちょうど。盤面1760→実効1584px・左右余白168px） */
+  body { zoom: 0.9; }
+
+  /* --- お部屋の成長: カンプ規定 h227 に合わせて厚みを出す --- */
+  .room-growth-panel { grid-area: grow !important; margin-top: 0 !important; }
+  .room-growth-img { height: 110px !important; }
+
+  /* --- お部屋のデコレーション（新設パネル・カンプ準拠） --- */
+  .deco-panel {
+    grid-area: deco;
+    padding: 16px 18px 18px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 160, 200, 0.18);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(60, 0, 80, 0.2);
+    display: flex; flex-direction: column;
+  }
+  .deco-panel .panel-title { margin-bottom: 8px; }
+  .deco-panel-text {
+    font-size: 12px; line-height: 1.7;
+    color: rgba(240, 200, 255, 0.75); margin: 0 0 10px;
+  }
+  .deco-panel-emojis { font-size: 24px; letter-spacing: 6px; margin-bottom: 14px; }
+  .deco-panel-btn {
+    margin-top: auto; display: block; text-align: center; text-decoration: none;
+    padding: 10px 16px; border-radius: 999px;
+    font-size: 13px; font-weight: 700; color: #fff;
+    background: linear-gradient(90deg, #ff7ab8, #c86bd8);
+    box-shadow: 0 4px 14px rgba(255, 110, 180, 0.3);
+    transition: transform .18s, box-shadow .18s;
+  }
+  .deco-panel-btn:hover { transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 110, 180, 0.42); }
+
+  /* --- GitHubバッジ: 盤面外要素として弱める（消さない） --- */
+  .site-footer { opacity: 0.35; transition: opacity .2s; }
+  .site-footer:hover { opacity: 1; }
+}
+/* モバイル/タブレットでは deco はグリッド外になるので出さない
+   （room-growth-panel と同じ扱い） */
+@media (max-width: 1100px) { .deco-panel { display: none; } }
+
+/* ================================================================
+   カレンダー（今週の記録の後継・カンプ準拠） v7
+   モバイルでも使うためメディアクエリ外に置く
+   ================================================================ */
+.week-panel .cal-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.cal-head .panel-title { margin-bottom: 0; }
+.cal-year { font-size: 12px; font-weight: 500; color: rgba(240, 200, 255, 0.5); }
+.cal-nav { display: flex; gap: 6px; }
+.cal-nav-btn {
+  width: 26px; height: 26px; display: grid; place-items: center;
+  border-radius: 8px; text-decoration: none; font-size: 15px; line-height: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(240, 200, 255, 0.7);
+  transition: color .15s, border-color .15s;
+}
+.cal-nav-btn:hover { color: #ff8ec4; border-color: rgba(255, 142, 196, 0.4); }
+
+table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.cal-grid th {
+  font-size: 11px; font-weight: 600; padding-bottom: 6px;
+  color: rgba(240, 200, 255, 0.5);
+}
+.cal-grid th:first-child { color: #ff8f8f; }
+.cal-grid th:last-child  { color: #8fb4ff; }
+.cal-grid td { text-align: center; padding: 2px 0; height: 38px; vertical-align: top; }
+.cal-day {
+  display: inline-grid; place-items: center;
+  width: 26px; height: 26px; border-radius: 50%; font-size: 12px; color: #f4ecff;
+}
+.cal-day.out { opacity: 0.35; }
+.cal-day.today {
+  background: linear-gradient(135deg, #ff7ab8, #d76bd0);
+  font-weight: 800; box-shadow: 0 0 0 3px rgba(255, 122, 184, 0.2);
+}
+.cal-dots { display: flex; justify-content: center; height: 6px; margin-top: 1px; }
+.cal-dots i { width: 4px; height: 4px; border-radius: 50%; display: block; }
+.cal-d-done { background: #a78bfa; }
+.cal-d-part { background: #fbbf24; }
+.cal-d-miss { background: #6b6280; }
+.cal-legend {
+  display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 11px; color: rgba(240, 200, 255, 0.6);
+}
+.cal-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.cal-legend i { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+
+/* ================================================================
+   今日のタスク 内装（v8）: 行の語彙をカンプへ・外寸不変
+   .tasks-panel 内のみに効かせ、タスク管理ページの .task-card は触らない
+   ================================================================ */
+/* --- 行: カード箱→静かな1行（ヘアライン区切り） --- */
+.tasks-panel .task-card {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 9px 4px !important;
+  margin: 0 !important;
+  max-width: none !important;
+  font-size: 14px !important;
+}
+.tasks-panel .task-card-inner {
+  display: flex !important; align-items: center !important; gap: 10px !important;
+}
+.tasks-panel .task-title-text { flex: 1; min-width: 0; font-weight: 600; }
+.tasks-panel .task-right {
+  display: flex !important; align-items: center !important; gap: 8px !important;
+  margin-left: auto;
+}
+.tasks-panel .task-star { color: #fbbf24; font-size: 12px; }
+.tasks-panel .task-exp {
+  font-size: 12px; font-weight: 800; color: #f9a8d4;
+  min-width: 52px; text-align: right; white-space: nowrap;
+}
+
+/* --- ○ボタン --- */
+.tasks-panel .task-circle-btn {
+  width: 22px !important; height: 22px !important; flex: none;
+  border-radius: 50% !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important; cursor: pointer;
+  display: grid; place-items: center;
+  color: transparent; font-size: 11px; line-height: 1;
+  transition: border-color .15s, background .15s;
+}
+.tasks-panel .task-circle-btn:hover { border-color: #ff8ec4 !important; }
+
+/* --- 完了行: ピンク✓＋打ち消し線 --- */
+.tasks-panel .task-circle-btn--done {
+  background: linear-gradient(135deg, #ff7ab8, #d76bd0) !important;
+  border: none !important; color: #fff !important;
+}
+.tasks-panel .task-card--done .task-title-text {
+  color: rgba(240, 200, 255, 0.45);
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+.tasks-panel .task-card--done .category-chip,
+.tasks-panel .task-card--done .task-star,
+.tasks-panel .task-card--done .task-exp { opacity: 0.55; }
+
+/* --- 削除×は普段は気配だけ --- */
+.tasks-panel .task-delete-btn { opacity: 0.22 !important; transition: opacity .15s; }
+.tasks-panel .task-card:hover .task-delete-btn { opacity: 0.85 !important; }
+
+/* --- タスク0件の提案チップ: 発光を落として行の語彙に合わせる --- */
+.tasks-panel .tasks-zero-chip {
+  background: rgba(255, 255, 255, 0.035) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: none !important;
+  font-weight: 600 !important;
+  color: rgba(240, 220, 250, 0.85) !important;
+}
+.tasks-panel .tasks-zero-chip:hover {
+  border-color: rgba(255, 142, 196, 0.35) !important;
+  background: rgba(255, 142, 196, 0.07) !important;
+  transform: none !important;
+}
+
+/* --- フッター → ミッション帯（カンプ準拠の帯、中身は実データのまま） --- */
+.tasks-panel .tasks-panel-footer {
+  margin-top: 12px !important;
+  padding: 10px 14px !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255, 142, 196, 0.22) !important;
+  border-top: 1px solid rgba(255, 142, 196, 0.22) !important;
+  background: linear-gradient(90deg, rgba(255, 142, 196, 0.14), rgba(167, 139, 250, 0.10));
+  font-size: 12.5px; font-weight: 700;
+}
+
+/* ================================================================
+   第3段の高さ収束（v9）: 帯380px固定・中身にrowを押させない
+   4カラム（1620px〜）のみ。横の基準線 300/380/500/520 と gap20 は不変
+   ================================================================ */
+@media (min-width: 1620px) {
+  /* 帯の4枚: 行高に従い、あふれたら内部スクロール（バーはほぼ不可視） */
+  .week-panel, .tasks-panel, .stats-panel {
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+  }
+  .week-panel::-webkit-scrollbar,
+  .tasks-panel::-webkit-scrollbar,
+  .stats-panel::-webkit-scrollbar { width: 4px; }
+  .week-panel::-webkit-scrollbar-thumb,
+  .tasks-panel::-webkit-scrollbar-thumb,
+  .stats-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 142, 196, 0.25); border-radius: 4px;
+  }
+  .week-panel::-webkit-scrollbar-track,
+  .tasks-panel::-webkit-scrollbar-track,
+  .stats-panel::-webkit-scrollbar-track { background: transparent; }
+
+  .daily-box-panel { min-height: 0 !important; overflow: hidden !important; }
+
+  /* rowを押し広げていた犯人たち: 画像・チップ・うさぎを帯に収める */
+  .tasks-all-done { padding: 6px 0 !important; }
+  .tasks-all-done-img { max-height: 96px !important; width: auto !important; }
+  .tasks-benny-img { max-height: 52px !important; width: auto !important; }
+  .tasks-benny-row { margin-bottom: 6px !important; }
+  .tasks-panel .tasks-zero-chip { padding: 8px 14px !important; }
+  .daily-box-egg-wrap img { max-height: 118px !important; width: auto !important; }
+
+  /* ステータスは中の余白を1段階だけ詰めて380に収める */
+  .stats-panel { padding: 14px 16px !important; }
+
+  /* 獲得アイテムカードも row(100px) に従わせる */
+  .today-prize-panel {
+    align-self: stretch !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    margin: 0 !important;      /* tasks.css の margin-bottom:14px がstretchを縮めていた */
+    overflow: hidden !important;
+    padding: 10px 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* tasks の全完了ブロックをもう一段圧縮（内部スクロール解消） */
+  .tasks-all-done-img { max-height: 78px !important; }
+  .tasks-all-done-msg { font-size: 12px !important; margin: 4px 0 0 !important; }
+  .tasks-panel .tasks-panel-footer { margin-top: 10px !important; }
+}
+
+/* ================================================================
+   ヘッダー→トップバー化（v10）: カンプの語彙へ・盤面と端を揃える
+   ================================================================ */
+@media (min-width: 1101px) {
+  /* 盤面(1760)と左右端を一致させる */
+  .header { max-width: 1760px !important; }
+  .header-logo-img { height: 44px !important; width: auto !important; }
+  .header--desktop { justify-content: flex-start !important; gap: 18px !important; }
+
+  /* ステータス群: 中央散らばり→ロゴ隣に左詰め */
+  .header-status {
+    display: flex !important; align-items: center !important;
+    gap: 14px !important; margin-right: auto !important; flex-wrap: nowrap !important;
+  }
+  .header-right { margin-left: auto !important; }
+
+  /* アバター（進化段階の姿がそのまま出る） */
+  .header-avatar {
+    width: 40px; height: 40px; border-radius: 50%; flex: none;
+    object-fit: contain; padding: 3px; box-sizing: border-box;
+    background: radial-gradient(circle at 35% 30%, rgba(255, 211, 232, 0.85), rgba(255, 134, 189, 0.55));
+    box-shadow: 0 0 0 2px rgba(255, 142, 196, 0.45), 0 0 14px rgba(255, 142, 196, 0.28);
+  }
+
+  /* EXPバーをカンプの主役サイズに */
+  .header-exp-wrap { display: flex !important; align-items: center !important; gap: 8px !important; }
+  .header-exp-bar { width: 200px !important; height: 8px !important; border-radius: 999px !important; }
+}
+
+/* ================================================================
+   最終美装（v11）: ヘッダーの存在感1段階UP＋左ナビにブランドの重心
+   盤面・帯・第4段・カラム幅は一切触らない
+   ================================================================ */
+@media (min-width: 1101px) {
+  /* サイドバーがあるページ（＝ダッシュボード）ではロゴはナビ側に移る。
+     他ページはロゴ維持 */
+  body:has(.side-menu) .header-logo-link { display: none !important; }
+
+  /* --- アバター＋2行ブロック（名前の上・Lv+EXPの下） --- */
+  .header-avatar { width: 46px !important; height: 46px !important; }
+  .header-idbox { display: flex; flex-direction: column; gap: 1px; min-width: max-content; }
+  .header-lv-row { min-width: max-content; }
+  .header-stage {
+    font-size: 11px !important; color: rgba(240, 200, 255, 0.6) !important;
+    background: none !important; border: none !important;
+    padding: 0 !important; margin: 0 !important; line-height: 1.2;
+  }
+  .header-lv-row { display: flex; align-items: center; gap: 10px; }
+  .header-lv { font-size: 15px !important; font-weight: 800 !important; }
+  .header-exp-bar { width: 230px !important; height: 9px !important; }
+  .header-exp-text { font-size: 10.5px !important; color: rgba(240, 200, 255, 0.55) !important; }
+  .header-status { gap: 16px !important; }
+
+  /* --- 左ナビのブランドブロック --- */
+  .side-brand {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 6px 14px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .side-brand-mark {
+    font-size: 24px;
+    filter: drop-shadow(0 0 8px rgba(255, 142, 196, 0.5));
+  }
+  .side-brand-text { min-width: 0; }
+  .side-brand-name {
+    margin: 0; font-size: 19px; font-weight: 800; letter-spacing: 0.4px;
+    background: linear-gradient(90deg, #ffb3d9, #ff7ab8);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    line-height: 1.2;
+  }
+  .side-brand-sub {
+    margin: 2px 0 0; font-size: 9.5px; color: rgba(240, 200, 255, 0.5);
+    line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+}
+/* モバイルではブランドブロック非表示（ドロワーに既にユーザー情報がある） */
+@media (max-width: 1100px) { .side-brand { display: none; } }
+
+/* ================================================================
+   Typography / Contrast Pass（v12）
+   寸法・grid・gap・row・カードサイズには一切触れない。
+   文字の size / weight / color / line-height だけで3階層を作る:
+     主情報   … 明るく太く（#f6efff / w700-800）
+     見出し   … ピンクで統一（#f9a8d4 / 15px / w700）
+     補助情報 … 小さく淡く（rgba(240,200,255,.55)）
+   ================================================================ */
+@media (min-width: 1101px) {
+
+  /* --- 見出し: 全カード共通で1段階アップ＆ピンク統一 --- */
+  .panel-title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #f9a8d4 !important;
+    letter-spacing: 0.01em;
+  }
+
+  /* --- カレンダー: 日付を「読める文字」に --- */
+  .cal-day { font-size: 13px !important; font-weight: 600 !important; color: #f6efff !important; }
+  .cal-day.out { opacity: 0.28 !important; }
+  .cal-grid th { font-weight: 700 !important; }
+  .cal-year { font-weight: 600; }
+
+  /* --- タスク行: タスク名を主役に、EXPを準主役に --- */
+  .tasks-panel .task-title-text {
+    font-size: 14px !important; font-weight: 650 !important; color: #f6efff !important;
+  }
+  .tasks-panel .task-exp { font-weight: 800 !important; color: #f9a8d4 !important; }
+  .tasks-panel .tasks-zero-chip { font-size: 13.5px !important; }
+  .tasks-panel .tasks-zero-chip span:first-child { color: #f6efff !important; font-weight: 650 !important; }
+  .tasks-panel .category-chip { font-weight: 700 !important; }
+
+  /* --- 今週のステータス: 数値を主役に --- */
+  .stats-panel .rp-label { font-size: 11px !important; color: rgba(240, 200, 255, 0.55) !important; }
+  .stats-panel .rp-value { font-size: 30px !important; font-weight: 800 !important; color: #f6efff !important; line-height: 1.15 !important; }
+  .stats-panel .rp-goal { font-size: 11px !important; color: rgba(240, 200, 255, 0.55) !important; }
+  .stats-panel .rp-ring-text { font-weight: 800 !important; color: #f6efff !important; }
+  .stats-panel .stat-label { font-size: 11px !important; color: rgba(240, 200, 255, 0.55) !important; }
+  .stats-panel .stat-value { font-size: 21px !important; font-weight: 800 !important; color: #f6efff !important; }
+
+  /* --- 成長チェーン / バッジ: 名前は読める、レベルは補助 --- */
+  .evo-v-name { font-weight: 700 !important; color: #f6efff !important; }
+  .evo-v-lv { color: rgba(240, 200, 255, 0.5) !important; }
+  .badge-panel .badge-note,
+  .badge-panel .badge-current-row { font-size: 11px; color: rgba(240, 200, 255, 0.55); }
+
+  /* --- 第4段: ラベルの可読性 --- */
+  .room-growth-label { font-size: 11.5px !important; font-weight: 600 !important; color: #f6efff !important; }
+  .room-growth-sub { font-size: 12px !important; color: rgba(240, 200, 255, 0.55) !important; }
+  .deco-panel-text { color: rgba(240, 200, 255, 0.65) !important; }
+
+  /* --- ヘッダー: Lvと通貨は主情報 --- */
+  .header-lv { color: #f6efff !important; }
+  .header-coins, .header-gems, .header-lives { font-weight: 700 !important; color: #f6efff !important; }
+  .header-exp-text { font-weight: 500 !important; }
+
+  /* --- リボンBOX / 獲得アイテム --- */
+  .daily-box-title, .today-prize-title {
+    font-size: 14px !important; font-weight: 700 !important; color: #f9a8d4 !important;
+  }
+}
+
+/* ================================================================
+   Typography Pass 2（v13）: 上段＋極小文字の追加監査
+   変更前実測: メニュー項目13px/w400/白70% ・ 非current進化 op0.3 ・
+   バッジ未取得 op0.35 ・ badge-name 8px ・ 今ここバッジ 9px ・
+   evo-v-lv 10px/50% ・ ??? 18px/25%
+   font-size/weight/color/opacity/line-height のみ。寸法は不変。
+   ================================================================ */
+@media (min-width: 1101px) {
+
+  /* --- 左ナビ: メニュー項目は主情報 --- */
+  .side-menu-item {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #f6efff !important;
+  }
+  .side-menu-item:not(.active):not(:hover) { color: rgba(246, 239, 255, 0.82) !important; }
+  .side-section-label { font-size: 10.5px !important; letter-spacing: 0.06em; }
+  .side-brand-sub { font-size: 10px; }
+
+  /* --- 成長チェーン: 未来の段階も「読める沈み方」に --- */
+  .evo-v-item:not(.evo-v-item--current) { opacity: 0.55 !important; }
+  .evo-v-name { font-size: 11.5px !important; }
+  .evo-v-lv { font-size: 10.5px !important; color: rgba(240, 200, 255, 0.6) !important; }
+  .evo-v-progress-text { font-size: 10.5px !important; font-weight: 600 !important; }
+  .evo-v-badge { font-size: 10px !important; }
+
+  /* --- バッジ: 名前8px→読める大きさ・未取得も気配を残して読める --- */
+  .badge-name { font-size: 10.5px !important; font-weight: 600 !important; color: #f6efff !important; line-height: 1.3 !important; }
+  .badge-item:not(.earned) { opacity: 0.5 !important; }
+
+  /* --- 獲得アイテム: ??? をワクワク側に --- */
+  .today-prize-mystery-mark {
+    font-size: 22px !important; font-weight: 800 !important;
+    color: rgba(240, 200, 255, 0.45) !important; letter-spacing: 0.15em;
+  }
+  .today-prize-label { font-weight: 700 !important; color: #f6efff !important; }
+}
+
+/* ================================================================
+   素材差し替え（v14）: 全完了バナー＝横長専用絵（額縁に絵を合わせる方式）
+   ================================================================ */
+@media (min-width: 1101px) {
+  .tasks-panel .tasks-all-done { padding: 8px 0 4px !important; text-align: center; }
+  .tasks-all-done-img {
+    display: block;
+    width: 100% !important;
+    max-width: none !important;
+    height: 120px !important;          /* 3カラム時の高さ */
+    max-height: none !important;
+    object-fit: cover !important;       /* fill(押し込み)をやめて切り取りに */
+    object-position: center 42%;        /* 3人の顔が帯の中心に来る位置 */
+    border-radius: 14px !important;
+  }
+}
+/* 4カラム（帯380固定）ではバナーを92pxに（v9の予算に合わせる） */
+@media (min-width: 1620px) {
+  .tasks-all-done-img { height: 92px !important; }
+}
+
+/* ================================================================
+   v14.2: 開封後のリボンBOXも箱絵をディム表示＋ヘッダーEXPテキスト整列
+   ================================================================ */
+@media (min-width: 1101px) {
+  .daily-box-done-img {
+    display: block; margin: 0 auto 6px;
+    max-height: 110px; width: auto;
+    opacity: 0.45; filter: saturate(0.65);
+  }
+  .daily-box-done-ico { display: none; }
+
+  /* EXPテキストが通貨チップに被らないよう、バーの直後にインラインで置く */
+  .header-exp-text {
+    position: static !important;
+    transform: none !important;
+    margin-left: 6px !important;
+    white-space: nowrap;
+  }
+}
+
+/* ============================================================
+   残タスク（GRAFT 02以降・このファイルでは触らない）
+   ------------------------------------------------------------
+   GRAFT 01 完了（v11=最終美装まで）。以後この盤面の数値は凍結：
+   1760盤面 / 300・380・500・520 / gap20 / 帯380 / 第4段230 / zoom0.9
+   ※ 第3段は帯380px固定で最終ロック(v9)。横基準線300/380/500/520+gap20は不変
+   ※ 解消済: GitHubバッジ/grow+deco(v6)/カレンダー化(v7)/タスク行(v8)
+   ============================================================ */

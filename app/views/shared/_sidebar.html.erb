@@ -14,13 +14,13 @@
     <p class="daily-box-title">🎁 今日のリボンBOX</p>
     <% if current_user.box_available? %>
       <div class="daily-box-egg-wrap" data-daily-box-target="wrap">
-        <%= image_tag "ribbon_box.png", class: "daily-box-egg",
+        <%= image_tag "ribbon_box_v2.png", class: "daily-box-egg",
               data: { "daily-box-target": "egg" }, alt: "リボンBOX" %>
         <button class="daily-box-btn" data-action="click->daily-box#open">✨ タップして開ける！</button>
       </div>
     <% else %>
       <div class="daily-box-done" data-daily-box-target="done">
-        <span class="daily-box-done-ico">🎁</span>
+        <%= image_tag "ribbon_box_v2.png", class: "daily-box-done-img", alt: "" %>
         <span class="daily-box-done-open">✓ OPEN</span>
         <p class="daily-box-done-sub">Today's Box</p>
         <p class="daily-box-timer" data-daily-box-target="timer"></p>
@@ -62,17 +62,13 @@
 <%# ===== ナビゲーション ===== %>
 <div class="side-menu">
 
-  <%# ── クイックアクセス ── %>
-  <div class="side-quick-row">
-    <%= link_to shop_path, class: "side-quick-btn side-quick-btn--room #{shop_active ? 'active' : ''}" do %>
-      <%= image_tag current_user.room_bg_image, class: "side-quick-room-bg" %>
-      <%= image_tag current_user.ribbon_stage_image, class: "side-quick-room-chara" %>
-      <span class="side-quick-room-label">🛏 マイルーム</span>
-    <% end %>
-    <%= link_to gacha_path, class: "side-quick-btn #{gacha_active ? 'active' : ''}" do %>
-      <span class="side-quick-ico">🎲</span>
-      <span>ガチャ</span>
-    <% end %>
+  <%# ── ブランド ── %>
+  <div class="side-brand">
+    <span class="side-brand-mark">🎀</span>
+    <div class="side-brand-text">
+      <p class="side-brand-name">RewardMe</p>
+      <p class="side-brand-sub">リボンちゃんと暮らすタスク管理</p>
+    </div>
   </div>
 
   <%# ── ミニゲーム ── %>
@@ -82,6 +78,10 @@
     <% if !current_user.tap_game_played_today? || !current_user.match_game_played_today? || current_user.puzzle_plays_remaining > 0 %>
       <span class="side-menu-badge">NEW</span>
     <% end %>
+  <% end %>
+  <%= link_to gacha_path, class: "side-menu-item #{gacha_active ? 'active' : ''}" do %>
+    <span class="menu-icon-emoji">🎲</span>
+    <span>ガチャ</span>
   <% end %>
 
   <%# ── メニュー ── %>
