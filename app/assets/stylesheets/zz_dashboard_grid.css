@@ -1,5 +1,5 @@
 /* ============================================================
-   RewardMe – dashboard grid graft (GRAFT 01 / v14・素材差し替え)
+   RewardMe – dashboard grid graft (GRAFT 01 / v15・バナー無切断化)
    ------------------------------------------------------------
    完成カンプ実測（1920×1080・コンテナ1760・gap20）を規定値とする。
 
@@ -572,6 +572,33 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
     margin-left: 6px !important;
     white-space: nowrap;
   }
+}
+
+/* ================================================================
+   v15: 全完了バナーの「切り取ってる感」解消
+   絵は2:1縦構図（顔上・ケーキ下）なのに枠が4.5:1で水平スライスに
+   なっていた。全完了状態ではうさぎ行を隠し（絵の中にうさぎがいる）、
+   バナーを aspect-ratio 2/1 のほぼ無切断で表示する。
+   ================================================================ */
+@media (min-width: 1101px) {
+  /* うさぎはパーティーに参加中（全完了時のみ非表示・通常時は今まで通り） */
+  .tasks-panel:has(.tasks-all-done) .tasks-benny-row { display: none !important; }
+
+  /* バナー専用画（額装・角丸焼き込み/透過）を無加工で表示 */
+  .tasks-all-done-img {
+    height: 200px !important;
+    width: auto !important;
+    max-width: 100% !important;
+    margin: 0 auto;
+    object-fit: contain !important;
+    border-radius: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+  }
+}
+@media (min-width: 1620px) {
+  /* 帯380の予算内（ヘッダー50+完了行+ミッション帯を差し引いた枠） */
+  .tasks-all-done-img { height: 150px !important; }
 }
 
 /* ============================================================

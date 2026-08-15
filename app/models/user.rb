@@ -137,6 +137,25 @@ end
     true
   end
 
+  # ===== 全完了バナー（部屋の色温度で3系統） =====
+  # blue系・purple系の部屋では専用バナーに差し替える。
+  # purple版アセットが未制作の間は pink（現行）にフォールバック。
+  BANNER_TONE = {
+    "blue" => :blue, "blue_royal" => :blue, "star" => :blue,
+    "night_simple" => :blue, "winter" => :blue,
+    "purple" => :purple, "purple_royal" => :purple, "halloween" => :purple,
+  }.freeze
+  BANNER_IMAGE = {
+    blue:   "banner_done_blue.webp",
+    purple: "banner_done_purple.webp",
+    pink:   "banner_done_pink.webp",
+  }.freeze
+
+  def all_done_banner_image
+    tone = BANNER_TONE[current_room_bg] || :pink
+    BANNER_IMAGE[tone]
+  end
+
   # ===== デイリーBOX =====
   BOX_PRIZES = [
     { type: :coins, amount: 10,  label: "コイン 10",     rarity: "normal", weight: 35 },

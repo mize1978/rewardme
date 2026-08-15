@@ -24,7 +24,7 @@
           <% if @not_done_tasks.empty? %>
             <% if @done_tasks.any? %>
               <div class="tasks-all-done">
-                <%= image_tag "all_done_party.jpg", class: "tasks-all-done-img", alt: "今日も全部終わったね！" %>
+                <%= image_tag current_user.all_done_banner_image, class: "tasks-all-done-img", alt: "今日も全部終わったね！" %>
                 <p class="tasks-all-done-msg">今日も全部終わったね！🎉</p>
               </div>
             <% else %>
