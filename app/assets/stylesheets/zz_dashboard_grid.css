@@ -1,5 +1,5 @@
 /* ============================================================
-   RewardMe – dashboard grid graft (GRAFT 01 / v17・ゲームロビー①)
+   RewardMe – dashboard grid graft (GRAFT 01 / v21・魔法の雫方式)
    ------------------------------------------------------------
    完成カンプ実測（1920×1080・コンテナ1760・gap20）を規定値とする。
 
@@ -679,10 +679,359 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
   border-color: rgba(255, 142, 196, 0.22);
 }
 
+/* CHALLENGE（ポーション）: 次の一段へ向かう色 */
+.game-card-focus--challenge {
+  background: rgba(167, 139, 250, 0.11);
+  border-color: rgba(167, 139, 250, 0.24);
+}
+
 /* コインは副情報へ降格（金色の主張をやめ、他のメタ行と同格に） */
 .game-card-meta-item--coin {
   color: rgba(255, 215, 120, 0.62) !important;
   font-weight: 600;
+}
+
+/* ================================================================
+   v18: ポーション「つづきから」— 副導線と全クリア表示
+   ================================================================ */
+.pg-restart-link {
+  display: block;
+  margin: 10px auto 0;
+  padding: 6px 14px;
+  background: none;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(240, 200, 255, 0.55);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color .15s;
+}
+.pg-restart-link:hover { color: rgba(255, 142, 196, 0.9); }
+
+.pg-cleared-msg {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffd9ee;
+  text-shadow: 0 0 12px rgba(255, 142, 196, 0.45);
+}
+
+/* ================================================================
+   v21: ポーション「魔法の雫」方式（Ball Sort系の表示へ移行）
+   ----------------------------------------------------------------
+   なぜ変えたか:
+     ゲームロジック（_canPour / _pour / _isWon）はもともと
+     「同色が連続していればまとめて動かす」= Ball Sort そのもの。
+     液体で描いていたせいで、傾き・水平な液面・体積保存・注ぐ流れ、
+     という“物理を近似し続ける戦い”が永久に終わらなかった。
+     中身を雫にすると、その問題群が丸ごと消える。
+
+   変えていないもの:
+     ゲームロジック / STAGES / 価格・コイン / サーバー側 /
+     v3のガラス試験管（胴・リム・反射・底の厚み）
+
+   変えたもの:
+     中身の描画（帯 → 雫）と移動演出（注ぐ → 飛ぶ）だけ。
+     完成時は雫が溶け合って1本のポーションになる。
+   ================================================================ */
+
+/* ── 胴（ガラス）: v3のまま ── */
+.pg-vial-body {
+  position: relative;
+  width: 62px !important;
+  height: 174px !important;
+  border-radius: 4px 4px 31px 31px !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.28) !important;
+  border-left-color: rgba(255, 255, 255, 0.52) !important;
+  border-right-color: rgba(255, 255, 255, 0.16) !important;
+  background: linear-gradient(102deg,
+    rgba(255,255,255,.15) 0%, rgba(255,255,255,.035) 32%,
+    rgba(255,255,255,.02) 70%, rgba(255,255,255,.09) 100%) !important;
+  overflow: hidden !important;
+  display: block !important;
+  box-shadow:
+    inset 7px 0 13px -5px rgba(255,255,255,.32),
+    inset -6px 0 11px -5px rgba(0,0,0,.32),
+    inset 0 -9px 15px -7px rgba(0,0,0,.36) !important;
+}
+/* 底の厚み */
+.pg-vial-body::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 24px;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,.30));
+  pointer-events: none; z-index: 4;
+}
+
+/* ================================================================
+   魔法の雫（エッセンス）
+   ----------------------------------------------------------------
+   ベタ塗りのボールにしない。3層の背景を重ねて宝石にする:
+     1) 左上の鋭いハイライト（ガラス玉の照り）
+     2) 右下の弱い反射光（環境光の回り込み）
+     3) 本体の球状グラデーション（--c1 → --c2 → --c3）
+   さらに ::before で内部の淡い光、::after で小さな鏡面点。
+   --glow で外周をその色に発光させ、背景の紫に馴染ませる。
+   ================================================================ */
+.pg-drop {
+  position: absolute;
+  left: 50%;
+  margin-left: -22.5px;          /* = DROP/2。transform はアニメ用に空けておく */
+  width: 45px; height: 45px;     /* JS の DROP と一致 */
+  border-radius: 50%;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 33% 25%,
+      rgba(255,255,255,.95) 0%, rgba(255,255,255,.34) 13%, transparent 33%),
+    radial-gradient(circle at 70% 78%,
+      rgba(255,255,255,.26) 0%, transparent 42%),
+    radial-gradient(circle at 40% 34%,
+      var(--c1) 0%, var(--c2) 60%, var(--c3) 100%);
+  box-shadow:
+    inset -4px -6px 12px rgba(0,0,0,.30),
+    inset  4px  5px 11px rgba(255,255,255,.34),
+    0 3px 7px rgba(0,0,0,.28),
+    0 0 14px rgba(var(--glow), .45);
+  opacity: .94;                  /* うっすら向こうが透ける = 半透明の宝石 */
+}
+/* 内部の淡い光 */
+.pg-drop::before {
+  content: ""; position: absolute; inset: 21% 20% 17% 21%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 56%, rgba(255,255,255,.36), transparent 68%);
+  filter: blur(3px);
+}
+/* 小さな鏡面点 */
+.pg-drop::after {
+  content: ""; position: absolute; top: 16%; left: 25%;
+  width: 9px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,.96);
+  filter: blur(.5px);
+  transform: rotate(-24deg);
+}
+
+/* 瓶が傾く transition（JS側 .22s）は TILT_MS=220 と一致させること。
+   ズレると傾き切る前に雫が離れ、速度が繋がらない。 */
+
+/* 選択中の瓶は「次に飛ぶ雫」がふわふわ浮いて予告する */
+@keyframes pgDropFloat {
+  0%, 100% { transform: translateY(-7px); }
+  50%      { transform: translateY(-12px); }
+}
+.pg-vial--selected .pg-drop--top {
+  animation: pgDropFloat 1.15s ease-in-out infinite;
+}
+
+/* ── 飛行中のクローン（position:fixed で画面上を動く）── */
+.pg-drop--fly {
+  position: fixed !important;
+  margin-left: 0 !important;
+  z-index: 9999;
+  opacity: 1;
+  box-shadow:
+    inset -4px -6px 12px rgba(0,0,0,.30),
+    inset  4px  5px 11px rgba(255,255,255,.34),
+    0 6px 14px rgba(0,0,0,.34),
+    0 0 22px rgba(var(--glow), .70);
+}
+
+/* ── 着地の潰れ ── */
+@keyframes pgDropLand {
+  0%   { transform: scale(1.18, .82); }
+  40%  { transform: scale(.94, 1.06); }
+  70%  { transform: scale(1.025, .985); }
+  88%  { transform: scale(.995, 1.005); }
+  100% { transform: scale(1, 1); }
+}
+/* 減衰を4段に分ける。1回のバウンドだと静止の直前に段差が出る */
+.pg-drop--land { animation: pgDropLand .34s cubic-bezier(.22,.68,.36,1) both; }
+
+/* ================================================================
+   錬成できた状態（4つ揃ったとき）
+   ----------------------------------------------------------------
+   ここで液体には変えない。
+   盤面は「素材の魔法雫を4つ揃える」場所であって、
+   完成したポーションはステージクリア画面で初めて登場する。
+   途中で表現のルールが変わると、雫という見立てが壊れる。
+
+   きゅっと整列 → 全体が発光 → キラッ → 完成マーク
+   各キーフレームの始点は前フェーズの終点と数値まで一致させてある。
+   ================================================================ */
+
+/* ① きゅっと整列
+   --ay は「重心へ詰めるぶんの移動量」。JS が段ごとに配る。
+   わずかに行き過ぎてから収まることで、かちっと嵌まった感じが出る。 */
+@keyframes pgDropAlign {
+  0%   { transform: translateY(0) scale(1); }
+  38%  { transform: translateY(calc(var(--ay, 0px) * 1.20)) scale(1.045); }
+  72%  { transform: translateY(calc(var(--ay, 0px) * .965)) scale(.992); }
+  100% { transform: translateY(var(--ay, 0px)) scale(1); }
+}
+.pg-drop--align { animation: pgDropAlign .30s cubic-bezier(.3,.8,.35,1) both; }
+
+/* ② 全体が発光（整列の終点から始まり、整列の終点に戻る＝再描画で跳ねない） */
+@keyframes pgDropCharged {
+  0%   { transform: translateY(var(--ay, 0px)) scale(1);     filter: brightness(1); }
+  38%  { transform: translateY(var(--ay, 0px)) scale(1.075); filter: brightness(1.62); }
+  100% { transform: translateY(var(--ay, 0px)) scale(1);     filter: brightness(1); }
+}
+.pg-drop--charged { animation: pgDropCharged .66s cubic-bezier(.3,.6,.4,1) both; }
+
+/* 瓶の内側が、その雫の色で満たされる。
+   z-index:1 で雫より後ろに置くので「内側から光っている」ように見える。 */
+@keyframes pgVialGlow {
+  0%   { opacity: 0; }
+  28%  { opacity: .85; }
+  62%  { opacity: .45; }
+  100% { opacity: 0; }
+}
+.pg-vial-glow {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(var(--glow), .78) 0%, rgba(var(--glow), .24) 46%, transparent 74%);
+  animation: pgVialGlow .92s cubic-bezier(.25,.6,.35,1) both;
+}
+
+/* ③ キラッ — ガラスの上を光が斜めに横切る（本体の overflow で切り取られる） */
+@keyframes pgVialSpark {
+  0%   { transform: translate(-115%, 55%) rotate(16deg); opacity: 0; }
+  24%  { opacity: .92; }
+  100% { transform: translate(115%, -55%) rotate(16deg); opacity: 0; }
+}
+.pg-vial-spark {
+  position: absolute; top: -22%; left: 0; z-index: 4;
+  width: 170%; height: 145%; pointer-events: none;
+  background: linear-gradient(102deg,
+    transparent 41%, rgba(255,255,255,.20) 47%,
+    rgba(255,255,255,.75) 50%, rgba(255,255,255,.20) 53%, transparent 59%);
+  filter: blur(2px);
+  animation: pgVialSpark .58s cubic-bezier(.3,.5,.3,1) both;
+}
+
+/* 小さな輝き。瓶の外に出るので .pg-vial（overflow なし）側に置く */
+@keyframes pgTwinkle {
+  0%   { transform: translate(-50%,-50%) scale(0)    rotate(0deg);  opacity: 0; }
+  34%  { transform: translate(-50%,-50%) scale(1.15) rotate(38deg); opacity: 1; }
+  100% { transform: translate(-50%,-50%) scale(0)    rotate(86deg); opacity: 0; }
+}
+.pg-twinkle {
+  position: absolute; top: 16%; left: 76%; z-index: 7;
+  width: 26px; height: 26px; pointer-events: none;
+  animation: pgTwinkle .62s cubic-bezier(.25,.7,.35,1) both;
+}
+.pg-twinkle::before, .pg-twinkle::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  background: #fff; border-radius: 50%;
+  box-shadow: 0 0 9px rgba(255,255,255,.95), 0 0 18px rgba(255,255,255,.55);
+}
+.pg-twinkle::before { width: 2.5px; height: 26px; transform: translate(-50%,-50%); }
+.pg-twinkle::after  { width: 26px; height: 2.5px; transform: translate(-50%,-50%); }
+
+/* ④ 完成マーク（tasks.css の translateX(-50%) を保持したまま弾ませる） */
+@keyframes pgDoneMarkPop {
+  0%   { transform: translateX(-50%) scale(0)    rotate(-24deg); opacity: 0; }
+  52%  { transform: translateX(-50%) scale(1.28) rotate(7deg);   opacity: 1; }
+  78%  { transform: translateX(-50%) scale(.94)  rotate(-2deg); }
+  100% { transform: translateX(-50%) scale(1)    rotate(0deg);   opacity: 1; }
+}
+.pg-vial-done-mark--pop { animation: pgDoneMarkPop .40s cubic-bezier(.3,.9,.4,1) both; }
+
+/* ================================================================
+   完成したポーション（1本ぶんの液体）
+   ----------------------------------------------------------------
+   ※ 盤面では使わない。ステージクリア画面で初めて出すための部品として
+      定義だけ残してある（「ポーション完成！」の主役）。
+   ================================================================ */
+.pg-potion {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 168px; z-index: 2;
+  border-radius: 0 0 30px 30px;
+  background: linear-gradient(180deg, var(--c1) 0%, var(--c2) 52%, var(--c3) 100%);
+  box-shadow:
+    inset 0 -10px 18px rgba(0,0,0,.28),
+    inset 0 0 22px rgba(255,255,255,.16),
+    0 0 18px rgba(var(--glow), .45);
+  pointer-events: none;
+}
+/* 液面（ここだけハイライトを引く） */
+.pg-potion::before {
+  content: ""; position: absolute; top: -3px; left: 2px; right: 2px;
+  height: 7px; border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.10));
+  filter: blur(.5px);
+}
+/* 内部のゆらめき */
+@keyframes pgPotionShimmer {
+  0%, 100% { opacity: .55; transform: translateY(0)    scale(1);    }
+  50%      { opacity: .95; transform: translateY(-5px) scale(1.06); }
+}
+.pg-potion::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(58% 38% at 32% 22%, rgba(255,255,255,.26), transparent 70%);
+  animation: pgPotionShimmer 3.4s ease-in-out infinite;
+}
+/* とろっと生まれる（中央から上下へ広がる） */
+@keyframes pgPotionForm {
+  0%   { transform: scaleY(.10) scaleX(.72);   opacity: .20; filter: blur(5px); }
+  38%  { transform: scaleY(.64) scaleX(1.06);  opacity: 1;   filter: blur(1.6px); }
+  64%  { transform: scaleY(1.035) scaleX(.982);              filter: blur(0); }
+  84%  { transform: scaleY(.992) scaleX(1.006); }
+  100% { transform: scaleY(1) scaleX(1); }
+}
+.pg-potion--form {
+  transform-origin: 50% 46%;      /* 雫が集まった中心と一致させる */
+  animation: pgPotionForm .60s cubic-bezier(.28,.72,.34,1) both;
+}
+
+/* ── ガラスの反射（雫より手前）── */
+.pg-glass-shine {
+  position: absolute; top: 16px; left: 9px; z-index: 3;
+  width: 9px; height: 120px; border-radius: 6px;
+  background: linear-gradient(180deg, rgba(255,255,255,.58), rgba(255,255,255,.13) 55%, transparent);
+  filter: blur(1.2px); pointer-events: none;
+}
+.pg-glass-shine2 {
+  position: absolute; top: 34px; right: 11px; z-index: 3;
+  width: 4px; height: 74px; border-radius: 4px;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,.24), transparent);
+  filter: blur(1px); pointer-events: none;
+}
+
+/* ── 口のリム（ガラスの厚み。首は作らない）── */
+.pg-vial-rim {
+  position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+  width: 70px; height: 13px; border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,.50), rgba(255,255,255,.10) 55%, rgba(255,255,255,.20));
+  border: 1px solid rgba(255,255,255,.40);
+  box-shadow: 0 2px 3px rgba(0,0,0,.32), inset 0 -2px 3px rgba(0,0,0,.22);
+  pointer-events: none;
+}
+.pg-vial-rim::after {
+  content: ""; position: absolute; top: 3px; left: 5px; right: 5px; bottom: 3px;
+  border-radius: 50%; background: rgba(20,10,34,.55);
+  box-shadow: inset 0 2px 3px rgba(0,0,0,.5);
+}
+
+/* 完成した瓶 */
+.pg-vial--done .pg-vial-body {
+  border-color: rgba(255, 215, 0, 0.7) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,215,0,.5),
+    0 0 18px rgba(255,215,0,.38),
+    inset 7px 0 13px -5px rgba(255,255,255,.30),
+    inset -6px 0 11px -5px rgba(0,0,0,.30) !important;
+}
+.pg-vial--done .pg-vial-rim { border-color: rgba(255,215,0,.55); }
+
+/* 選択中 */
+.pg-vial--selected .pg-vial-body {
+  box-shadow:
+    0 0 0 2px #ff80ff,
+    0 0 16px rgba(255,80,255,.7),
+    0 0 32px rgba(200,60,255,.4),
+    inset 7px 0 13px -5px rgba(255,255,255,.32),
+    inset -6px 0 11px -5px rgba(0,0,0,.32) !important;
 }
 
 /* ============================================================
