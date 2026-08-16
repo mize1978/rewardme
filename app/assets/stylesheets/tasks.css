@@ -1457,14 +1457,16 @@ body[data-time-period="night"] .my-room::after {
   .games-lobby-grid { grid-template-columns: 1fr; }
 }
 .game-card {
-  background: linear-gradient(160deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.06) 100%);
+  /* B: 背景不透明度で"すりガラス風"を代替（backdrop-filterは下で撤去＝GPU再計算ゼロ・ちらつきなし） */
+  background: linear-gradient(160deg, rgba(255,255,255,0.17) 0%, rgba(255,255,255,0.10) 100%);
   border: 1px solid rgba(255,255,255,0.22);
   border-radius: 20px;
   padding: 0 0 20px;
   display: flex;
   flex-direction: column;
   gap: 0;
-  backdrop-filter: blur(16px);
+  /* backdrop-filter は撤去（確定）：6枚ぶんのぼかし層が毎フレーム再合成されてちらつく原因だった */
+  /* backdrop-filter: blur(16px); */
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 4px 24px rgba(0,0,0,0.20);
   transition: transform 0.15s, box-shadow 0.15s;
   overflow: hidden;
