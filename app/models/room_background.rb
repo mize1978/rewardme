@@ -170,19 +170,21 @@ class RoomBackground
   # このため部屋の段階を ribbon_stage（1〜4しか返さない）から算出してはいけない。
   # 必ず User#room_growth_stage / .growth_stage_for を通すこと。
   #
-  # 現在は PURPLE のみ。実機確認後に PINK / BLUE へ同じ構造をコピーする。
+  # 3色とも同じ段構成。違うのは絵だけで、しきい値も並びも共通。
+  # 新しい色を足すときは prefix を変えて同じ stages を書くだけでよい。
+  GROWTH_STAGES = [
+    { stage: 1, tier: "BASE",   label: "たまご",       from: 0  },
+    { stage: 2, tier: "BASE",   label: "ベビー",       from: 10 },
+    { stage: 3, tier: "COZY",   label: "ベビー",       from: 15 },
+    { stage: 4, tier: "COZY",   label: "リボンちゃん", from: 20 },
+    { stage: 5, tier: "DELUXE", label: "リボンちゃん", from: 30 },
+    { stage: 6, tier: "DELUXE", label: "プリンセス",   from: 40 },
+  ].freeze
+
   GROWTH_ROOMS = {
-    "purple" => {
-      prefix: "room_purple_s",
-      stages: [
-        { stage: 1, tier: "BASE",   label: "たまご",       from: 0  },
-        { stage: 2, tier: "BASE",   label: "ベビー",       from: 10 },
-        { stage: 3, tier: "COZY",   label: "ベビー",       from: 15 },
-        { stage: 4, tier: "COZY",   label: "リボンちゃん", from: 20 },
-        { stage: 5, tier: "DELUXE", label: "リボンちゃん", from: 30 },
-        { stage: 6, tier: "DELUXE", label: "プリンセス",   from: 40 },
-      ]
-    }
+    "purple" => { prefix: "room_purple_s", stages: GROWTH_STAGES },
+    "pink"   => { prefix: "room_pink_s",   stages: GROWTH_STAGES },
+    "blue"   => { prefix: "room_blue_s",   stages: GROWTH_STAGES },
   }.freeze
 
   # 差し替え待ちの仮画像。PURPLE は全6段そろったため現在は空。
