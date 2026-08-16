@@ -119,38 +119,91 @@ export default class extends Controller {
   }
 
   // ─── 描画 ────────────────────────────────────────────────
-  _renderBoard(newPositions = new Set()) {
+  //
+  //  以前はここで毎回 innerHTML="" → 36タイル＋36枚の<img>を作り直していた。
+  //  タイルを1枚「選ぶ」だけでも、盤面の中身は1ミリも変わらないのに
+  //  36枚の画像を破棄して再生成していた（実測: 選択1回で36枚、
+  //  3つ消える1手で108枚）。JS自体は1〜2msだが、その後に
+  //  角丸・グラデ・box-shadow・画像を持つ盤面レイヤー全体が
+  //  ラスタライズし直されるため、操作のたびに盤面がちらついていた。
+  //
+  //  そこでタイルのDOMは最初に1度だけ作り、以後は
+  //  「変わったところだけ」書き換える差分更新にする。
+  //  ゲームロジック（grid / _findMatches / _applyGravity / _cascade）は無変更。
+
+  // 36個のタイルとimgを1度だけ生成する。以後この要素を使い回す。
+  _buildBoardOnce() {
     const el = this.boardTarget
     el.innerHTML = ""
+    this.tileEls = []
     for (let r = 0; r < GRID_SIZE; r++) {
       for (let c = 0; c < GRID_SIZE; c++) {
-        const sym  = this.grid[r][c]
         const tile = document.createElement("div")
-        tile.className = "mg-tile"
+        tile.className   = "mg-tile"
         tile.dataset.row = r
         tile.dataset.col = c
 
-        if (sym !== null) {
-          if (TILE_COLORS[sym]) tile.style.background = TILE_COLORS[sym]
-          tile.classList.add("mg-tile--full")
-          tile.dataset.tileType = sym
+        const img = document.createElement("img")
+        img.alt       = ""
+        img.className = "mg-tile-img"
+        img.draggable = false
+        tile.appendChild(img)
 
-          const img = document.createElement("img")
-          img.src       = this.tileImages[sym]
-          img.alt       = ""
-          img.className = "mg-tile-img"
-          img.draggable = false
-          tile.appendChild(img)
-        }
-
-        if (this.selected && this.selected.r === r && this.selected.c === c) {
-          tile.classList.add("mg-tile--selected")
-        }
-        if (newPositions.has(`${r},${c}`)) {
-          tile.classList.add("mg-tile--new")
-        }
         el.appendChild(tile)
+        this.tileEls.push({ tile, img, sym: undefined })
       }
+    }
+  }
+
+  _renderBoard(newPositions = new Set()) {
+    if (!this.tileEls || this.tileEls.length !== GRID_SIZE * GRID_SIZE) this._buildBoardOnce()
+
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        const idx  = r * GRID_SIZE + c
+        const slot = this.tileEls[idx]
+        const tile = slot.tile
+        const sym  = this.grid[r][c]
+
+        // 中身（絵柄）は、本当に変わったときだけ触る。
+        // img.src の再代入はそれだけで再デコード・再描画を招くので避ける。
+        if (slot.sym !== sym) {
+          if (sym === null) {
+            tile.classList.remove("mg-tile--full")
+            tile.style.background = ""
+            delete tile.dataset.tileType
+            slot.img.removeAttribute("src")
+          } else {
+            tile.classList.add("mg-tile--full")
+            if (TILE_COLORS[sym]) tile.style.background = TILE_COLORS[sym]
+            tile.dataset.tileType = sym
+            const url = this.tileImages[sym]
+            if (slot.img.getAttribute("src") !== url) slot.img.src = url
+          }
+          slot.sym = sym
+        }
+
+        // 状態クラスだけを付け外しする（要素は使い回す）
+        const isSel = !!this.selected && this.selected.r === r && this.selected.c === c
+        tile.classList.toggle("mg-tile--selected", isSel)
+
+        // 消える演出の名残りは、絵柄が入れ替わるこの瞬間に落とす
+        tile.classList.remove("mg-tile--match", "mg-tile--shake")
+
+        tile.classList.remove("mg-tile--new")
+      }
+    }
+
+    // 落ちてきた／補充されたタイルに落下アニメを付け直す。
+    // クラスを外した直後に付け直すだけではアニメが再生されないので
+    // 一度だけレイアウトを確定させる。タイルごとに offsetWidth を読むと
+    // その回数ぶんレイアウトが強制されるため、盤面まとめて1回にする。
+    if (newPositions.size > 0) {
+      void this.boardTarget.offsetWidth
+      newPositions.forEach(key => {
+        const [r, c] = key.split(",").map(Number)
+        this.tileEls[r * GRID_SIZE + c]?.tile.classList.add("mg-tile--new")
+      })
     }
   }
 
