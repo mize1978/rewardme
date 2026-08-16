@@ -1177,6 +1177,62 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
 /* ★虹色ポリゴンは引退。万一どこかに残っても出てこないようにする */
 .pg-star-potion, .pg-clear-star-icon { display: none !important; }
 
+/* ================================================================
+   v23: リボンマッチのスタート — 盤面のヴェールを外して始める
+   ----------------------------------------------------------------
+   旧: btn_start.png（280pxの画像ボタン）＋「✦ スタートを押してね ✦」
+       ＋上下の飾り線「── ── ──」の3つが同じことを言っていた。
+       ボタンは画像なので、盤面のCSSと世界観が揃いようがなかった。
+   新: 盤面は最初から見えていて、薄いヴェールが1枚かかっているだけ。
+       タップするとヴェールがスッと引いて始まる。
+       ※ ヴェール（.mg-board-overlay）は元から実装されていた。
+          新しい演出を足したのではなく、眠っていた部品を繋いだだけ。
+   ================================================================ */
+
+.mg-board-overlay--veil {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 盤面を隠さない濃さ。「見えているけど、まだ触れない」が伝わればいい */
+  background:
+    radial-gradient(120% 90% at 50% 50%, rgba(28,4,58,.30), rgba(18,2,40,.52)) !important;
+  backdrop-filter: saturate(.78) blur(.6px);
+  -webkit-backdrop-filter: saturate(.78) blur(.6px);
+  transition: opacity .34s ease, backdrop-filter .34s ease;
+}
+.mg-board-overlay--veil:hover { background:
+    radial-gradient(120% 90% at 50% 50%, rgba(28,4,58,.24), rgba(18,2,40,.46)) !important; }
+.mg-board-overlay--veil:active .mg-veil-label { transform: scale(.97); }
+
+/* 案内は1つだけ。点滅させず、ゆっくり呼吸させる */
+.mg-veil-label {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: rgba(255, 232, 250, .92);
+  text-shadow: 0 0 12px rgba(255,120,210,.55), 0 2px 6px rgba(0,0,0,.5);
+  padding: 11px 26px;
+  border-radius: 999px;
+  background: rgba(60, 14, 96, .42);
+  border: 1px solid rgba(255, 170, 235, .34);
+  box-shadow: 0 4px 18px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.14);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  transition: transform .14s ease;
+  animation: mgVeilBreath 3.4s ease-in-out infinite;
+  pointer-events: none;
+  user-select: none;
+}
+@keyframes mgVeilBreath {
+  0%, 100% { opacity: .82; }
+  50%      { opacity: 1;   }
+}
+
+/* 退職した3人。万一どこかに残っても出てこないようにする */
+.mg-start-area, .mg-start-deco, .mg-start-hint,
+.mg-btn--start-img-btn, .btn-start-img { display: none !important; }
+
 /* ============================================================
    残タスク（GRAFT 02以降・このファイルでは触らない）
    ------------------------------------------------------------

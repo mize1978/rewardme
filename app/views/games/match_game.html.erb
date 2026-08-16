@@ -84,25 +84,21 @@
 
     <div class="mg-board-ornament">✦ ─── ❖ ─── ✦</div>
 
+    <%# 盤面そのものが主役。開始は「盤面にかかった薄いヴェールを外す」形にする。
+        以前は btn_start.png（画像ボタン）＋点滅する案内文＋上下の飾り線の
+        3つが同じことを言っていた。ヴェールは既にここに実装されていたので、
+        新しい演出を足すのではなく、既存の部品を繋ぎ直している。 %>
     <div class="mg-board-wrap">
-      <div class="mg-board-overlay" data-match-game-target="boardOverlay"></div>
+      <div class="mg-board-overlay<%= ' mg-board-overlay--veil' unless @already_played %>"
+           data-match-game-target="boardOverlay"
+           <%= raw(%(data-action="click->match-game#start")) unless @already_played %>>
+        <% unless @already_played %>
+          <span class="mg-veil-label">タップしてスタート</span>
+        <% end %>
+      </div>
       <div class="mg-countdown" data-match-game-target="countdown"></div>
       <div class="mg-board" data-match-game-target="board"></div>
     </div>
-
-    <% unless @already_played %>
-      <p class="mg-start-hint" data-match-game-target="startHint">✦ スタートを押してね ✦</p>
-    <% end %>
-
-    <% unless @already_played %>
-      <div class="mg-start-area">
-        <div class="mg-start-deco">── ── ── ── ──</div>
-        <button class="mg-btn--start-img-btn" data-action="match-game#start" data-match-game-target="startBtn">
-          <%= image_tag "btn_start.png", class: "btn-start-img", alt: "スタート" %>
-        </button>
-        <div class="mg-start-deco">── ── ── ── ──</div>
-      </div>
-    <% end %>
   </div>
 
   <%# ━━━ 右パネル：結果 ━━━ %>
