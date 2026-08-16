@@ -1,5 +1,5 @@
 /* ============================================================
-   RewardMe – dashboard grid graft (GRAFT 01 / v21・魔法の雫方式)
+   RewardMe – dashboard grid graft（適用範囲: .dashboard-layout--home のみ） (GRAFT 01 / v21・魔法の雫方式)
    ------------------------------------------------------------
    完成カンプ実測（1920×1080・コンテナ1760・gap20）を規定値とする。
 
@@ -18,7 +18,7 @@
    TIER 1: 1101px〜 共通（3カラム＋コンポーネント補正）
    ================================================================ */
 @media (min-width: 1101px) {
-  .dashboard-layout {
+  .dashboard-layout--home {
     display: grid !important;
     max-width: 1760px !important;
     margin: 0 auto;
@@ -33,9 +33,19 @@
       "grow  grow  deco" !important;
   }
 
-  /* 既存ラッパーの透明化（ERB無変更の要） */
-  .col-left, .col-center, .col-right, .center-bottom { display: contents !important; }
-  .col-left > div:has(> .daily-box-panel) { display: contents !important; }
+  /* 既存ラッパーの透明化（ERB無変更の要）
+     ※ 必ず .dashboard-layout--home 配下に限定すること。
+        .col-left / .col-center は /games・/shop・/letters・/habits・/settings でも
+        使われている共有クラスで、無条件に display:contents にすると
+        それらのページの構造まで溶かしてしまう（実際に一度やらかしている）。 */
+  /* 子結合子(>)ではなく子孫にすること。
+     .center-bottom は .col-center の中に入れ子になっているため、
+     > だと透明化されず、そこだけ塊のまま残って盤面が崩れる。 */
+  .dashboard-layout--home .col-left,
+  .dashboard-layout--home .col-center,
+  .dashboard-layout--home .col-right,
+  .dashboard-layout--home .center-bottom { display: contents !important; }
+  .dashboard-layout--home .col-left > div:has(> .daily-box-panel) { display: contents !important; }
 
   /* 配置 */
   .side-menu         { grid-area: nav !important;   align-self: start !important; }
@@ -92,7 +102,7 @@
    TIER 2: 1620px〜 カンプと同じ4カラム格子＋行の規定値
    ================================================================ */
 @media (min-width: 1620px) {
-  .dashboard-layout {
+  .dashboard-layout--home {
     grid-template-columns: 300px 380px minmax(0, 1fr) 520px !important;
     grid-template-areas:
       "nav   hero  hero  evo"
