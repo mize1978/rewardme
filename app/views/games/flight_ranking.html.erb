@@ -1,0 +1,112 @@
+<div class="fr-wrap">
+  <h1 class="fr-title">🏆 FLIGHT RANKING</h1>
+  <p class="fr-sub">ぜんきかんベスト・順位が、ごほうび。</p>
+
+  <% if @top.empty? %>
+    <p class="fr-empty">まだ誰も飛んでないよ。最初の記録を作ろう🌙</p>
+  <% else %>
+    <div class="fr-board">
+      <% @top.each_with_index do |u, i| %>
+        <div class="fr-row <%= 'fr-row--me' if u.id == current_user.id %>">
+          <span class="fr-pos"><%= i + 1 %></span>
+          <span class="fr-name"><%= u.flight_rank_name %></span>
+          <span class="fr-score"><%= u.flight_game_high_score %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Top20圏外でも自分の位置は必ず見せる %>
+    <% if @participating && !@in_top && @my_context %>
+      <% c = @my_context %>
+      <p class="fr-sep">‥‥ あなたの位置 ‥‥</p>
+      <div class="fr-board">
+        <% if c[:above] %>
+          <div class="fr-row"><span class="fr-pos"><%= c[:above][:rank] %></span><span class="fr-name"><%= c[:above][:name] %></span><span class="fr-score"><%= c[:above][:score] %></span></div>
+        <% end %>
+        <div class="fr-row fr-row--me"><span class="fr-pos"><%= c[:rank] %></span><span class="fr-name"><%= c[:name] %></span><span class="fr-score"><%= c[:score] %></span></div>
+        <% if c[:below] %>
+          <div class="fr-row"><span class="fr-pos"><%= c[:below][:rank] %></span><span class="fr-name"><%= c[:below][:name] %></span><span class="fr-score"><%= c[:below][:score] %></span></div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%# 参加/名前変更（小さい導線） %>
+  <div class="fr-name-edit" data-url="<%= flight_rank_name_path %>">
+    <% if @participating %>
+      <details>
+        <summary class="fr-edit-summary">✎ ランキングネームを変える（今：<%= current_user.flight_rank_name %>）</summary>
+        <div class="fr-edit-row">
+          <input class="fr-input" type="text" maxlength="12" value="<%= current_user.flight_rank_name %>">
+          <button class="fr-btn" type="button">変更</button>
+        </div>
+      </details>
+    <% else %>
+      <p class="fr-join-lead">まだ参加してないよ。名前を決めて参加しよう！</p>
+      <div class="fr-edit-row">
+        <input class="fr-input" type="text" maxlength="12" placeholder="なまえ（12文字まで）">
+        <button class="fr-btn" type="button">参加する</button>
+      </div>
+    <% end %>
+    <p class="fr-err"></p>
+  </div>
+
+  <div class="fr-actions">
+    <%= link_to "🌙 とんでみる", flight_game_path, class: "fr-play-link" %>
+    <%= link_to "← ゲームに戻る", games_path, class: "game-back-link" %>
+  </div>
+</div>
+
+<style>
+  .fr-wrap{ max-width:440px; margin:0 auto; padding:8px 16px 40px; color:#f3e9ff; text-align:center; }
+  .fr-title{ font-size:26px; font-weight:800; margin:8px 0 2px;
+    background:linear-gradient(135deg,#ffb3d0,#b97aff); -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent; background-clip:text; }
+  .fr-sub{ font-size:12px; color:#c9b2ff; margin:0 0 18px; }
+  .fr-empty{ font-size:14px; color:rgba(240,220,255,0.85); padding:30px 0; }
+  .fr-board{ background:rgba(255,255,255,0.05); border:1px solid rgba(200,160,255,0.2);
+    border-radius:16px; padding:8px; margin-bottom:12px; }
+  .fr-row{ display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; font-size:15px; }
+  .fr-row + .fr-row{ border-top:1px solid rgba(255,255,255,0.05); }
+  .fr-row--me{ background:linear-gradient(135deg,rgba(255,143,171,.26),rgba(201,111,255,.26)); font-weight:bold; }
+  .fr-pos{ width:34px; text-align:right; color:#c9b2ff; font-weight:bold; }
+  .fr-name{ flex:1; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .fr-score{ color:#ffe6a8; font-weight:bold; }
+  .fr-sep{ font-size:12px; color:rgba(200,180,240,0.6); margin:14px 0 8px; }
+  .fr-name-edit{ margin:18px 0; font-size:13px; }
+  .fr-edit-summary{ cursor:pointer; color:#c9b2ff; }
+  .fr-join-lead{ color:rgba(240,220,255,0.85); margin:0 0 8px; }
+  .fr-edit-row{ display:flex; gap:8px; justify-content:center; margin-top:8px; }
+  .fr-input{ padding:9px 12px; border-radius:10px; text-align:center; max-width:60%;
+    border:1px solid rgba(255,200,240,0.3); background:rgba(255,255,255,0.1); color:#f3e9ff; }
+  .fr-btn{ border:none; border-radius:999px; cursor:pointer; font-weight:bold; color:#fff; padding:9px 18px;
+    background:linear-gradient(135deg,#ff8fab,#c96fff); }
+  .fr-err{ font-size:12px; color:#ff9ab0; min-height:1em; margin:6px 0 0; }
+  .fr-actions{ display:flex; flex-direction:column; gap:10px; align-items:center; margin-top:8px; }
+  .fr-play-link{ color:#ffd6e6; text-decoration:none; font-weight:bold; }
+</style>
+
+<script>
+  (function () {
+    const box = document.querySelector(".fr-name-edit")
+    if (!box) return
+    const btn = box.querySelector(".fr-btn")
+    if (!btn) return
+    const input = box.querySelector(".fr-input")
+    const err = box.querySelector(".fr-err")
+    btn.addEventListener("click", function () {
+      const name = (input.value || "").trim()
+      if (!name) { err.textContent = "名前を入力してね"; return }
+      fetch(box.dataset.url, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+        },
+        body: JSON.stringify({ name }),
+      })
+        .then(r => r.json())
+        .then(d => { if (!d.ok) { err.textContent = d.error || "設定できなかった"; return } location.reload() })
+    })
+  })()
+</script>

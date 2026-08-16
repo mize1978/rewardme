@@ -47,5 +47,10 @@ Rails.application.routes.draw do
   get  'games/potion',        to: 'games#potion_game',        as: :potion_game
   post 'games/potion/result', to: 'games#potion_game_result', as: :potion_game_result
 
+  get   'games/flight',           to: 'games#flight_game',          as: :flight_game
+  post  'games/flight/result',    to: 'games#flight_game_result',   as: :flight_game_result
+  get   'games/flight/ranking',   to: 'games#flight_ranking',       as: :flight_ranking
+  patch 'games/flight/rank_name', to: 'games#set_flight_rank_name',  as: :flight_rank_name
+
   get 'l', to: redirect('/')
 end

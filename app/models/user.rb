@@ -350,4 +350,51 @@ end
               %w[type label rarity].all? { |k| last_box_prize.key?(k) }
     errors.add(:last_box_prize, "は不正な形式です")
   end
+
+  # ===== リボンフライト =====
+  def flight_game_played_today?
+    return false if Rails.env.development?
+    flight_game_last_played_at&.to_date == Date.current
+  end
+
+  # ===== リボンフライト ランキング（全期間BEST・順位が報酬・コインなし） =====
+  FLIGHT_RANK_NAME_MAX = 12
+
+  # ランキング参加者＝スコア>0 かつ ランキング名を明示設定済み。高スコア順。
+  def self.flight_ranking
+    where("flight_game_high_score > 0")
+      .where.not(flight_rank_name: [nil, ""])
+      .order(flight_game_high_score: :desc, id: :asc)
+  end
+
+  def flight_ranked?
+    flight_rank_name.present? && flight_game_high_score.to_i > 0
+  end
+
+  # 自分の順位（未参加なら nil）。同点は同順位。
+  def flight_rank
+    return nil unless flight_ranked?
+    User.flight_ranking.where("flight_game_high_score > ?", flight_game_high_score).count + 1
+  end
+
+  # 結果画面用：自分の現在地＋前後1件（「あと○点で上」を出すため）。
+  def flight_rank_context
+    return nil unless flight_ranked?
+    s     = flight_game_high_score
+    scope = User.flight_ranking
+    rank  = scope.where("flight_game_high_score > ?", s).count + 1
+    above = scope.where("flight_game_high_score > ?", s).order(flight_game_high_score: :asc).first
+    below = scope.where("flight_game_high_score < ?", s).order(flight_game_high_score: :desc).first
+    {
+      rank:  rank,
+      name:  flight_rank_name,
+      score: s,
+      above: above && { rank: rank - 1, name: above.flight_rank_name, score: above.flight_game_high_score },
+      below: below && { rank: rank + 1, name: below.flight_rank_name, score: below.flight_game_high_score },
+      points_to_next: above ? (above.flight_game_high_score - s) : nil,
+      total: scope.count
+    }
+  end
+
+  validates :flight_rank_name, length: { maximum: FLIGHT_RANK_NAME_MAX }, allow_blank: true
 end

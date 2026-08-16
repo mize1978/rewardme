@@ -146,6 +146,64 @@ class GamesController < ApplicationController
     render_game_result(result)
   end
 
+  # ===================== リボンフライト =====================
+  # キャッチの後継。押し続け＝上昇/離す＝下降で夜空を飛び、光の輪をくぐる。
+  # 器（日次ゲート・コイン精算・BEST）は tap と同型。コイン額は経済パスで再調整予定。
+
+  def flight_game
+    @already_played = current_user.flight_game_played_today?
+    @high_score     = current_user.flight_game_high_score
+  end
+
+  def flight_game_result
+    result = current_user.with_lock do
+      next { error: "already_played", status: :unprocessable_entity } if current_user.flight_game_played_today?
+
+      score = params[:score].to_i.clamp(0, 999)
+      coins = coins_for(score)
+      current_user.update!(
+        coins:                      current_user.coins + coins,
+        flight_game_last_played_at: Time.current,
+        flight_game_high_score:     [current_user.flight_game_high_score, score].max
+      )
+      {
+        coins:         coins,
+        total_coins:   current_user.coins,
+        participating: current_user.flight_ranked?,
+        rank_context:  current_user.flight_rank_context
+      }
+    end
+
+    render_game_result(result)
+  end
+
+  # 全期間BESTランキング（Top20 ＋ 自分の位置）。圏外でも自分は必ず見える。
+  def flight_ranking
+    @top           = User.flight_ranking.limit(20)
+    @my_rank       = current_user.flight_rank
+    @in_top        = @my_rank.present? && @my_rank <= 20
+    @my_context    = current_user.flight_rank_context
+    @participating = current_user.flight_ranked?
+  end
+
+  # ランキング専用名の設定/変更。順位そのものが報酬＝コイン等は付けない。
+  def set_flight_rank_name
+    name = params[:name].to_s.strip[0, User::FLIGHT_RANK_NAME_MAX].to_s
+    if name.blank?
+      return render json: { ok: false, error: "名前を入力してね" }, status: :unprocessable_entity
+    end
+
+    if current_user.update(flight_rank_name: name)
+      render json: {
+        ok:            true,
+        participating: current_user.flight_ranked?,
+        rank_context:  current_user.flight_rank_context
+      }
+    else
+      render json: { ok: false, error: current_user.errors.full_messages.first }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   # with_lock ブロックが返した結果を描画する。

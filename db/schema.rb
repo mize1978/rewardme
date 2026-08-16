@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_08_13_000001) do
+ActiveRecord::Schema[7.0].define(version: 2026_08_16_064035) do
   create_table "tasks", charset: "utf8mb4", force: :cascade do |t|
     t.string "title"
     t.boolean "done"
@@ -55,7 +55,11 @@ ActiveRecord::Schema[7.0].define(version: 2026_08_13_000001) do
     t.integer "potion_game_high_stage"
     t.string "current_room_bg", default: "default"
     t.boolean "is_guest", default: false, null: false
+    t.datetime "flight_game_last_played_at"
+    t.integer "flight_game_high_score", default: 0, null: false
+    t.string "flight_rank_name", limit: 12
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["flight_game_high_score"], name: "index_users_on_flight_game_high_score"
     t.index ["is_guest"], name: "index_users_on_is_guest"
   end
 

@@ -1,0 +1,164 @@
+<div class="ff-wrap"
+     data-controller="flight-game"
+     data-flight-game-result-url="<%= flight_game_result_path %>"
+     data-flight-game-rank-name-url="<%= flight_rank_name_path %>"
+     data-flight-game-bg-url="<%= asset_path('flight_bg.png') %>">
+
+  <%# ━━━ スタート画面 ━━━ %>
+  <div class="ff-screen ff-screen--start" data-flight-game-target="startScreen">
+    <div class="ff-start-inner">
+      <p class="ff-label">🎀 ミニゲーム</p>
+      <h1 class="ff-title">リボンフライト</h1>
+      <p class="ff-desc">
+        押し続ける＝ふわっと上昇 ／ 離す＝ゆっくり下降。<br>
+        夜空をとんで、光の輪をくぐろう🌙
+      </p>
+
+      <div class="ff-score-board">
+        <div class="ff-score-item">
+          <span class="ff-score-label">ハイスコア</span>
+          <span class="ff-score-value"><%= current_user.flight_game_high_score %></span>
+        </div>
+        <div class="ff-score-item">
+          <span class="ff-score-label">今日のチャンス</span>
+          <% if @already_played %>
+            <span class="ff-score-value ff-score-value--used">✓ 使用済み</span>
+          <% else %>
+            <span class="ff-score-value ff-score-value--ready">残り 1回</span>
+          <% end %>
+        </div>
+      </div>
+
+      <p class="ff-reward-note">🪙 くぐった数に応じてコインがもらえるよ</p>
+
+      <% if @already_played %>
+        <p class="ff-played-msg">また明日来てね♡</p>
+        <%= link_to "← ゲームに戻る", games_path, class: "game-back-link" %>
+      <% else %>
+        <button class="ff-btn ff-btn--start" data-action="flight-game#start">スタート！</button>
+      <% end %>
+      <%= link_to "🏆 ランキングを見る", flight_ranking_path, class: "ff-rank-link" %>
+    </div>
+  </div>
+
+  <%# ━━━ ゲーム画面（canvasそのものがゲーム） ━━━ %>
+  <div class="ff-screen ff-screen--game" data-flight-game-target="gameScreen" hidden>
+    <canvas class="ff-canvas" width="480" height="720" data-flight-game-target="canvas"></canvas>
+    <p class="ff-controls-hint">押し続けて上昇・離して下降</p>
+  </div>
+
+  <%# ━━━ 結果画面 ━━━ %>
+  <div class="ff-screen ff-screen--result" data-flight-game-target="resultScreen" hidden>
+    <div class="ff-result-inner">
+      <%= image_tag current_user.ribbon_stage_image,
+            class: "ff-result-chara", style: ribbon_color_style, alt: "リボンちゃん" %>
+
+      <p class="ff-result-msg" data-flight-game-target="resultMessage"></p>
+
+      <div class="ff-result-scores">
+        <div>
+          <span class="ff-result-score-label">SCORE</span>
+          <span class="ff-result-score-num" data-flight-game-target="resultScore"></span>
+        </div>
+        <div class="ff-result-hs"
+             data-flight-game-target="resultHighScore"
+             data-prev="<%= current_user.flight_game_high_score %>">
+          BEST <%= current_user.flight_game_high_score %>
+        </div>
+      </div>
+
+      <div class="ff-result-coins" data-flight-game-target="resultCoins"></div>
+
+      <%# ── ② ランキング本体：自分の現在地＋前後（JSが埋める） ── %>
+      <div class="ff-rank-block" data-flight-game-target="rankBlock" hidden></div>
+
+      <%# ── 未参加：参加CTA（常設フォームにしない） ── %>
+      <div class="ff-rank-cta" data-flight-game-target="rankCta" hidden>
+        <p class="ff-rank-cta-lead">🏆 ランキングに参加する？</p>
+        <button class="ff-btn ff-btn--rank" data-action="flight-game#openRankName">
+          ランキングネームを決める
+        </button>
+      </div>
+
+      <%# ── 名前入力（CTA/編集時だけ出す） ── %>
+      <div class="ff-rank-form" data-flight-game-target="rankForm" hidden>
+        <input class="ff-rank-input" type="text" maxlength="12"
+               placeholder="なまえ（12文字まで）" data-flight-game-target="rankInput">
+        <button class="ff-btn ff-btn--rank" data-action="flight-game#submitRankName">決定</button>
+        <p class="ff-rank-err" data-flight-game-target="rankErr"></p>
+      </div>
+
+      <div class="ff-result-actions">
+        <% unless @already_played %>
+          <button class="ff-btn ff-btn--retry" data-action="flight-game#retry">🔄 もう一回</button>
+        <% end %>
+        <%= link_to "🏆 ランキング", flight_ranking_path, class: "game-back-link" %>
+        <%= link_to "← ゲームに戻る", games_path, class: "game-back-link" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# フライト画面はビュー内scopedで自己完結（共有tasks.cssに手を入れない） %>
+<style>
+  .ff-wrap{ position:relative; min-height:70vh; display:flex; align-items:center; justify-content:center; }
+  .ff-screen{ width:100%; max-width:480px; text-align:center; color:#f3e9ff; }
+  .ff-start-inner, .ff-result-inner{
+    background:rgba(255,255,255,0.05); backdrop-filter:blur(16px);
+    border:1px solid rgba(200,160,255,0.22); border-radius:24px; padding:28px 22px; }
+  .ff-label{ font-size:12px; color:#c9b2ff; letter-spacing:2px; margin:0 0 4px; }
+  .ff-title{ font-size:30px; font-weight:800; margin:0 0 10px;
+    background:linear-gradient(135deg,#ffb3d0,#b97aff); -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent; background-clip:text; }
+  .ff-desc{ font-size:13px; line-height:1.7; color:rgba(240,225,255,0.85); margin:0 0 18px; }
+  .ff-score-board{ display:flex; gap:12px; justify-content:center; margin-bottom:14px; }
+  .ff-score-item{ flex:1; background:rgba(255,255,255,0.06); border-radius:14px; padding:10px; }
+  .ff-score-label{ display:block; font-size:11px; color:rgba(220,200,255,0.7); margin-bottom:4px; }
+  .ff-score-value{ font-size:20px; font-weight:bold; color:#ffe6a8; }
+  .ff-score-value--used{ color:#a89ac8; font-size:15px; }
+  .ff-score-value--ready{ color:#8fe6b0; font-size:15px; }
+  .ff-reward-note{ font-size:12px; color:rgba(220,200,255,0.7); margin:0 0 18px; }
+  .ff-played-msg{ font-size:13px; color:rgba(240,220,255,0.8); margin:0 0 14px; }
+  .ff-btn{ border:none; border-radius:999px; cursor:pointer; font-weight:bold; color:#fff;
+    padding:14px 40px; font-size:16px; letter-spacing:1px;
+    background:linear-gradient(135deg,#ff8fab,#c96fff,#9b4dff);
+    box-shadow:0 6px 24px rgba(200,80,255,0.5); transition:transform .15s; }
+  .ff-btn:hover{ transform:translateY(-2px); }
+  .ff-btn--rank{ padding:11px 26px; font-size:14px; }
+  .ff-rank-link{ display:inline-block; margin-top:14px; font-size:13px; color:#c9b2ff; text-decoration:none; }
+  .ff-screen--game{ max-width:none; }
+  .ff-canvas{ display:block; margin:0 auto; border-radius:16px;
+    max-width:100vw; max-height:78vh; touch-action:none;
+    box-shadow:0 0 60px rgba(120,70,220,0.3); }
+  .ff-controls-hint{ font-size:12px; color:#b79bff; margin-top:10px; }
+  .ff-result-chara{ width:88px; height:auto; margin-bottom:6px; }
+  .ff-result-msg{ font-size:16px; font-weight:bold; margin:0 0 10px; }
+  .ff-result-scores{ display:flex; gap:20px; justify-content:center; align-items:baseline; margin-bottom:6px; }
+  .ff-result-score-label{ font-size:12px; color:rgba(220,200,255,0.7); margin-right:6px; }
+  .ff-result-score-num{ font-size:40px; font-weight:800; color:#ffe6a8; }
+  .ff-result-hs{ font-size:14px; color:rgba(220,200,255,0.85); }
+  .ff-result-hs.game-result-hs--new{ color:#ffe6a8; font-weight:bold; }
+  .ff-result-coins{ font-size:16px; color:#ffd060; font-weight:bold; margin-bottom:14px; }
+
+  /* ② ランキング本体（結果直後の"現在地＋前後"）— ここは主役なので見せる */
+  .ff-rank-block{ background:rgba(120,70,200,0.14); border:1px solid rgba(200,160,255,0.25);
+    border-radius:16px; padding:12px 14px; margin-bottom:14px; }
+  .ff-rank-title{ font-size:12px; color:#c9b2ff; letter-spacing:1px; margin:0 0 8px; }
+  .ff-rank-row{ display:flex; align-items:center; gap:10px; padding:5px 8px; border-radius:10px;
+    font-size:14px; }
+  .ff-rank-row--me{ background:linear-gradient(135deg,rgba(255,143,171,.28),rgba(201,111,255,.28));
+    font-weight:bold; }
+  .ff-rank-pos{ width:34px; text-align:right; color:#c9b2ff; }
+  .ff-rank-name{ flex:1; text-align:left; color:#f3e9ff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ff-rank-score{ color:#ffe6a8; font-weight:bold; }
+  .ff-rank-next{ font-size:13px; color:#ffd6e6; margin:8px 0 0; font-weight:bold; }
+
+  .ff-rank-cta{ margin-bottom:14px; }
+  .ff-rank-cta-lead{ font-size:14px; color:#f3e9ff; margin:0 0 8px; }
+  .ff-rank-form{ margin-bottom:14px; display:flex; flex-direction:column; gap:8px; align-items:center; }
+  .ff-rank-input{ width:70%; padding:10px 14px; border-radius:12px; text-align:center;
+    border:1px solid rgba(255,200,240,0.3); background:rgba(255,255,255,0.1); color:#f3e9ff; font-size:15px; }
+  .ff-rank-err{ font-size:12px; color:#ff9ab0; margin:0; min-height:1em; }
+
+  .ff-result-actions{ display:flex; flex-direction:column; gap:10px; align-items:center; }
+</style>
