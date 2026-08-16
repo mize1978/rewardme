@@ -63,6 +63,31 @@
         <% end %>
       </div>
 
+      <%# ─── リボンフライト ─── %>
+      <div class="game-card">
+        <div class="game-card-preview" style="background-image: url('<%= asset_path('flight_bg.png') %>'); background-position: center top;"></div>
+        <div class="game-card-badge-wrap">
+          <% unless current_user.flight_game_played_today? %>
+            <span class="game-card-badge game-card-badge--new">NEW</span>
+          <% else %>
+            <span class="game-card-badge game-card-badge--done">✓ 本日プレイ済み</span>
+          <% end %>
+        </div>
+        <div class="game-card-icon">🌙</div>
+        <h2 class="game-card-title">リボンフライト</h2>
+        <p class="game-card-desc">押し続けて夜空を飛ぼう！<br>光の輪をくぐってスコアを伸ばそう</p>
+        <div class="game-card-meta">
+          <span class="game-card-meta-item">🏆 ハイスコア: <strong><%= current_user.flight_game_high_score %></strong></span>
+          <span class="game-card-meta-item">🌟 全期間ランキング</span>
+        </div>
+        <div class="game-card-reward">
+          <span>飛んで</span><span class="game-card-coin">🪙 コイン</span>
+        </div>
+        <%= link_to flight_game_path, class: "game-card-btn #{current_user.flight_game_played_today? ? 'game-card-btn--done' : ''}" do %>
+          <%= current_user.flight_game_played_today? ? "また明日！" : "▶ プレイ" %>
+        <% end %>
+      </div>
+
       <%# ─── リボンパズル ─── %>
       <div class="game-card">
         <div class="game-card-preview gc-puzzle-preview" style="background-image: url('<%= asset_path(current_user.selected_puzzle_image_file) %>');">
@@ -149,26 +174,7 @@
         <% end %>
       </div>
 
-      <%# ─── リボンクエスト（Coming Soon） ─── %>
-      <div class="game-card game-card--coming-soon">
-        <div class="game-card-preview gc-quest-preview" style="background-image: url('<%= asset_path('quest_bg.png') %>');">
-        </div>
-        <div class="game-card-badge-wrap">
-          <span class="game-card-badge game-card-badge--soon">🔒 近日公開</span>
-        </div>
-        <div class="game-card-icon">📜</div>
-        <h2 class="game-card-title">リボンクエスト</h2>
-        <p class="game-card-desc">リボンちゃんと一緒に<br>冒険の旅へ出よう！</p>
-        <div class="game-card-meta">
-          <span class="game-card-meta-item">✨ 準備中…</span>
-        </div>
-        <div class="game-card-reward">
-          <span>クリアで</span><span class="game-card-coin">🪙 ??? コイン</span>
-        </div>
-        <button class="game-card-btn game-card-btn--soon" disabled>🔒 もうすぐ！</button>
-      </div>
-
-      <%# ─── ガチャ ─── %>
+      <%# ─── ガチャ（キャッチの隣＝3段目） ─── %>
       <div class="game-card game-card--gacha">
         <div class="game-card-preview" style="background-image: url('<%= asset_path('thumb_game_gacha.jpg') %>'); background-position: center center;"></div>
         <div class="game-card-badge-wrap">
@@ -187,6 +193,30 @@
         <%= link_to gacha_path, class: "game-card-btn game-card-btn--gacha" do %>
           🎲 ガチャをひく
         <% end %>
+      </div>
+
+      <%# ─── リボンクエスト（🔒 未来予告・KINGDOMと対） ─── %>
+      <div class="game-card game-card--coming-soon">
+        <div class="game-card-preview gc-quest-preview" style="background-image: url('<%= asset_path('quest_bg.png') %>');"></div>
+        <div class="game-card-badge-wrap">
+          <span class="game-card-badge game-card-badge--soon">🔒 COMING SOON</span>
+        </div>
+        <div class="game-card-icon">📜</div>
+        <h2 class="game-card-title">リボンクエスト</h2>
+        <p class="game-card-desc">その扉は、まだ開かない。</p>
+        <button class="game-card-btn game-card-btn--soon" disabled>🔒 COMING SOON</button>
+      </div>
+
+      <%# ─── リボンキングダム（🔒 未来予告・QUESTと対／Flightの夜空の城の回収） ─── %>
+      <div class="game-card game-card--coming-soon">
+        <div class="game-card-preview" style="background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(150,60,220,0.40), rgba(20,4,50,0.92));"></div>
+        <div class="game-card-badge-wrap">
+          <span class="game-card-badge game-card-badge--soon">🔒 COMING SOON</span>
+        </div>
+        <div class="game-card-icon">🏰</div>
+        <h2 class="game-card-title">リボンキングダム</h2>
+        <p class="game-card-desc">扉の向こうに、王国がある。</p>
+        <button class="game-card-btn game-card-btn--soon" disabled>🔒 COMING SOON</button>
       </div>
 
     </div>

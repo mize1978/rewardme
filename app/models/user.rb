@@ -343,22 +343,14 @@ end
   validates :nickname, presence: true
   validate :last_box_prize_structure, if: -> { last_box_prize.present? }
 
-  private
+  # ===== リボンフライト（publicセクション＝controller/viewから呼べる） =====
+  FLIGHT_RANK_NAME_MAX = 12
+  validates :flight_rank_name, length: { maximum: FLIGHT_RANK_NAME_MAX }, allow_blank: true
 
-  def last_box_prize_structure
-    return if last_box_prize.is_a?(Hash) &&
-              %w[type label rarity].all? { |k| last_box_prize.key?(k) }
-    errors.add(:last_box_prize, "は不正な形式です")
-  end
-
-  # ===== リボンフライト =====
   def flight_game_played_today?
     return false if Rails.env.development?
     flight_game_last_played_at&.to_date == Date.current
   end
-
-  # ===== リボンフライト ランキング（全期間BEST・順位が報酬・コインなし） =====
-  FLIGHT_RANK_NAME_MAX = 12
 
   # ランキング参加者＝スコア>0 かつ ランキング名を明示設定済み。高スコア順。
   def self.flight_ranking
@@ -396,5 +388,11 @@ end
     }
   end
 
-  validates :flight_rank_name, length: { maximum: FLIGHT_RANK_NAME_MAX }, allow_blank: true
+  private
+
+  def last_box_prize_structure
+    return if last_box_prize.is_a?(Hash) &&
+              %w[type label rarity].all? { |k| last_box_prize.key?(k) }
+    errors.add(:last_box_prize, "は不正な形式です")
+  end
 end
