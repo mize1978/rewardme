@@ -131,9 +131,16 @@ end
     RoomBackground.growth?(current_room_bg)
   end
 
+  # 部屋の成長段階（1〜6）。
+  # ribbon_stage（1〜4）とは別物。部屋とキャラを交互に育てるため、
+  # 部屋には中間の段があり、ribbon_stage では表現できない。
+  def room_growth_stage
+    RoomBackground.growth_stage_for(current_room_bg, completed_count || 0)
+  end
+
   def room_bg_image
     if growth_room?
-      return RoomBackground.growth_image(current_room_bg, ribbon_stage)
+      return RoomBackground.growth_image(current_room_bg, room_growth_stage)
     end
     bg = RoomBackground.find(current_room_bg || "default")
     bg ? bg[:image] : "room_stage_1.png"

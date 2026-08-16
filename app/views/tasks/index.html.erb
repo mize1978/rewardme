@@ -136,9 +136,11 @@
       </div>
 
       <% if current_user.growth_room? %>
-        <%# 成長ルーム: 実データ（自分の色の s1〜s4・現在地をハイライト） %>
+        <%# 成長ルーム: 実データ（自分の色の s1〜s6・現在地をハイライト）
+            現在地は ribbon_stage ではなく room_growth_stage。
+            部屋はキャラより段が多く、ribbon_stage では 5・6 に到達できない。 %>
         <% g_stages = RoomBackground.growth_stages(current_user.current_room_bg) %>
-        <% g_cur    = current_user.ribbon_stage %>
+        <% g_cur    = current_user.room_growth_stage %>
         <div class="room-growth-strip">
           <% g_stages.each_with_index do |g, i| %>
             <% reached = g[:stage] <= g_cur %>

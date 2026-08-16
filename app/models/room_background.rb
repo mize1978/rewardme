@@ -151,22 +151,44 @@ class RoomBackground
   ].freeze
 
   # ===== 成長ルーム =====
-  # 育成段階（User#ribbon_stage 1〜4）に応じて部屋の絵そのものが変わる部屋。
+  # タスクの累計完了数に応じて、部屋の絵そのものが変わる部屋。
   # 画像にリボンちゃんが描き込まれているため、表示側ではキャラの透過PNG
   # レイヤーを重ねない（重ねるとキャラが2人になる）。
   #
-  # 現在は PURPLE のみ。実機確認後に他カラーへ展開する。
+  # 【6段構成の意図】
+  # 「次に育つのは自分か、部屋か」を交互に見せるための並び。
+  # キャラ（User#ribbon_stage）が育つ境界は completed_count 10 / 20 / 40 で、
+  # 部屋が育つ段はその中間（15 / 30）に置く。結果として：
+  #
+  #    0  BASE   ＋ たまご         はじまり
+  #   10  BASE   ＋ ベビー         → キャラが育つ
+  #   15  COZY   ＋ ベビー         → 部屋が育つ
+  #   20  COZY   ＋ リボンちゃん    → キャラが育つ
+  #   30  DELUXE ＋ リボンちゃん    → 部屋が育つ
+  #   40  DELUXE ＋ プリンセス      → キャラが育つ
+  #
+  # このため部屋の段階を ribbon_stage（1〜4しか返さない）から算出してはいけない。
+  # 必ず User#room_growth_stage / .growth_stage_for を通すこと。
+  #
+  # 現在は PURPLE のみ。実機確認後に PINK / BLUE へ同じ構造をコピーする。
   GROWTH_ROOMS = {
     "purple" => {
       prefix: "room_purple_s",
       stages: [
         { stage: 1, tier: "BASE",   label: "たまご",       from: 0  },
         { stage: 2, tier: "BASE",   label: "ベビー",       from: 10 },
-        { stage: 3, tier: "COZY",   label: "リボンちゃん", from: 20 },
-        { stage: 4, tier: "DELUXE", label: "プリンセス",   from: 40 },
+        { stage: 3, tier: "COZY",   label: "ベビー",       from: 15 },
+        { stage: 4, tier: "COZY",   label: "リボンちゃん", from: 20 },
+        { stage: 5, tier: "DELUXE", label: "リボンちゃん", from: 30 },
+        { stage: 6, tier: "DELUXE", label: "プリンセス",   from: 40 },
       ]
     }
   }.freeze
+
+  # 差し替え待ちの仮画像。
+  # room_purple_s3 は s2 の、s5 は s4 の複製を置いてあるだけで、まだ本番絵ではない。
+  # 本番絵ができたら同じファイル名で上書きするだけでよく、コードの変更は不要。
+  PLACEHOLDER_STAGES = { "purple" => [3, 5] }.freeze
 
   def self.all  = CATALOG
   def self.find(id) = CATALOG.find { |b| b[:id] == id }
@@ -174,16 +196,30 @@ class RoomBackground
   # 成長ルームかどうか
   def self.growth?(id) = GROWTH_ROOMS.key?(id.to_s)
 
+  # 累計完了タスク数 → その部屋の成長段階（1〜6）。
+  # ribbon_stage とは独立。しきい値は stages の :from を唯一の情報源とする。
+  def self.growth_stage_for(id, completed_count)
+    stages = growth_stages(id)
+    return 1 if stages.empty?
+    count = completed_count.to_i
+    stages.reverse.find { |s| count >= s[:from] }&.dig(:stage) || stages.first[:stage]
+  end
+
   # 成長ルームの、その段階の画像名
   def self.growth_image(id, stage)
     conf = GROWTH_ROOMS[id.to_s]
     return nil unless conf
-    "#{conf[:prefix]}#{stage.clamp(1, conf[:stages].size)}.png"
+    "#{conf[:prefix]}#{stage.to_i.clamp(1, conf[:stages].size)}.png"
   end
 
   # 成長ルームの全段階（成長ストリップ用）
   def self.growth_stages(id)
     GROWTH_ROOMS.dig(id.to_s, :stages) || []
+  end
+
+  # その段階の絵がまだ仮画像か
+  def self.placeholder_stage?(id, stage)
+    (PLACEHOLDER_STAGES[id.to_s] || []).include?(stage.to_i)
   end
 
   def self.available_now?(bg)
