@@ -1189,6 +1189,13 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
           新しい演出を足したのではなく、眠っていた部品を繋いだだけ。
    ================================================================ */
 
+/* カウントダウン層は盤面全面(inset:0)を覆う表示専用のレイヤーだが、
+   pointer-events:auto かつ z-index がヴェールと同じ5で、DOM上あとに
+   置かれているため、実際のタップを全部こちらが吸っていた。
+   （開始後は display:none になるので、これまでは表面化していなかった）
+   クリックを受け取る必要は一切ないので透過させる。 */
+.mg-countdown { pointer-events: none !important; }
+
 .mg-board-overlay--veil {
   cursor: pointer;
   display: flex;
