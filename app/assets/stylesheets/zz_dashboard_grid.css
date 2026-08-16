@@ -1236,9 +1236,149 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
   50%      { opacity: 1;   }
 }
 
+/* 遊べないとき（今日は終わり）。押せないことが分かる見た目にする */
+.mg-board-overlay--done { cursor: default; }
+.mg-board-overlay--done .mg-veil-label {
+  color: rgba(238, 220, 250, .72);
+  background: rgba(42, 12, 70, .50);
+  border-color: rgba(210, 180, 235, .22);
+  text-shadow: 0 2px 6px rgba(0,0,0,.5);
+  animation: none;                /* 呼吸させない = 誘わない */
+}
+.mg-board-overlay--done:hover { background:
+    radial-gradient(120% 90% at 50% 50%, rgba(28,4,58,.30), rgba(18,2,40,.52)) !important; }
+
 /* 退職した3人。万一どこかに残っても出てこないようにする */
 .mg-start-area, .mg-start-deco, .mg-start-hint,
 .mg-btn--start-img-btn, .btn-start-img { display: none !important; }
+
+/* ================================================================
+   【一時的・調査用】リボンマッチのチラつき切り分けスイッチ
+   URLに ?fx=... を付けると、容疑者を1つずつ止められる。
+   原因が確定したらこのブロックごと削除すること。
+   ================================================================ */
+html[data-mg-fx*="nozoom"] body { zoom: 1 !important; }
+
+/* ── 第2弾の切り分け。前の4つ(nostar/noorn/nozoom/noshadow)が全滅したので、
+      「そもそも盤面が原因か」から二分する ── */
+
+/* flat: 駒の描画コストを極限まで下げる（グラデ・影・blur・疑似要素を全撤去）
+   これでもチラつく＝原因は駒の描画ではない */
+html[data-mg-fx*="flat"] .mg-tile {
+  background: #c0559a !important;
+  box-shadow: none !important;
+  border-radius: 50% !important;
+  transform: none !important;
+  transition: none !important;
+}
+html[data-mg-fx*="flat"] .mg-tile::before,
+html[data-mg-fx*="flat"] .mg-tile::after { display: none !important; }
+
+/* nomotion: ページ上の全アニメーションとトランジションを停止
+   これでもチラつく＝動いている要素が原因ではない */
+html[data-mg-fx*="nomotion"] *,
+html[data-mg-fx*="nomotion"] *::before,
+html[data-mg-fx*="nomotion"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* noboard: 盤面そのものを消す
+   盤面が無いのに同じ場所でカーソルを動かしてチラつく＝原因はページ側 */
+html[data-mg-fx*="noboard"] .mg-board { visibility: hidden !important; }
+
+
+html[data-mg-fx*="noshadow"] .mg-board-wrap,
+html[data-mg-fx*="noshadow"] .mg-board-wrap--active { box-shadow: none !important; }
+
+html[data-mg-fx*="noorn"] .mg-board-wrap::before,
+html[data-mg-fx*="noorn"] .mg-board-wrap::after { display: none !important; }
+html[data-mg-fx*="noorn"] .mg-board-ornament,
+html[data-mg-fx*="noorn"] .mg-hud-center-ornament { animation: none !important; }
+
+/* ================================================================
+   Match の駒：14:23 のパステル版（社長が「さっきよりはマシ」と判定した版）
+   ----------------------------------------------------------------
+   ローズ / ピーチ / ハニー / ミント / アクア / ラベンダー
+   これを最終形として確定する。以後この見た目は調整しない。
+   （撤回済み：蛍光色のゴム球版 / 中心が暗い反転版 / 白四角アイコン版 /
+     MITスプライト版）
+   ゲーム側の改善（6色化・手詰まり対策・ドラッグ交換・状態機械・
+   cadence集約・差分更新）はすべて維持している。
+   ================================================================ */
+
+.mg-tile-img { display: none !important; }
+
+.mg-tile {
+  border-radius: 50% 50% 53% 47% / 47% 49% 51% 53% !important;
+  border: none !important;
+  overflow: visible !important;
+  background:
+    radial-gradient(46% 40% at 66% 68%,
+      hsl(var(--h) var(--s) calc(var(--l) - 22%) / .40) 0%, transparent 76%),
+    radial-gradient(40% 34% at 32% 44%,
+      hsl(var(--h) var(--s) calc(var(--l) + 14%) / .34) 0%, transparent 74%),
+    radial-gradient(34% 30% at 54% 38%,
+      hsl(var(--h) calc(var(--s) - 14%) calc(var(--l) + 22%) / .30) 0%, transparent 78%),
+    radial-gradient(56% 38% at 46% 86%,
+      hsl(var(--h) var(--s) calc(var(--l) + 10%) / .62) 0%,
+      hsl(var(--h) var(--s) var(--l) / .20) 50%, transparent 80%),
+    radial-gradient(88% 92% at 42% 40%,
+      hsl(var(--h) var(--s) calc(var(--l) + 10%)) 0%,
+      hsl(var(--h) var(--s) var(--l)) 52%,
+      hsl(var(--h) calc(var(--s) - 8%) calc(var(--l) - 16%)) 100%) !important;
+  box-shadow:
+    inset 0 0 10px -6px hsl(var(--h) 40% 30% / .22),
+    inset 0 -5px 8px -6px hsl(var(--h) var(--s) 88% / .55),
+    0 3px 7px -4px hsl(280 60% 8% / .38),
+    0 0 10px hsl(var(--h) var(--s) calc(var(--l) + 6%) / .18) !important;
+  transform: scale(1, .972);
+  transition: transform .13s cubic-bezier(.3,.9,.4,1), box-shadow .13s ease;
+}
+
+.mg-tile::before {
+  content: ''; position: absolute; left: 12%; top: 8%; width: 58%; height: 40%;
+  border-radius: 50%; z-index: 2; pointer-events: none;
+  background: radial-gradient(58% 58% at 46% 44%,
+    hsl(var(--h) 40% 96% / .30), hsl(var(--h) 40% 96% / .07) 58%, transparent 82%);
+  filter: blur(6px);
+  border: none !important; box-shadow: none !important; inset: auto;
+}
+.mg-tile::after { display: none !important; }
+
+.mg-tile:not(.mg-tile--full) { background: none !important; box-shadow: none !important; }
+.mg-tile:not(.mg-tile--full)::before { display: none !important; }
+
+.mg-tile[data-tile-type="0"] { --h: 342; --s: 58%; --l: 66%; }  /* ローズ     */
+.mg-tile[data-tile-type="1"] { --h:  20; --s: 74%; --l: 75%; }  /* ピーチ     */
+.mg-tile[data-tile-type="2"] { --h:  46; --s: 76%; --l: 66%; }  /* ハニー     */
+.mg-tile[data-tile-type="3"] { --h: 152; --s: 40%; --l: 71%; }  /* ミント     */
+.mg-tile[data-tile-type="4"] { --h: 194; --s: 50%; --l: 65%; }  /* アクア     */
+.mg-tile[data-tile-type="5"] { --h: 272; --s: 48%; --l: 78%; }  /* ラベンダー */
+
+/* hoverで駒を動かさない（tasks.css に残る四角タイル時代のルールを打ち消す。
+   これは見た目の調整ではなくチラつきのバグ修正なので維持する） */
+@media (hover: hover) {
+  .mg-tile:hover { transform: scale(1, .972) !important; }
+}
+
+.mg-tile--selected {
+  transform: translateY(-3px) scale(1.08, .96) !important;
+  box-shadow:
+    inset 0 -5px 8px -6px hsl(var(--h) var(--s) 92% / .70),
+    0 0 0 1.5px hsl(var(--h) 70% 88% / .85),
+    0 0 13px hsl(var(--h) var(--s) calc(var(--l) + 8%) / .62),
+    0 0 28px hsl(var(--h) var(--s) var(--l) / .32) !important;
+  z-index: 4;
+}
+
+.mg-board {
+  background: radial-gradient(120% 100% at 50% 0%,
+    rgba(52,14,92,.46), rgba(28,8,54,.58)) !important;
+  border: 1px solid rgba(255,255,255,.05) !important;
+  /* スマホでスワイプ交換が成立するように（ドラッグ交換の必須条件） */
+  touch-action: none !important;
+}
 
 /* ============================================================
    残タスク（GRAFT 02以降・このファイルでは触らない）
@@ -1248,3 +1388,42 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
    ※ 第3段は帯380px固定で最終ロック(v9)。横基準線300/380/500/520+gap20は不変
    ※ 解消済: GitHubバッジ/grow+deco(v6)/カレンダー化(v7)/タスク行(v8)
    ============================================================ */
+
+
+/* ================================================================
+   チラつき切り分け 第3ラウンド（全ページ共通・調査専用）
+   /games のロビーでもチラつくと報告があったため、Match 限定ではなく
+   サイト全体の描画コストを二分探索する。
+   ---------------------------------------------------------------- */
+
+/* nobackdrop: 全 backdrop-filter を無効化（このアプリに 130 箇所ある）
+   これでチラつかない＝背景ぼかしの再合成が原因 */
+html[data-mg-fx*="nobackdrop"] *,
+html[data-mg-fx*="nobackdrop"] *::before,
+html[data-mg-fx*="nobackdrop"] *::after {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* noanim: 常時アニメーションだけ停止（transition は残す）
+   これでチラつかない＝ずっと動いている要素が毎フレーム再合成を誘発している */
+html[data-mg-fx*="noanim"] *,
+html[data-mg-fx*="noanim"] *::before,
+html[data-mg-fx*="noanim"] *::after {
+  animation: none !important;
+}
+
+/* notrans: transition だけ停止（animation は残す）
+   これでチラつかない＝カーソル移動によるホバー遷移が原因 */
+html[data-mg-fx*="notrans"] *,
+html[data-mg-fx*="notrans"] *::before,
+html[data-mg-fx*="notrans"] *::after {
+  transition: none !important;
+}
+
+/* nofilter: filter / drop-shadow を停止 */
+html[data-mg-fx*="nofilter"] *,
+html[data-mg-fx*="nofilter"] *::before,
+html[data-mg-fx*="nofilter"] *::after {
+  filter: none !important;
+}

@@ -1,7 +1,7 @@
 <div class="mg-wrap"
      data-controller="match-game"
      data-match-game-result-url="<%= match_game_result_path %>"
-     data-match-game-tile-urls="<%= [image_path('tile_ribbon.png'), image_path('tile_crown.png'), image_path('tile_wand.png'), image_path('tile_rainbow.png'), image_path('tile_tiara.png'), image_path('tile_heart.png'), image_path('tile_wings.png'), image_path('tile_slipper.png')].to_json %>">
+     data-match-game-tile-urls="<%= [image_path('tile_ribbon.png'), image_path('tile_crown.png'), image_path('tile_wand.png'), image_path('tile_rainbow.png'), image_path('tile_heart.png'), image_path('tile_wings.png'), image_path('tile_tiara.png'), image_path('tile_slipper.png')].to_json %>">
 
   <%# ━━━ 左パネル ━━━ %>
   <div class="mg-panel mg-panel--info">
@@ -89,12 +89,16 @@
         3つが同じことを言っていた。ヴェールは既にここに実装されていたので、
         新しい演出を足すのではなく、既存の部品を繋ぎ直している。 %>
     <div class="mg-board-wrap">
-      <div class="mg-board-overlay<%= ' mg-board-overlay--veil' unless @already_played %>"
+      <%# ヴェールは常に出す。遊べるときは「タップしてスタート」、
+          遊べないときは「また明日あそべるよ」。
+          リボンマッチは1日1回なので、終了後は _endGame がこのヴェールを
+          戻して「今日はもう終わり」を盤面そのもので伝える。
+          ボタンを探させないための面。 %>
+      <div class="mg-board-overlay mg-board-overlay--veil<%= ' mg-board-overlay--done' if @already_played %>"
            data-match-game-target="boardOverlay"
            <%= raw(%(data-action="click->match-game#start")) unless @already_played %>>
-        <% unless @already_played %>
-          <span class="mg-veil-label">タップしてスタート</span>
-        <% end %>
+        <span class="mg-veil-label" data-match-game-target="veilLabel"><%=
+          @already_played ? "また明日あそべるよ" : "タップしてスタート" %></span>
       </div>
       <div class="mg-countdown" data-match-game-target="countdown"></div>
       <div class="mg-board" data-match-game-target="board"></div>

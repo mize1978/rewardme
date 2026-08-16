@@ -1,8 +1,37 @@
 import { Controller } from "@hotwired/stimulus"
 
 const GRID_SIZE  = 6
-const TILE_COUNT = 8
+// 6種。8種だった頃は「初期盤面から動かせる手が無い」が実測 2.83%（6×6・2万回試行）
+// あり、透明ぷに化したときの色の見分けも苦しかった。6種にすると 0.24% まで落ちる。
+// 色数は絵の都合ではなく、ゲームの成立条件そのものだった。
+const TILE_COUNT = 6
 const TIME_LIMIT = 60
+
+// ── ③ アニメーションの時間はここに集約する ──
+//  以前は 120 / 350 / 200 / 400 が各所に直書きされていた。
+//  MIT先生(Ghamza-Jd/Match-3)は animationtimetotal と swapTime の
+//  2定数＋4状態の状態機械で全部を管理している。その構造を借りる。
+//  ただし RewardMe は60秒スコアアタックなので、数値は先生の
+//  0.3s / 0.2s をそのまま写さず、現行の手触りを保つ値から始める。
+const T = {
+  swap:    130,   // 交換が入れ替わって見えるまで
+  revert:  380,   // 揃わなかったとき、戻し切るまで
+  clear:   340,   // 消える演出
+  fall:    210,   // 落ちて詰まるまで
+  settle:  260,   // 手詰まりで混ぜ直したあとの間
+}
+
+// ── ③ ゲームの状態。入力を受け付けてよいのは idle のときだけ ──
+//  「交換中にクリックされた」「連鎖中に触られた」「アニメが重なった」
+//  という自作ゲーム特有の事故を、状態で一元的に止める。
+const S = {
+  idle:      "idle",       // 入力待ち
+  swapping:  "swapping",   // 交換アニメ中
+  resolving: "resolving",  // 消去・落下・連鎖の処理中
+}
+
+// ドラッグで隣へ動かしたと判定する距離（px）
+const DRAG_THRESHOLD = 14
 
 const TILE_COLORS = [
   "linear-gradient(135deg, #ff7eb8, #e8408a)", // ribbon  - vivid pink
@@ -27,7 +56,7 @@ export default class extends Controller {
     "startBtn", "boardOverlay",
     "countdown", "timer", "scoreDisplay", "board",
     "resultScore", "resultCoins", "resultMessage", "resultHighScore",
-    "highScoreDisplay", "comboDisplay", "startHint", "ribbonMsg"
+    "highScoreDisplay", "comboDisplay", "startHint", "ribbonMsg", "veilLabel"
   ]
 
   connect() {
@@ -37,11 +66,22 @@ export default class extends Controller {
     this.active     = false
     this.processing = false
     this.selected   = null
+    this.phase      = S.idle
     this.grid       = []
     this.tileImages = JSON.parse(this.element.dataset.matchGameTileUrls)
     this._initBoard()
     this._renderBoard()
-    this._startBoardStars()
+
+    // 【一時的・調査用】チラつきの原因を切り分けるためのスイッチ。
+    //   /games/match?fx=nostar          … 星の常時生成を止める
+    //   /games/match?fx=nozoom          … body の zoom:0.9 を外す
+    //   /games/match?fx=noshadow        … 盤面外周の多重box-shadowを消す
+    //   /games/match?fx=noorn           … 四隅の✦アニメを止める
+    //   複数指定可: ?fx=nostar,nozoom
+    // 原因が確定したら、このブロックごと削除する。
+    const fx = new URLSearchParams(location.search).get("fx") || ""
+    document.documentElement.dataset.mgFx = fx
+    if (!fx.includes("nostar")) this._startBoardStars()
   }
 
   start() {
@@ -61,6 +101,8 @@ export default class extends Controller {
     if (this.hasComboDisplayTarget) this.comboDisplayTarget.textContent = "×0"
     if (this.hasResultCoinsTarget) this.resultCoinsTarget.textContent = ""
     this._initBoard()
+    // 開始した瞬間から詰んでいる盤面を配らない
+    if (!this._hasValidMove()) this._reshuffle()
     this._renderBoard()
     this._countdown(3)
   }
@@ -85,13 +127,58 @@ export default class extends Controller {
   _startGame() {
     this.active = true
     this.element.querySelector('.mg-board-wrap')?.classList.add('mg-board-wrap--active')
-    this._boardHandler = (e) => {
+    // ── ② 入力 ──
+    //  Pointer Events で統一する。マウス・タッチ・ペンが同じ経路を通るので、
+    //  スマホのスワイプにもそのまま繋がる（touch専用の分岐を作らない）。
+    //
+    //  操作は2通りを両立させる。完成品のマッチ3はどちらも使えるのが普通で、
+    //  「1個クリック → 隣をクリック」しかできないのはプロトタイプに見える。
+    //    ・ドラッグ／スワイプ … 掴んで隣へ動かすと、その時点で交換が成立する
+    //    ・2回クリック       … 選んでから隣を押す（従来どおり）
+    //  ドラッグで成立したときは、そのあと余計なクリックを要求しない。
+    this._drag = null
+
+    this._onDown = (e) => {
+      if (this.phase !== S.idle) return
       const tile = e.target.closest(".mg-tile")
       if (!tile) return
       e.preventDefault()
-      this._handleClick(parseInt(tile.dataset.row), parseInt(tile.dataset.col))
+      const r = parseInt(tile.dataset.row), c = parseInt(tile.dataset.col)
+      this._drag = { r, c, x: e.clientX, y: e.clientY, moved: false, id: e.pointerId }
+      // 掴んだ時点で選択状態にする（2クリック操作の1手目も兼ねる）
+      this._handleClick(r, c)
+      // 捕捉に失敗しても操作は続けられるべきなので握り潰す
+      try { this.boardTarget.setPointerCapture(e.pointerId) } catch {}
     }
-    this.boardTarget.addEventListener("pointerdown", this._boardHandler)
+
+    this._onMove = (e) => {
+      const d = this._drag
+      if (!d || d.moved || this.phase !== S.idle) return
+      const dx = e.clientX - d.x, dy = e.clientY - d.y
+      if (Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) return
+      // 動かした向きから、隣の1マスを決める（斜めは水平/垂直の大きい方に倒す）
+      const dr = Math.abs(dx) > Math.abs(dy) ? 0 : (dy > 0 ? 1 : -1)
+      const dc = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 1 : -1) : 0
+      const r2 = d.r + dr, c2 = d.c + dc
+      d.moved = true
+      if (r2 < 0 || c2 < 0 || r2 >= GRID_SIZE || c2 >= GRID_SIZE) return
+      this.selected = null
+      this._trySwap(d.r, d.c, r2, c2)
+    }
+
+    this._onUp = (e) => {
+      const d = this._drag
+      this._drag = null
+      if (!d) return
+      // 捕捉していないIDで呼ぶと NotFoundError を投げる（連続ドラッグで踏む）
+      try { this.boardTarget.releasePointerCapture(e.pointerId) } catch {}
+      // 動かさずに離した＝タップ。選択は _onDown で入れてあるので何もしない
+    }
+
+    this.boardTarget.addEventListener("pointerdown", this._onDown)
+    this.boardTarget.addEventListener("pointermove", this._onMove)
+    this.boardTarget.addEventListener("pointerup", this._onUp)
+    this.boardTarget.addEventListener("pointercancel", this._onUp)
     this.timerInterval = setInterval(() => {
       this.timeLeft--
       this.timerTarget.textContent = this.timeLeft
@@ -170,15 +257,16 @@ export default class extends Controller {
         if (slot.sym !== sym) {
           if (sym === null) {
             tile.classList.remove("mg-tile--full")
-            tile.style.background = ""
             delete tile.dataset.tileType
             slot.img.removeAttribute("src")
           } else {
             tile.classList.add("mg-tile--full")
-            if (TILE_COLORS[sym]) tile.style.background = TILE_COLORS[sym]
+            // 種類ごとの背景色は付けない。
+            // ピンクの四角だからリボン、青い四角だから杖…という色分けは、
+            // アイコン自体で十分区別できるうえ、四角のほうが先に目に入ってしまう。
             tile.dataset.tileType = sym
-            const url = this.tileImages[sym]
-            if (slot.img.getAttribute("src") !== url) slot.img.src = url
+            // 駒は data-tile-type から CSS が描く（パステル版）。
+            // img要素は構造として残すが src は与えない＝読み込みも発生しない。
           }
           slot.sym = sym
         }
@@ -213,7 +301,10 @@ export default class extends Controller {
 
   // ─── クリック処理 ────────────────────────────────────────
   _handleClick(r, c) {
-    if (!this.active || this.processing) return
+    // ③ 入力を受け付けるのは idle のときだけ。
+    //    以前は this.processing という真偽値ひとつで、
+    //    「交換中」「連鎖中」「混ぜ直し中」の区別が無かった。
+    if (!this.active || this.phase !== S.idle) return
     if (!this.selected) {
       this.selected = { r, c }
       this._renderBoard()
@@ -232,27 +323,33 @@ export default class extends Controller {
     }
   }
 
+  //  idle → swapping → (揃えば) resolving → idle
+  //                    → (揃わなければ) 戻して idle
   async _trySwap(r1, c1, r2, c2) {
-    this.processing = true
+    this.phase      = S.swapping
+    this.processing = true          // 既存コードとの互換のため残す
     this.selected   = null
     ;[this.grid[r1][c1], this.grid[r2][c2]] = [this.grid[r2][c2], this.grid[r1][c1]]
     this._renderBoard()
-    await this._delay(120)
+    await this._delay(T.swap)
+
     const matches = this._findMatches()
     if (matches.length === 0) {
+      // 揃わなかった: 交換を見せてから戻す（先生も同じ。動かした結果を必ず見せる）
       ;[this.grid[r1][c1], this.grid[r2][c2]] = [this.grid[r2][c2], this.grid[r1][c1]]
       this._renderBoard()
-      const t1 = this._getTileEl(r1, c1)
-      const t2 = this._getTileEl(r2, c2)
-      t1?.classList.add("mg-tile--shake")
-      t2?.classList.add("mg-tile--shake")
+      this._getTileEl(r1, c1)?.classList.add("mg-tile--shake")
+      this._getTileEl(r2, c2)?.classList.add("mg-tile--shake")
       this.combo = 0
       if (this.hasComboDisplayTarget) this.comboDisplayTarget.textContent = "×0"
-      await this._delay(400)
+      await this._delay(T.revert)
     } else {
+      this.phase = S.resolving
       await this._cascade()
     }
+
     this.processing = false
+    this.phase      = S.idle
   }
 
   // ─── マッチ検出 ──────────────────────────────────────────
@@ -287,6 +384,69 @@ export default class extends Controller {
     })
   }
 
+  // ─── 手詰まり対策 ────────────────────────────────────────
+  //
+  //  以前は「動かせる手があるか」を一度も見ていなかった。
+  //  6×6・8種で初期盤面の 2.83%、補充後の 1.68% が手詰まりで、
+  //  そうなるとプレイヤーはタイマーが減るのを見ているしかなかった。
+  //  6種化で発生率は下がるが 0 にはならないので、検出して混ぜ直す。
+
+  // 隣接1回の交換で3つ揃う手が、盤面のどこかに存在するか
+  _hasValidMove() {
+    const N = GRID_SIZE
+    for (let r = 0; r < N; r++) {
+      for (let c = 0; c < N; c++) {
+        for (const [dr, dc] of [[0, 1], [1, 0]]) {
+          const r2 = r + dr, c2 = c + dc
+          if (r2 >= N || c2 >= N) continue
+          const tmp = this.grid[r][c]
+          this.grid[r][c] = this.grid[r2][c2]
+          this.grid[r2][c2] = tmp
+          const ok = this._findMatches().length > 0
+          const tmp2 = this.grid[r][c]
+          this.grid[r][c] = this.grid[r2][c2]
+          this.grid[r2][c2] = tmp2
+          if (ok) return true
+        }
+      }
+    }
+    return false
+  }
+
+  // 盤面を混ぜ直す。
+  // 駒の構成（どの種類が何個あるか）は変えない＝プレイヤーの不利益にならない。
+  // 「揃った状態で始まらない」かつ「動かせる手がある」まで引き直す。
+  _reshuffle() {
+    const N = GRID_SIZE
+    const flat = []
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) flat.push(this.grid[r][c])
+
+    for (let attempt = 0; attempt < 80; attempt++) {
+      for (let i = flat.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        const t = flat[i]; flat[i] = flat[j]; flat[j] = t
+      }
+      let k = 0
+      for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) this.grid[r][c] = flat[k++]
+      if (this._findMatches().length === 0 && this._hasValidMove()) return true
+    }
+    // 並べ替えでは作れない構成だった場合だけ、盤面ごと引き直す
+    for (let attempt = 0; attempt < 200; attempt++) {
+      this._initBoard()
+      if (this._hasValidMove()) return true
+    }
+    return false
+  }
+
+  // 手が無ければ混ぜ直して描画し直す。混ぜたことは黙らずに伝える。
+  async _ensurePlayable() {
+    if (this._hasValidMove()) return
+    this._setRibbonMsg("そろえられる形がなくなったから、混ぜたよ！")
+    this._reshuffle()
+    this._renderBoard()
+    await this._delay(T.settle)
+  }
+
   // ─── 連鎖処理 ────────────────────────────────────────────
   async _cascade() {
     while (true) {
@@ -296,7 +456,7 @@ export default class extends Controller {
       matches.forEach(({ r, c }) => {
         this._getTileEl(r, c)?.classList.add("mg-tile--match")
       })
-      await this._delay(350)
+      await this._delay(T.clear)
       this.score += matches.length
       if (this.active) {
         this.scoreDisplayTarget.textContent = this.score
@@ -319,10 +479,12 @@ export default class extends Controller {
       matches.forEach(({ r, c }) => { this.grid[r][c] = null })
       const newPositions = this._applyGravity()
       this._renderBoard(newPositions)
-      await this._delay(200)
+      await this._delay(T.fall)
     }
     this.combo = 0
     if (this.hasComboDisplayTarget) this.comboDisplayTarget.textContent = "×0"
+    // 連鎖が落ち着いた時点で、次の一手があるか必ず確認する
+    if (this.active) await this._ensurePlayable()
   }
 
   // ─── キラキラパーティクル ────────────────────────────────
@@ -417,8 +579,18 @@ export default class extends Controller {
   _endGame() {
     this.active = false
     this.element.querySelector('.mg-board-wrap')?.classList.remove('mg-board-wrap--active')
+    // 盤面にヴェールを戻す。リボンマッチは1日1回なので、
+    // 終わったあとは「もう1回」ではなく「また明日」。
+    // ボタンを消した以上、終わったことは盤面で伝えないと探させてしまう。
+    this._closeVeil()
     clearInterval(this.timerInterval)
-    if (this._boardHandler) this.boardTarget.removeEventListener("pointerdown", this._boardHandler)
+    if (this._onDown) {
+      this.boardTarget.removeEventListener("pointerdown", this._onDown)
+      this.boardTarget.removeEventListener("pointermove", this._onMove)
+      this.boardTarget.removeEventListener("pointerup", this._onUp)
+      this.boardTarget.removeEventListener("pointercancel", this._onUp)
+    }
+    this.phase = S.idle
     const score = this.score
     const coins = score >= 60 ? 100 : score >= 30 ? 60 : score >= 10 ? 30 : 10
     const cat   = score >= 60 ? "perfect" : score >= 30 ? "high" : score >= 10 ? "mid" : "low"
@@ -451,6 +623,16 @@ export default class extends Controller {
         }
       }
     })
+  }
+
+  // 終了後のヴェール。タップしても始まらない状態にして戻す。
+  _closeVeil() {
+    if (!this.hasBoardOverlayTarget) return
+    const ov = this.boardOverlayTarget
+    ov.removeAttribute("data-action")          // Stimulus の紐付けを外す
+    ov.classList.add("mg-board-overlay--done")
+    ov.classList.remove("mg-overlay-hidden")
+    if (this.hasVeilLabelTarget) this.veilLabelTarget.textContent = "また明日あそべるよ"
   }
 
   _delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)) }
