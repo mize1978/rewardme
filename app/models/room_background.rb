@@ -185,10 +185,9 @@ class RoomBackground
     }
   }.freeze
 
-  # 差し替え待ちの仮画像。
-  # room_purple_s3 は s2 の、s5 は s4 の複製を置いてあるだけで、まだ本番絵ではない。
-  # 本番絵ができたら同じファイル名で上書きするだけでよく、コードの変更は不要。
-  PLACEHOLDER_STAGES = { "purple" => [3, 5] }.freeze
+  # 差し替え待ちの仮画像。PURPLE は全6段そろったため現在は空。
+  # 新しい色を追加して絵が未完成の段があるときだけ、ここに段番号を入れる。
+  PLACEHOLDER_STAGES = {}.freeze
 
   def self.all  = CATALOG
   def self.find(id) = CATALOG.find { |b| b[:id] == id }
