@@ -65,7 +65,7 @@
 
       <%# ─── リボンフライト ─── %>
       <div class="game-card">
-        <div class="game-card-preview" style="background-image: url('<%= asset_path('thumb_game_flight.jpg') %>'); background-position: center;"></div>
+        <div class="game-card-preview" style="background-image: url('<%= asset_path('thumb_game_flight.jpg') %>'); background-position: center 30%;"></div>
         <div class="game-card-badge-wrap">
           <% unless current_user.flight_game_played_today? %>
             <span class="game-card-badge game-card-badge--new">NEW</span>
@@ -90,9 +90,7 @@
 
       <%# ─── リボンパズル ─── %>
       <div class="game-card">
-        <div class="game-card-preview gc-puzzle-preview" style="background-image: url('<%= asset_path(current_user.selected_puzzle_image_file) %>');">
-          <img src="<%= asset_path('thumb_game_puzzle.jpg') %>" class="gc-puzzle-collage" alt="">
-        </div>
+        <div class="game-card-preview" style="background-image: url('<%= asset_path('thumb_game_puzzle.jpg') %>'); background-position: center;"></div>
         <div class="game-card-badge-wrap">
           <% if current_user.puzzle_plays_remaining > 0 %>
             <span class="game-card-badge game-card-badge--new">残 <%= current_user.puzzle_plays_remaining %> 回</span>
@@ -126,7 +124,7 @@
 
       <%# ─── リボンマッチ ─── %>
       <div class="game-card">
-        <div class="game-card-preview" style="background-image: url('<%= asset_path('thumb_game_match.jpg') %>');"></div>
+        <div class="game-card-preview" style="background-image: url('<%= asset_path('thumb_game_match.jpg') %>'); background-position: center;"></div>
         <div class="game-card-badge-wrap">
           <% unless current_user.match_game_played_today? %>
             <span class="game-card-badge game-card-badge--new">NEW</span>
@@ -151,7 +149,7 @@
 
       <%# ─── リボンキャッチ ─── %>
       <div class="game-card">
-        <div class="game-card-preview" style="background-image: url('<%= asset_path('thumb_game_catch.jpg') %>');"></div>
+        <div class="game-card-preview" style="background-image: url('<%= asset_path('thumb_game_catch.jpg') %>'); background-position: center;"></div>
         <div class="game-card-badge-wrap">
           <% unless current_user.tap_game_played_today? %>
             <span class="game-card-badge game-card-badge--new">NEW</span>
@@ -209,7 +207,7 @@
 
       <%# ─── リボンキングダム（🔒 未来予告・QUESTと対／Flightの夜空の城の回収） ─── %>
       <div class="game-card game-card--coming-soon">
-        <div class="game-card-preview" style="background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(150,60,220,0.40), rgba(20,4,50,0.92));"></div>
+        <div class="game-card-preview" style="background-image: url('<%= asset_path('thumb_game_kingdom.jpg') %>'); background-position: center;"></div>
         <div class="game-card-badge-wrap">
           <span class="game-card-badge game-card-badge--soon">🔒 COMING SOON</span>
         </div>
