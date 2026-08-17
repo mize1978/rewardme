@@ -1043,8 +1043,9 @@ body[data-time-period="evening"] .my-room::after {
   mix-blend-mode: screen;
 }
 body[data-time-period="night"] .my-room::after {
-  background: linear-gradient(180deg, rgba(10, 10, 60, 0.28) 0%, rgba(40, 10, 60, 0.14) 100%);
-  mix-blend-mode: multiply;
+  /* multiply×濃い青は部屋を青黒くくすませ「具合悪そう」になっていた。soft-lightで色を殺さず夜ムードだけ薄く乗せる */
+  background: linear-gradient(180deg, rgba(60, 45, 110, 0.12) 0%, rgba(80, 40, 100, 0.08) 100%);
+  mix-blend-mode: soft-light;
 }
 
 .room-character {
