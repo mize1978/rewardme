@@ -363,6 +363,14 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
   .tasks-panel .tasks-panel-footer { margin-top: 10px !important; }
 }
 
+/* 素サイズ保険: サイズ指定が min-width:1101px の中にしか無く、
+   幅がそれ未満だとアバターが無サイズ＝PNG原寸で巨大化してヘッダーから
+   飛び出すため、全幅で効く基底サイズをここで確保する。 */
+.header-avatar {
+  width: 46px; height: 46px; flex: none;
+  border-radius: 50%; object-fit: contain; box-sizing: border-box;
+}
+
 /* ================================================================
    ヘッダー→トップバー化（v10）: カンプの語彙へ・盤面と端を揃える
    ================================================================ */
