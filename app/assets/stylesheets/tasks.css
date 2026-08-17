@@ -4357,8 +4357,11 @@ body[data-time-period="night"] .my-room::after {
   object-fit: contain;
   border-radius: 16px;
   /* 二重drop-shadow(0.7+0.4)は左カラムで一点だけ強く光り、視線を持っていっていた。
-     金色の層を外し桃色1枚だけ薄く残す＝リボンBOXだと分かるアクセントは維持。 */
-  filter: drop-shadow(0 0 10px rgba(255, 170, 215, 0.28));
+     金色の層を外し桃色1枚だけ薄く残す＝リボンBOXだと分かるアクセントは維持。
+     加えて素材自体が明るく、減光後もリボンやハイライトが白飛びして
+     周囲のカード（カレンダー/タスク）から浮いていたため brightness で落とす。
+     彩度は触らないのでピンクはそのまま残る。元画像は加工していない。 */
+  filter: brightness(0.8) drop-shadow(0 0 10px rgba(255, 170, 215, 0.28));
   animation: egg-idle 2.4s ease-in-out infinite;
 }
 
