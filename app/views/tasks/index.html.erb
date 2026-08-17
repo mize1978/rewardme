@@ -170,11 +170,11 @@
     </div>
 
     <%# ===== お部屋のデコレーション（第4段右・カンプ準拠） ===== %>
-    <div class="deco-panel">
-      <p class="panel-title">🛋️ お部屋のデコレーション</p>
+    <div class="deco-panel deco-panel--locked">
+      <p class="panel-title">🛋️ お部屋のデコレーション <span class="deco-lock-ico">🔒</span></p>
       <p class="deco-panel-text">コインやバッジで<br>家具やデコをゲット！</p>
       <div class="deco-panel-emojis">🛋️ 💡 🪴 🧸 🎀 🖼️</div>
-      <%= link_to "ショップへ", shop_path, class: "deco-panel-btn" %>
+      <span class="deco-panel-btn deco-panel-btn--locked" aria-disabled="true">🔒 COMING SOON</span>
     </div>
 
   </div>

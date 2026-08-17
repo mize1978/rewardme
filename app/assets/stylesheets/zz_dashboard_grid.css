@@ -166,6 +166,23 @@
   .site-footer { opacity: 0.35; transition: opacity .2s; }
   .site-footer:hover { opacity: 1; }
 }
+/* お部屋のデコレーションは家具/デコの実装が入るまで未解放。
+   触れそうに見えて何も起きない状態を避けるため、ロビーの
+   .game-card--coming-soon と同じ作法（薄く落とす＋鍵＋操作不能）で
+   「これから開く場所」として見せる。メディアクエリ外に置き全幅で効かせる。 */
+.deco-panel--locked { opacity: 0.72; filter: grayscale(0.15); }
+.deco-lock-ico { font-size: 0.85em; opacity: 0.85; }
+.deco-panel--locked .deco-panel-btn--locked {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(160, 120, 255, 0.28);
+  color: rgba(230, 210, 255, 0.75);
+  box-shadow: none;
+  letter-spacing: 0.5px;
+  cursor: default;
+  pointer-events: none;
+  transform: none;
+}
+
 /* モバイル/タブレットでは deco はグリッド外になるので出さない
    （room-growth-panel と同じ扱い） */
 @media (max-width: 1100px) { .deco-panel { display: none; } }
