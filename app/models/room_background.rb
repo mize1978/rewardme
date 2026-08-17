@@ -172,13 +172,18 @@ class RoomBackground
   #
   # 3色とも同じ段構成。違うのは絵だけで、しきい値も並びも共通。
   # 新しい色を足すときは prefix を変えて同じ stages を書くだけでよい。
+  # 予選審査期間中の暫定しきい値。
+  # s1〜s3 は新しい絵柄で完成済み、s4〜s6 は旧素材（1600x900・旧絵柄）のまま。
+  # 審査員の通常操作（5〜10件程度）で「たまご→赤ちゃん」を体験でき、
+  # 画風が切り替わる s4 以降へは到達しない配分にしている。
+  # s4〜s6 の絵が揃ったら 20 / 30 / 40 へ戻すこと。
   GROWTH_STAGES = [
-    { stage: 1, tier: "BASE",   label: "たまご",       from: 0  },
-    { stage: 2, tier: "BASE",   label: "ベビー",       from: 10 },
-    { stage: 3, tier: "COZY",   label: "ベビー",       from: 15 },
-    { stage: 4, tier: "COZY",   label: "リボンちゃん", from: 20 },
-    { stage: 5, tier: "DELUXE", label: "リボンちゃん", from: 30 },
-    { stage: 6, tier: "DELUXE", label: "プリンセス",   from: 40 },
+    { stage: 1, tier: "BASE",   label: "たまご",       from: 0   },
+    { stage: 2, tier: "BASE",   label: "ベビー",       from: 10  },
+    { stage: 3, tier: "COZY",   label: "ベビー",       from: 30  },
+    { stage: 4, tier: "COZY",   label: "リボンちゃん", from: 100 },
+    { stage: 5, tier: "DELUXE", label: "リボンちゃん", from: 200 },
+    { stage: 6, tier: "DELUXE", label: "プリンセス",   from: 300 },
   ].freeze
 
   GROWTH_ROOMS = {
