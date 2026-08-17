@@ -102,7 +102,9 @@
 
 <%# フライト画面はビュー内scopedで自己完結（共有tasks.cssに手を入れない） %>
 <style>
-  .ff-wrap{ position:relative; min-height:70vh; display:flex; align-items:center; justify-content:center; }
+  .ff-wrap{ position:relative; min-height:70vh; display:flex; align-items:center; justify-content:center;
+    /* 縦長プレイエリアの左右余白＝ゲーム内の夜空を外側へ延長（中央=夜空の紫→端=RewardMeの濃紺）。canvas/物理/ゲーム背景は不変 */
+    background:radial-gradient(ellipse 74% 98% at 50% 40%, #2a1a58 0%, #190f3e 44%, #0d0620 100%); }
   .ff-screen{ width:100%; max-width:480px; text-align:center; color:#f3e9ff; }
   .ff-start-inner, .ff-result-inner{
     background:rgba(255,255,255,0.05); backdrop-filter:blur(16px);
