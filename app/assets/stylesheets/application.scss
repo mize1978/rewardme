@@ -334,6 +334,14 @@ body:has(.login-page) {
   padding-top: 0 !important;
 }
 
+/* 認証画面の背景は .login-page の aurora グラデーション＋orb＋particle で
+   完結させる。body::before / ::after の固定グロー2枚（blur(80px)）は
+   別系統の重ね掛けで、密度だけが増えて世界観には効いていなかったので止める。 */
+body:has(.login-page)::before,
+body:has(.login-page)::after {
+  content: none;
+}
+
 .login-page {
   min-height: 100vh;
   display: flex;
@@ -419,18 +427,20 @@ body:has(.login-page) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
-  padding-top: 24px;
+  gap: 8px;
+  padding-top: 48px;
   position: relative;
   z-index: 2;
 }
 
-/* ロゴ画像 */
+/* ロゴ画像
+   160px はカード幅(360px)の44%あり、カードと主役を取り合っていた。
+   カードを主役に据え、ロゴは「ここはRewardMe」と分かる名札の大きさに戻す。
+   位置合わせの margin-bottom:-12px は .login-header の gap に置き換え。 */
 .login-logo-img {
-  height: 160px;
+  height: 104px;
   width: auto;
   object-fit: contain;
-  margin-bottom: -12px;
   filter: drop-shadow(0 4px 20px rgba(255, 143, 172, 0.35)) drop-shadow(0 0 40px rgba(201, 111, 255, 0.2));
 }
 
@@ -501,9 +511,10 @@ body:has(.login-page) {
   position: relative;
   z-index: 2;
   width: 100%;
-  padding: 0 20px;
   box-sizing: border-box;
-  padding-bottom: 220px;
+  /* 旧 padding-bottom:220px は下部固定の3キャラトリオのための場所取りだった。
+     トリオ撤去に伴い、上下は同じ余白で受ける（カードが画面中央に座る）。 */
+  padding: 40px 20px 56px;
 }
 
 /* フォームカード */
@@ -541,33 +552,68 @@ body:has(.login-page) {
   pointer-events: none;
 }
 
+/* ===== 認証カードの型 =====
+   文字サイズは 20 / 15 / 12 の3段階だけを使う。
+   余白は 8px グリッド（8 / 16 / 24）に揃える。
+   従来は 14/8/12/2/4px と font-size 11〜15px が混在し、
+   「カードを中央に置いただけ」の印象の実体になっていた。 */
+.login-card-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #f5e6ff;
+  text-shadow: 0 0 20px rgba(200, 120, 255, 0.5);
+}
+
+/* 旧 .login-welcome::after / .signup-heading::after で CSS の content に
+   埋まっていた文言を、ビュー側の要素として持ち上げたもの。 */
+.login-card-sub {
+  margin: 8px 0 0;
+  font-size: 12px;
+  font-weight: normal;
+  color: rgba(255, 200, 240, 0.65);
+}
+
+.login-card form {
+  margin-top: 24px;
+}
+
 .form-group {
   text-align: left;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .login-card label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-size: 12px;
   font-weight: 700;
   color: rgba(255, 210, 240, 0.8);
   letter-spacing: 0.5px;
 }
 
-.form-input {
+/* 入力欄：従来 .form-input は :558 と :930 で二重定義され、
+   ログイン用に書いた :558 は padding / border / radius / background が
+   すべて後段のアプリ共通 input 群に上書きされて死んでいた。
+   ここではカード内だけに効かせ、共通の input には触らない。
+   半径はカード(28px)との関係で決める（28 - 内側余白28 → 14px）。 */
+.login-card .form-input {
   width: 100%;
-  padding: 10px 14px;
+  padding: 12px 14px;
   border: 1px solid rgba(255, 200, 240, 0.25);
-  border-radius: 12px;
+  border-radius: 14px;
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   color: #f5e6ff;
+  font-size: 15px;
+  font-family: inherit;
 }
 
 /* ログインボタン */
+/* ラベルに混ざっていた装飾記号「✦」はビュー側で除去した。
+   長さの違う2語（ログイン／登録する）に同じ飾りが付き、
+   letter-spacing が飾りにも効いて字面の重心がズレていたため。 */
 .login-btn-new {
   width: 100%;
   padding: 14px;
@@ -612,9 +658,32 @@ body:has(.login-page) {
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
+/* .login-btn-new はタスク追加フォーム・設定画面でも使い回されているため、
+   常時発光の停止は認証カード内だけに限定する（他画面の見た目は不変）。
+   ラベルの装飾記号「✦」もビュー側で認証2画面のみ除去済み。 */
+.login-card .login-btn-new {
+  font-family: inherit;
+  letter-spacing: 0.08em;
+  animation: none;
+  box-shadow:
+    0 6px 20px rgba(200, 80, 255, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.login-card .login-btn-new:hover,
+.login-card .login-btn-new:focus-visible {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 32px rgba(200, 80, 255, 0.62),
+    0 0 40px rgba(255, 140, 210, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.login-card .login-btn-new:active { transform: translateY(0); }
+
 /* 新規登録リンク */
 .login-signup-link {
-  margin-top: 14px;
+  margin: 24px 0 0;
   font-size: 12px;
   color: rgba(240, 200, 255, 0.6);
 }
@@ -638,6 +707,14 @@ body:has(.login-page) {
   letter-spacing: 1px;
 }
 
+/* .login-or はたまご選択画面でも使われているため、
+   8pxグリッド／文字サイズ3段階への揃えは認証カード内だけに効かせる。 */
+.login-card .login-or {
+  gap: 8px;
+  margin: 24px 0 8px;
+  font-size: 12px;
+}
+
 .login-or::before,
 .login-or::after {
   content: "";
@@ -653,13 +730,17 @@ body:has(.login-page) {
   justify-content: center;
   gap: 6px;
   width: 100%;
-  padding: 10px;
-  margin-top: 4px;
+  padding: 12px;
+  margin-top: 0;
   background: none;
   border: none;
+  /* 共通の button ルール（box-shadow: 0 4px 14px …）が残っていたため、
+     「枠も塗りもなし」の指定に反してピル状の影が出ていた。ここで打ち消す。 */
+  box-shadow: none;
   border-radius: 999px;
   color: rgba(255, 200, 224, 0.85);
-  font-size: 14px;
+  font-size: 15px;
+  font-family: inherit;
   font-weight: 600;
   letter-spacing: 0.5px;
   cursor: pointer;
@@ -699,87 +780,10 @@ body:has(.login-page) {
   transform: scale(1.1);
 }
 
-/* ===== キャラクター（左下固定） ===== */
-/* ===== ログイン3キャラトリオ ===== */
-.login-trio {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 3;
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 0;
-}
-
-.login-trio-chara {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.login-trio-chara::before {
-  content: "";
-  position: absolute;
-  bottom: 6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 28px;
-  border-radius: 50%;
-  filter: blur(12px);
-  z-index: 0;
-  animation: loginShadowPulse 3.5s ease-in-out infinite;
-}
-
-.login-trio-chara--pink::before {
-  background: radial-gradient(ellipse, rgba(255, 143, 172, 0.55), transparent 70%);
-}
-.login-trio-chara--purple::before {
-  background: radial-gradient(ellipse, rgba(180, 80, 255, 0.55), transparent 70%);
-  width: 140px;
-}
-.login-trio-chara--blue::before {
-  background: radial-gradient(ellipse, rgba(80, 160, 255, 0.55), transparent 70%);
-}
-
-.login-trio-img {
-  height: 200px;
-  width: auto;
-  object-fit: contain;
-  object-position: bottom;
-  position: relative;
-  z-index: 1;
-  transform-origin: center bottom;
-}
-
-/* ② RPGパーティ隊形：サイドを下げて中央を前に */
-.login-trio-chara--pink   { transform: translateY(28px); z-index: 1; }
-.login-trio-chara--purple { transform: translateY(0px);  z-index: 2; }
-.login-trio-chara--blue   { transform: translateY(28px); z-index: 1; }
-
-.login-trio-chara--pink   .login-trio-img { animation: loginCharaFloat 3.8s 0.0s ease-in-out infinite; filter: drop-shadow(0 0 14px rgba(255, 143, 172, 0.38)); }
-.login-trio-chara--purple .login-trio-img { animation: loginCharaFloat 3.5s 0.9s ease-in-out infinite; filter: drop-shadow(0 0 18px rgba(180, 80,  255, 0.45)); height: 238px; }
-.login-trio-chara--blue   .login-trio-img { animation: loginCharaFloat 4.0s 1.7s ease-in-out infinite; filter: drop-shadow(0 0 14px rgba(80,  160, 255, 0.38)); }
-
-.login-trio-label {
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 0.05em;
-  padding: 3px 10px;
-  border-radius: 999px;
-  margin-bottom: 6px;
-  position: relative;
-  z-index: 1;
-}
-
-.login-trio-chara--pink   .login-trio-label { background: rgba(255, 143, 172, 0.25); color: #ffb3d9; border: 1px solid rgba(255, 143, 172, 0.4); }
-.login-trio-chara--purple .login-trio-label { background: rgba(180, 80,  255, 0.20); color: #d9a0ff; border: 1px solid rgba(180, 80,  255, 0.4); }
-.login-trio-chara--blue   .login-trio-label { background: rgba(80,  160, 255, 0.20); color: #a0d0ff; border: 1px solid rgba(80,  160, 255, 0.4); }
+/* 3キャラトリオ（stage4 の立ち絵3体を下部に固定）は撤去した。
+   認証画面の主役をフォームカードに戻すため。移設も代替も置かない。
+   これに伴い .login-center の padding-bottom:220px（トリオの場所取り）も解消済み。
+   @keyframes loginCharaFloat は他4箇所で使用中のため残す。 */
 
 /* 旧スタイル（互換のため残す） */
 .login-chara-corner { display: none; }
@@ -859,23 +863,15 @@ body:has(.login-page) {
   }
 }
 
-@keyframes loginShadowPulse {
-  0%, 100% { opacity: 0.6; transform: translateX(-50%) scaleX(0.85); }
-  50%       { opacity: 1.0; transform: translateX(-50%) scaleX(1.10); }
-}
-
 /* レスポンシブ */
 @media (max-width: 600px) {
-  .login-header { padding-top: 8px; }
+  .login-header { padding-top: 24px; }
+  .login-logo-img { height: 80px; }
+  .login-center { padding: 24px 20px 40px; }
   .login-logo-r { font-size: 48px; }
   .login-logo-name { font-size: 26px; }
   .login-chara-wrap { width: 200px; height: 220px; }
   .login-chara-img { height: 190px; }
-  .login-trio-img { height: 130px; }
-  .login-trio-chara--purple .login-trio-img { height: 155px; }
-  .login-trio-chara--pink  { transform: translateY(18px); }
-  .login-trio-chara--blue  { transform: translateY(18px); }
-  .login-trio-label { font-size: 9px; padding: 2px 7px; }
 }
 /* =====================
    仕上げ：ふわかわ完成デザイン
@@ -908,23 +904,31 @@ body::after {
   z-index: -1;
 }
 
-.login-card .login-welcome::after {
-  content: "おかえりなさい🩵";
-  display: block;
-  font-size: 13px;
-  color: rgba(255, 200, 240, 0.65);
-  margin-top: 6px;
-  font-weight: normal;
+/* 旧 .login-welcome::after / .signup-heading::after はここで画面の文言を
+   CSS の content として持っていた（ビューを開いても見つからない状態）。
+   文言は .login-card-sub としてビューへ移設済み。 */
+
+/* ===== 認証カードのエラー表示 =====
+   従来：ログインは flash.now を立てるだけで描画先が無く無反応、
+   新規登録は .login-errors を使っていたが CSS 定義が無く素のテキストだった。
+   両画面で同じ器・同じ見え方に揃える。 */
+.login-errors {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  text-align: left;
+  border-radius: 14px;
+  background: rgba(255, 90, 140, 0.12);
+  border: 1px solid rgba(255, 120, 160, 0.38);
 }
 
-.login-card .signup-heading::after {
-  content: "たまごから冒険スタート💙";
-  display: block;
-  font-size: 13px;
-  color: rgba(180, 220, 255, 0.75);
-  margin-top: 6px;
-  font-weight: normal;
+.login-errors p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #ffc2d6;
 }
+
+.login-errors p + p { margin-top: 4px; }
 
 /* 入力欄 */
 .form-input,

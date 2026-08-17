@@ -37,10 +37,11 @@
   <%# ===== フォームカード（中央） ===== %>
   <div class="login-center">
     <div class="login-card">
-      <h1 class="signup-heading">新規登録</h1>
+      <h1 class="login-card-title">新規登録</h1>
+      <p class="login-card-sub">たまごから冒険スタート💙</p>
 
       <% if @user&.errors&.any? %>
-        <div class="login-errors">
+        <div class="login-errors" role="alert">
           <% @user.errors.full_messages.each do |msg| %>
             <p><%= msg %></p>
           <% end %>
@@ -63,7 +64,7 @@
           <%= f.password_field :password, class: "form-input", placeholder: "••••••••" %>
         </div>
 
-        <%= f.submit "✦ 登録する ✦", class: "login-btn-new" %>
+        <%= f.submit "登録する", class: "login-btn-new" %>
       <% end %>
 
       <%# 登録不要で試せる共通の逃げ道（LP・ログイン・新規登録すべてに設置。Issue #15） %>
@@ -77,22 +78,6 @@
         すでにアカウントをお持ちの方は
         <%= link_to "ログイン", login_path, class: "login-link" %>
       </p>
-    </div>
-  </div>
-
-  <%# ===== 3キャラトリオ（下部） ===== %>
-  <div class="login-trio" aria-hidden="true">
-    <div class="login-trio-chara login-trio-chara--pink">
-      <%= image_tag "stage4_pink.png", class: "login-trio-img", alt: "ロリータリボン" %>
-      <span class="login-trio-label">🩷 ロリータリボン</span>
-    </div>
-    <div class="login-trio-chara login-trio-chara--purple">
-      <%= image_tag "stage4_purple.png", class: "login-trio-img", alt: "ゴシックリボン" %>
-      <span class="login-trio-label">💜 ゴシックリボン</span>
-    </div>
-    <div class="login-trio-chara login-trio-chara--blue">
-      <%= image_tag "stage4_blue.png", class: "login-trio-img", alt: "星のリボン" %>
-      <span class="login-trio-label">💙 星のリボン</span>
     </div>
   </div>
 

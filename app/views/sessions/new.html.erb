@@ -37,7 +37,15 @@
   <%# ===== フォームカード（中央） ===== %>
   <div class="login-center">
     <div class="login-card">
-      <h1 class="login-welcome">ログイン</h1>
+      <h1 class="login-card-title">ログイン</h1>
+      <p class="login-card-sub">おかえりなさい🩵</p>
+
+      <%# 失敗時のflashを実際に表示する（従来は flash.now を立てるだけで描画先が無く無反応だった） %>
+      <% if flash[:alert].present? %>
+        <div class="login-errors" role="alert">
+          <p><%= flash[:alert] %></p>
+        </div>
+      <% end %>
 
       <%= form_with url: login_path, local: true do |f| %>
         <div class="form-group">
@@ -50,7 +58,7 @@
           <%= password_field_tag :password, nil, class: "form-input", placeholder: "••••••••" %>
         </div>
 
-        <%= submit_tag "✦ ログイン ✦", class: "login-btn-new" %>
+        <%= submit_tag "ログイン", class: "login-btn-new" %>
       <% end %>
 
       <%# 登録不要で作品を試せる導線を、ログインと並ぶ「体験への入口」に昇格（Issue #15 の後追い） %>
@@ -64,22 +72,6 @@
         アカウントをお持ちでない方は
         <%= link_to "新規登録", signup_path, class: "login-link" %>
       </p>
-    </div>
-  </div>
-
-  <%# ===== 3キャラトリオ（下部） ===== %>
-  <div class="login-trio" aria-hidden="true">
-    <div class="login-trio-chara login-trio-chara--pink">
-      <%= image_tag "stage4_pink.png", class: "login-trio-img", alt: "ロリータリボン" %>
-      <span class="login-trio-label">🩷 ロリータリボン</span>
-    </div>
-    <div class="login-trio-chara login-trio-chara--purple">
-      <%= image_tag "stage4_purple.png", class: "login-trio-img", alt: "ゴシックリボン" %>
-      <span class="login-trio-label">💜 ゴシックリボン</span>
-    </div>
-    <div class="login-trio-chara login-trio-chara--blue">
-      <%= image_tag "stage4_blue.png", class: "login-trio-img", alt: "星のリボン" %>
-      <span class="login-trio-label">💙 星のリボン</span>
     </div>
   </div>
 
