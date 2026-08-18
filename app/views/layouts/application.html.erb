@@ -32,7 +32,11 @@
         data-controller="bgm"
         data-bgm-room="<%= current_user ? (current_user.current_room_bg || 'default') : 'login' %>">
 
-    <% unless (controller_name == 'sessions' && action_name == 'new') || (controller_name == 'users' && action_name == 'new') || (controller_name == 'pages' && action_name == 'lp') %>
+    <%# 認証画面ではヘッダーを出さない。
+        create を含めるのは、バリデーション失敗時に render :new でこのテンプレートを
+        描画しても action_name は "create" のままで、new だけの判定では素通りし、
+        ヘッダーがログインカードに重なって出てしまうため。 %>
+    <% unless (controller_name == 'sessions' && %w[new create].include?(action_name)) || (controller_name == 'users' && %w[new create].include?(action_name)) || (controller_name == 'pages' && action_name == 'lp') %>
       <%= render 'shared/header' %>
     <% end %>
 
