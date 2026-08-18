@@ -48,3 +48,42 @@ ja:
       default: "%Y/%m/%d"
       long: "%-m月 %Y"
       short: "%-m/%-d"
+
+  # 日付以外の訳が無く、新規登録の失敗時に
+  # 「Translation missing. Options considered were: ...」が画面に出ていたため追加。
+  # default_locale が :ja なので、ここに無いキーは内部キーがそのまま表示される。
+  errors:
+    format: "%{attribute}%{message}"
+    messages: &errors_messages
+      blank: を入力してください
+      invalid: の形式が正しくありません
+      taken: はすでに使用されています
+      confirmation: が一致しません
+      too_short: は%{count}文字以上で入力してください
+      too_long: は%{count}文字以内で入力してください
+      inclusion: に正しい値を入力してください
+      exclusion: は予約されています
+      not_a_number: は数値で入力してください
+      greater_than: は%{count}より大きい値にしてください
+      greater_than_or_equal_to: は%{count}以上の値にしてください
+      less_than: は%{count}より小さい値にしてください
+      less_than_or_equal_to: は%{count}以下の値にしてください
+
+  activerecord:
+    errors:
+      messages:
+        <<: *errors_messages
+        record_invalid: "バリデーションに失敗しました: %{errors}"
+    models:
+      user: ユーザー
+      task: タスク
+    attributes:
+      user:
+        nickname: ニックネーム
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
+        flight_rank_name: ランキング名
+      task:
+        title: タイトル
+        priority: 優先度
