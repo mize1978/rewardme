@@ -1,833 +1,104 @@
-<%# ===== NAV ===== %>
-<nav class="lp-nav">
-  <div class="lp-nav-inner">
-    <%= image_tag "rewardme_logo.png", class: "lp-nav-logo", alt: "RewardMe" %>
-    <div class="lp-nav-anchors">
-      <a href="#features"  class="lp-nav-anchor">特徴</a>
-      <a href="#screens"   class="lp-nav-anchor">画面</a>
-      <a href="#portfolio" class="lp-nav-anchor">GitHub</a>
-    </div>
-    <div class="lp-nav-links">
-      <%= link_to "ログイン", login_path, class: "lp-nav-login" %>
-      <%= link_to "無料ではじめる", signup_path, class: "lp-nav-cta" %>
-    </div>
+<a class="rm-skip" href="#main">本文へ移動</a>
+<header class="rm-header" id="top">
+  <div class="rm-container rm-header-inner">
+    <a class="rm-logo" href="#top" aria-label="RewardMe トップ"><%= image_tag "rewardme_logo.png", alt: "RewardMe", width: 1536, height: 1024 %></a>
+    <nav class="rm-nav" aria-label="メインナビゲーション">
+      <a href="#features">楽しみ方</a><a href="#characters">リボンちゃん</a><a href="#screens">アプリの画面</a>
+    </nav>
+    <div class="rm-header-actions"><%= link_to "ログイン", login_path, class: "rm-login" %><%= link_to "無料ではじめる", signup_path, class: "rm-button rm-button-small" %></div>
   </div>
-</nav>
-
-<%# ===== HERO（2カラム）===== %>
-<section class="lp-hero2">
-  <div class="lp-hero2-bg">
-    <div class="lp-hero2-orb lp-hero2-orb--1"></div>
-    <div class="lp-hero2-orb lp-hero2-orb--2"></div>
-    <div class="lp-hero2-orb lp-hero2-orb--3"></div>
-  </div>
-
-  <div class="lp-hero2-2col">
-    <%# ① 左カラム：コピー ＋ キャラ %>
-    <div class="lp-hero2-left">
-      <div class="lp-hero2-eyebrow">
-        <span class="lp-hero2-eyebrow-dot"></span>
-        GAME × PRODUCTIVITY
-        <span class="lp-hero2-eyebrow-dot"></span>
+</header>
+<main id="main" data-controller="landing">
+  <section class="rm-hero rm-container" aria-labelledby="hero-title">
+    <div class="rm-hero-copy">
+      <p class="rm-eyebrow"><span aria-hidden="true">✧</span> A LITTLE DONE. A LITTLE JOY.</p>
+      <h1 id="hero-title">今日の「できた」に、<br><span>小さなごほうびを。</span></h1>
+      <p class="rm-lead">やることを、楽しみに変えていこう。</p>
+      <p class="rm-body-copy">タスクをひとつ終えたら、リボンちゃんが少し成長。<br class="rm-desktop-break">育成も、お部屋づくりも楽しめるタスク管理アプリ。</p>
+      <div class="rm-actions">
+        <%= button_to guest_login_path, class: "rm-button", form: { class: "rm-guest-form" } do %>登録なしで試す <span aria-hidden="true">↗</span><% end %>
+        <a href="#screens" class="rm-text-link">まずは画面を見る <span aria-hidden="true">↓</span></a>
       </div>
-
-      <div class="lp-hero2-chara-wrap">
-        <%= image_tag "stage4_pink.png", class: "lp-hero2-chara", alt: "リボンちゃん" %>
-        <div class="lp-hero2-chara-glow"></div>
-      </div>
-
-      <h1 class="lp-hero2-tagline">
-        タスクが、<br>
-        毎日<span class="lp-hero2-accent">ちょっと</span><br>
-        楽しみになる<span class="lp-hero2-accent">。</span>
-      </h1>
-      <p class="lp-hero2-sub">
-        ゲーム感覚で続けよう。<span class="lp-hero2-sub-2nd">育成・ガチャ・マイルーム</span>
-      </p>
-
-      <div class="lp-hero2-btns">
-        <%= link_to signup_path, class: "lp-btn-primary lp-btn-large" do %>
-          🎀 無料ではじめる
-        <% end %>
-        <%= button_to "登録なしで試す", guest_login_path, class: "lp-btn-ghost", form: { style: "display:contents" } %>
-        <%= link_to login_path, class: "lp-btn-ghost" do %>
-          ログイン
-        <% end %>
-      </div>
-      <p class="lp-hero2-note">登録無料・クレジットカード不要</p>
+      <p class="rm-note">じっくり続けたい方は <%= link_to "無料アカウントを作成", signup_path %></p>
+      <div class="rm-hero-signature"><span aria-hidden="true">✦</span><p>がんばる毎日に、<br>あなたのための小さな居場所。</p></div>
     </div>
+    <div class="rm-hero-art">
+      <div class="rm-room-window">
+        <%= image_tag "room_purple_s1.png", class: "rm-room", alt: "たまごのリボンちゃんと過ごす、紫の成長ルーム", width: 1536, height: 1024, fetchpriority: "high" %>
+        <div class="rm-room-shade"></div>
+        <p class="rm-room-label">YOUR LITTLE WORLD <span>01 / MYSTIC</span></p>
+        <div class="rm-room-caption"><span aria-hidden="true">✧</span> あなたのペースで、育っていこう。</div>
+      </div>
+      <p class="rm-art-note">MY ROOM, MY REWARD. <span>お部屋とキャラクターのイメージ</span></p>
+    </div>
+  </section>
 
-    <%# ② 右カラム：スライドショー %>
-    <div class="lp-hero2-right">
-      <div class="lp-hero2-frame-shell">
-        <div class="lp-hero2-frame-glow lp-hero2-frame-glow--1"></div>
-        <div class="lp-hero2-frame-glow lp-hero2-frame-glow--2"></div>
-        <div class="lp-browser-frame lp-hero2-frame" id="lp-slider">
-          <div class="lp-browser-bar">
-            <span class="lp-browser-dot"></span>
-            <span class="lp-browser-dot"></span>
-            <span class="lp-browser-dot"></span>
-            <span class="lp-browser-url">rewardme-qaq3.onrender.com</span>
-          </div>
-          <div class="lp-slider-track">
-            <% [
-              { img: "lp_slide_room.jpg",   label: "① マイルーム" },
-              { img: "lp_slide_tasks.jpg",  label: "② タスク管理" },
-              { img: "lp_slide_games.jpg",  label: "③ ミニゲーム" },
-              { img: "lp_slide_gacha.jpg",  label: "④ ガチャ" },
-              { img: "lp_slide_potion.jpg", label: "⑤ ポーションゲーム" },
-            ].each_with_index do |s, i| %>
-              <div class="lp-slide <%= i == 0 ? 'lp-slide--active' : '' %>" data-index="<%= i %>">
-                <%= image_tag s[:img], class: "lp-shot-img lp-slide-img", alt: s[:label] %>
-                <span class="lp-slide-label"><%= s[:label] %></span>
-              </div>
-            <% end %>
-          </div>
-        </div>
-        <div class="lp-slider-dots" id="lp-slider-dots">
-          <% 5.times do |i| %>
-            <button class="lp-slider-dot <%= i == 0 ? 'lp-slider-dot--active' : '' %>" data-dot="<%= i %>"></button>
+  <section class="rm-steps rm-container" id="features" aria-labelledby="features-title">
+    <div class="rm-section-head"><div><p class="rm-eyebrow">01 / HOW IT WORKS</p><h2 id="features-title">いつもの一日に、<br>続けたくなる理由を。</h2></div><p class="rm-body-copy">大きな目標じゃなくていい。<br>「ストレッチする」も、今日の立派なタスク。</p></div>
+    <ol class="rm-step-list">
+      <li><span class="rm-step-number">01</span><h3>やることを、ひとつ。</h3><p>今日のタスクを登録。暮らしの中の小さな「やっておきたい」から始められます。</p><span class="rm-step-tag">PLAN YOUR DAY</span></li>
+      <li><span class="rm-step-number">02</span><h3>できたら、ごほうび。</h3><p>完了したタスクが、EXPとコインに。リボンちゃんの成長につながります。</p><span class="rm-step-tag">CELEBRATE THE LITTLE THINGS</span></li>
+      <li><span class="rm-step-number">03</span><h3>自分だけの楽しみに。</h3><p>コインでガチャやお部屋づくり。ちょっとした息抜きには、ミニゲームも。</p><span class="rm-step-tag">MAKE IT YOURS</span></li>
+    </ol>
+  </section>
+
+  <section class="rm-companion" id="characters" aria-labelledby="characters-title">
+    <div class="rm-container rm-companion-grid">
+      <div class="rm-companion-copy"><p class="rm-eyebrow">02 / YOUR COMPANION</p><h2 id="characters-title">一緒に育つ、<br>小さな相棒。</h2><p class="rm-body-copy">たまごから、プリンセスへ。<br>タスクを重ねるたび、リボンちゃんも変わっていく。<br>好きな色を選んで、一緒に始めよう。</p>
+        <div class="rm-colors" role="group" aria-label="リボンちゃんの色を選ぶ">
+          <% [["purple", "パープル"], ["pink", "ピンク"], ["blue", "ブルー"]].each do |color, label| %>
+            <button class="rm-color rm-color-<%= color %>" type="button" aria-pressed="<%= color == 'purple' %>" aria-controls="evolution-<%= color %>" data-landing-target="colorButton" data-action="landing#chooseColor" data-color="<%= color %>"><span aria-hidden="true"></span><%= label %></button>
           <% end %>
         </div>
       </div>
-      <div class="lp-hero2-proof">
-        <span class="lp-hero2-proof-stars">★★★★★</span>
-        <div class="lp-hero2-proof-items">
-          <span>📈 習慣化サポート</span>
-          <span>🌱 キャラ育成</span>
-          <span>🎮 ミニゲーム5種</span>
-          <span>🏠 マイルーム</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</section>
-
-
-<%# ===== キャラクターショーケース ===== %>
-<section class="lp-chara-showcase">
-  <div class="lp-chara-showcase-header lp-reveal">
-    <p class="lp-chara-showcase-eyebrow">3色 × 4段階進化</p>
-    <h2 class="lp-chara-showcase-title">あなただけの<span class="lp-hero2-accent">リボンちゃん</span>を育てよう</h2>
-    <p class="lp-chara-showcase-sub">好きな色を選んで、<span class="lp-sub-br"><br></span>タスクをこなすほど進化していく。</p>
-  </div>
-  <div class="lp-chara-cards">
-    <div class="lp-chara-card lp-chara-card--pink lp-reveal" style="--reveal-delay:0ms">
-      <div class="lp-chara-card-badge">🎀 ピンク <span class="lp-chara-badge-en">Love</span></div>
-      <div class="lp-chara-card-img-wrap">
-        <%= image_tag "stage4_pink.png", class: "lp-chara-card-img", alt: "ピンクリボンちゃん" %>
-      </div>
-      <h3 class="lp-chara-card-name">ピンク</h3>
-      <p class="lp-chara-card-desc">優しく応援してくれる。<br>「えらい！」って<br>毎日褒めてくれる。</p>
-      <div class="lp-chara-card-tags">
-        <span>やさしい</span><span>応援</span><span>癒し</span>
-      </div>
-    </div>
-    <div class="lp-chara-card lp-chara-card--purple lp-reveal" style="--reveal-delay:100ms">
-      <div class="lp-chara-card-badge">💜 パープル <span class="lp-chara-badge-en">Mystic</span></div>
-      <div class="lp-chara-card-img-wrap">
-        <%= image_tag "stage4_purple.png", class: "lp-chara-card-img", alt: "パープルリボンちゃん" %>
-      </div>
-      <h3 class="lp-chara-card-name">パープル</h3>
-      <p class="lp-chara-card-desc">クールに見守る存在。<br>本気になったとき、<br>一番頼りになる。</p>
-      <div class="lp-chara-card-tags">
-        <span>クール</span><span>ミステリアス</span><span>強さ</span>
-      </div>
-    </div>
-    <div class="lp-chara-card lp-chara-card--blue lp-reveal" style="--reveal-delay:200ms">
-      <div class="lp-chara-card-badge">💙 ブルー <span class="lp-chara-badge-en">Active</span></div>
-      <div class="lp-chara-card-img-wrap">
-        <%= image_tag "stage4_blue.png", class: "lp-chara-card-img", alt: "ブルーリボンちゃん" %>
-      </div>
-      <h3 class="lp-chara-card-name">ブルー</h3>
-      <p class="lp-chara-card-desc">元気いっぱい、いつも前向き。<br>「今日もやった！」を<br>一緒に喜んでくれる。</p>
-      <div class="lp-chara-card-tags">
-        <span>元気</span><span>アクティブ</span><span>前向き</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<%# ===== 特徴 ===== %>
-<section class="lp-features" id="features">
-  <div class="lp-section-inner">
-    <h2 class="lp-section-title lp-reveal">なぜ RewardMe？</h2>
-    <div class="lp-features-grid">
-      <div class="lp-feature-card lp-reveal" style="--reveal-delay: 0ms">
-        <div class="lp-feature-img-wrap">
-          <div class="lp-feature-mini-browser">
-            <%= image_tag "lp_screen_dash_crop.jpg", class: "lp-feature-mini-shot", alt: "" %>
-          </div>
-        </div>
-        <h3 class="lp-feature-title">ゲーム感覚で続く</h3>
-        <p class="lp-feature-desc">タスクを完了するたびにEXPとコインを獲得。毎日のミニゲームで達成感が習慣を作る。</p>
-        <ul class="lp-feature-bullets">
-          <li>EXP でレベルアップ</li>
-          <li>コインをためてガチャ</li>
-          <li>5種類のミニゲーム</li>
-        </ul>
-      </div>
-      <div class="lp-feature-card lp-reveal" style="--reveal-delay: 90ms">
-        <div class="lp-feature-img-wrap">
-          <div class="lp-feature-evo-mini">
-            <%= image_tag "stage1_pink.png", class: "lp-feature-evo-img", alt: "" %>
-            <span class="lp-feature-evo-arrow">›</span>
-            <%= image_tag "stage2_pink.png", class: "lp-feature-evo-img", alt: "" %>
-            <span class="lp-feature-evo-arrow">›</span>
-            <%= image_tag "stage4_pink.png", class: "lp-feature-evo-img lp-feature-evo-img--final", alt: "" %>
-          </div>
-        </div>
-        <h3 class="lp-feature-title">キャラクターを育てる</h3>
-        <p class="lp-feature-desc">ピンク・パープル・ブルーの3色から選べるリボンちゃん。タスクをこなすごとに4段階で進化する。</p>
-        <ul class="lp-feature-bullets">
-          <li>3色から選べるカラー</li>
-          <li>4段階の進化システム</li>
-          <li>レベルアップ演出</li>
-          <li>ルーム×キャラコンボ</li>
-        </ul>
-      </div>
-      <div class="lp-feature-card lp-reveal" style="--reveal-delay: 180ms">
-        <div class="lp-feature-img-wrap">
-          <%= image_tag "gacha_machine.png", class: "lp-feature-gacha-img", alt: "" %>
-        </div>
-        <h3 class="lp-feature-title">毎日のリボンBOX</h3>
-        <p class="lp-feature-desc">1日1回のガチャでコインや特典をゲット。毎朝アプリを開く理由ができる。</p>
-        <ul class="lp-feature-bullets">
-          <li>1日1回の開封チャンス</li>
-          <li>コイン・アイテム獲得</li>
-          <li>レアリティ判定付き</li>
-          <li>ログインボーナス感</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<%# ===== スクリーンショット ===== %>
-<section class="lp-screens" id="screens">
-  <div class="lp-section-inner">
-    <h2 class="lp-section-title lp-reveal">実際の画面をみてみよう</h2>
-
-    <div class="lp-screens-grid">
-
-      <%# 01 ダッシュボード（フィーチャードカード） %>
-      <div class="lp-screen-card lp-screen-card--featured lp-reveal">
-        <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">01</span>
-          <h3 class="lp-screen-info-title">マイルームダッシュボード</h3>
-        </div>
-        <p class="lp-screen-card-desc">キャラクターが住むマイルームでタスクを管理。毎日の達成状況を一目で確認できます。</p>
-        <div class="lp-screen-featured-body">
-          <div class="lp-browser-frame lp-screen-featured-frame" data-lightbox>
-            <div class="lp-browser-bar">
-              <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
-              <span class="lp-browser-url">…/dashboard</span>
-            </div>
-            <div class="lp-browser-screen lp-screen--shot lp-screen--shot-lg">
-              <%= image_tag "lp_screen_dash_crop.jpg", class: "lp-shot-img", alt: "マイルームダッシュボード" %>
-            </div>
-            <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
-          </div>
-          <div class="lp-screen-featured-side">
-            <p class="lp-screen-featured-label">主な機能</p>
-            <ul class="lp-screen-featured-list">
-              <li>🏠 キャラクターと暮らすマイルーム</li>
-              <li>📅 今週の記録（7日間トラッカー）</li>
-              <li>✅ 今日のタスク一覧</li>
-              <li>✨ ガチャミニパネル</li>
-              <li>🎀 リボンキャッチゲーム</li>
-              <li>📊 バッジ & ステータス</li>
-            </ul>
-            <div class="lp-screen-tags">
-              <span>グラスモーフィズム</span><span>Stimulus.js</span><span>18種類の部屋テーマ</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <%# 02 デイリーBOX %>
-      <div class="lp-screen-card lp-reveal">
-        <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">02</span>
-          <h3 class="lp-screen-info-title">デイリーBOX ガチャ</h3>
-        </div>
-        <p class="lp-screen-card-desc">1日1回だけ開けられる特別なBOX。コインやレアアイテムが手に入る毎日のお楽しみ。<br>毎日開くのが楽しみになる、ごほうびBOX。</p>
-        <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
-          <div class="lp-browser-bar">
-            <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
-            <span class="lp-browser-url">…/dashboard</span>
-          </div>
-          <div class="lp-browser-screen lp-screen--box">
-            <div class="lp-mockbox-panel">
-              <p class="lp-mockbox-title">🎁 今日のリボンBOX</p>
-              <div class="lp-mockbox-img-wrap">
-                <%= image_tag "ribbon_box.png", class: "lp-mockbox-img lp-mockbox-float", alt: "" %>
-              </div>
-              <div class="lp-mockbox-btn">✨ タップして開ける！</div>
-              <div class="lp-mockbox-result">
-                <span class="lp-mockbox-ico">🪙</span>
-                <span class="lp-mockbox-label">コイン 100</span>
-                <span class="lp-mockbox-rarity" data-rarity="good">GOOD</span>
-              </div>
-            </div>
-          </div>
-          <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
-        </div>
-        <div class="lp-screen-tags">
-          <span>CSSアニメーション</span><span>Fetch API</span><span>加重ガチャ</span>
-        </div>
-      </div>
-
-      <%# 03 ガチャ %>
-      <div class="lp-screen-card lp-reveal">
-        <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">03</span>
-          <h3 class="lp-screen-info-title">ガチャシステム</h3>
-        </div>
-        <p class="lp-screen-card-desc">タスクで貯めたコインで、1回または10連ガチャに挑戦できる。NORMAL・GOOD・GREAT・EXCELLENTの4段階レアリティで、毎回ドキドキの開封体験が待っている。</p>
-        <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
-          <div class="lp-browser-bar">
-            <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
-            <span class="lp-browser-url">…/gacha</span>
-          </div>
-          <div class="lp-browser-screen lp-screen--gacha">
-            <div class="lp-mock-gacha-wrap">
-              <%= image_tag "gacha_machine.png", class: "lp-mock-gacha-machine", alt: "ガチャ" %>
-              <div class="lp-mock-gacha-btns">
-                <div class="lp-mock-gacha-btn lp-mock-gacha-btn--single">1回 <span>🪙 50</span></div>
-                <div class="lp-mock-gacha-btn lp-mock-gacha-btn--ten">10連 <span>🪙 450</span></div>
-              </div>
-              <p class="lp-mock-gacha-coins">所持コイン 🪙 280</p>
-            </div>
-          </div>
-          <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
-        </div>
-        <div class="lp-screen-tags">
-          <span>加重ガチャ</span><span>コイン経済</span><span>Stimulus.js</span>
-        </div>
-      </div>
-
-      <%# 04 進化 %>
-      <div class="lp-screen-card lp-reveal">
-        <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">04</span>
-          <h3 class="lp-screen-info-title">キャラクター進化システム</h3>
-        </div>
-        <p class="lp-screen-card-desc">タスクをこなすほど、リボンちゃんが育っていく。たまご・ベビー・リボンちゃん・プリンセスの4段階で進化。毎日続けるほどキャラクターが変わるので、習慣が楽しみになる。</p>
-        <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
-          <div class="lp-browser-bar">
-            <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
-            <span class="lp-browser-url">…/dashboard</span>
-          </div>
-          <div class="lp-browser-screen lp-screen--evo">
-            <p class="lp-mockevo-title">🌸 リボンちゃんの成長</p>
-            <div class="lp-mockevo-chain">
-              <% [
-                { img: "stage1_pink.png", name: "たまご",       done: true    },
-                { img: "stage2_pink.png", name: "ベビー",        done: true    },
-                { img: "stage3_pink.png", name: "リボンちゃん", current: true },
-                { img: "stage4_pink.png", name: "プリンセス"                   },
-              ].each_with_index do |s, i| %>
-                <% cls = s[:current] ? '--current' : (s[:done] ? '--done' : '--locked') %>
-                <div class="lp-mockevo-item lp-mockevo-item<%= cls %>">
-                  <%= image_tag s[:img], class: "lp-mockevo-img", alt: s[:name] %>
-                  <% if s[:current] %><span class="lp-mockevo-badge">✨ 今ここ！</span><% end %>
-                  <span class="lp-mockevo-name"><%= s[:name] %></span>
-                </div>
-                <% if i < 3 %><span class="lp-mockevo-arrow">›</span><% end %>
+      <div class="rm-evolution-area">
+        <% [["purple", "パープル"], ["pink", "ピンク"], ["blue", "ブルー"]].each do |color, label| %>
+          <div class="rm-evolution" id="evolution-<%= color %>" data-landing-target="evolution" data-color="<%= color %>" <%= 'hidden' unless color == 'purple' %>>
+            <p class="rm-evolution-label"><%= label %>のリボンちゃん <span>4 STAGES OF GROWTH</span></p>
+            <ol class="rm-stages">
+              <% ["たまご", "ベビー", "リボンちゃん", "プリンセス"].each_with_index do |stage, i| %>
+                <li><div class="rm-stage-image"><%= image_tag "stage#{i + 1}_#{color}.png", alt: "#{label}の#{stage}", loading: "lazy", decoding: "async" %></div><span class="rm-stage-index">0<%= i + 1 %></span><p><%= stage %></p></li>
               <% end %>
-            </div>
+            </ol>
           </div>
-          <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
-        </div>
-        <div class="lp-screen-tags">
-          <span>育成システム</span><span>Rails Model</span><span>3色×4段階進化</span>
-        </div>
-      </div>
-
-      <%# 05 部屋の背景テーマ %>
-      <div class="lp-screen-card lp-reveal">
-        <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">05</span>
-          <h3 class="lp-screen-info-title">お部屋の背景テーマ</h3>
-        </div>
-        <p class="lp-screen-card-desc">タスクで貯めたコインを使って、18種類の部屋テーマを解放できる。星空・スイーツ・プリンセスなど、好みのインテリアでリボンちゃんのお部屋をカスタマイズしよう。</p>
-        <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
-          <div class="lp-browser-bar">
-            <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
-            <span class="lp-browser-url">…/shop</span>
-          </div>
-          <div class="lp-browser-screen lp-screen--deco">
-            <%= image_tag "room_sweets.png", class: "lp-screen-room-bg lp-screen-room-bg--deco", alt: "" %>
-            <div class="lp-mockdeco-overlay">
-              <div class="lp-mockdeco-shop-panel">
-                <p class="lp-mockdeco-shop-title">🏠 お部屋の背景テーマ</p>
-                <div class="lp-mockdeco-grid">
-                  <div class="lp-mockdeco-card lp-mockdeco-card--owned">
-                    <%= image_tag "room_stage_1.png", class: "lp-mockdeco-room-thumb", alt: "" %>
-                    <span class="lp-mockdeco-card-name">はじめのお部屋</span>
-                    <span class="lp-mockdeco-card-badge">FREE</span>
-                  </div>
-                  <div class="lp-mockdeco-card">
-                    <%= image_tag "room_star.png", class: "lp-mockdeco-room-thumb", alt: "" %>
-                    <span class="lp-mockdeco-card-name">星空の部屋</span>
-                    <span class="lp-mockdeco-card-price">🪙 600</span>
-                  </div>
-                  <div class="lp-mockdeco-card">
-                    <%= image_tag "room_sweets.png", class: "lp-mockdeco-room-thumb", alt: "" %>
-                    <span class="lp-mockdeco-card-name">スイーツの部屋</span>
-                    <span class="lp-mockdeco-card-price">🪙 300</span>
-                  </div>
-                  <div class="lp-mockdeco-card">
-                    <%= image_tag "room_princess.png", class: "lp-mockdeco-room-thumb", alt: "" %>
-                    <span class="lp-mockdeco-card-name">プリンセスの部屋</span>
-                    <span class="lp-mockdeco-card-price">🪙 900</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
-        </div>
-        <div class="lp-screen-tags">
-          <span>18種類のテーマ</span><span>コイン解放</span><span>卵×部屋コンボ</span>
-        </div>
-      </div>
-
-      <%# 06 ミニゲームロビー %>
-      <div class="lp-screen-card lp-screen-card--featured lp-reveal">
-        <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">06</span>
-          <h3 class="lp-screen-info-title">ミニゲームロビー（5種）</h3>
-        </div>
-        <p class="lp-screen-card-desc">毎日遊んでコインを稼ぐミニゲームが5種類。スキマ時間に気軽に遊べて、ハイスコアやクリアのたびに達成感がある。</p>
-        <div class="lp-screen-featured-body">
-          <div class="lp-browser-frame lp-browser-frame--grid" data-lightbox>
-            <div class="lp-browser-bar">
-              <span class="lp-browser-dot"></span><span class="lp-browser-dot"></span><span class="lp-browser-dot"></span>
-              <span class="lp-browser-url">…/games</span>
-            </div>
-            <div class="lp-browser-screen lp-screen--shot lp-screen--shot-lg">
-              <%= image_tag "games_lobby_bg.jpg", class: "lp-shot-img", alt: "ミニゲームロビー" %>
-            </div>
-            <div class="lp-frame-zoom-hint">🔍 クリックで拡大</div>
-          </div>
-          <div class="lp-screen-featured-side">
-            <p class="lp-screen-featured-label">5種のゲーム</p>
-            <ul class="lp-screen-featured-list">
-              <li>🧪 <strong>リボンポーション</strong> — 魔法陣で錬成する5Stageパズル</li>
-              <li>🧩 <strong>リボンパズル</strong> — スライドパズル（1日3回・解放画像）</li>
-              <li>✨ <strong>リボンマッチ</strong> — 60秒マッチ3ゲーム</li>
-              <li>🎀 <strong>リボンキャッチ</strong> — 30秒タップゲーム</li>
-              <li>🎲 <strong>ガチャ</strong> — コインで1回・10連</li>
-            </ul>
-            <div class="lp-screen-tags">
-              <span>Stimulus.js</span><span>デイリー報酬</span><span>ハイスコア記録</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <%# 07 モバイル対応 %>
-      <div class="lp-screen-card lp-screen-card--featured lp-reveal">
-        <div class="lp-screen-card-hd">
-          <span class="lp-screen-num">07</span>
-          <h3 class="lp-screen-info-title">📱 モバイル対応</h3>
-        </div>
-        <p class="lp-screen-card-desc">タスク管理・ガチャ・マイルームなど全機能がスマートフォンでも快適に動作。</p>
-
-        <div class="lp-mobile4-wrap">
-          <%# Col1: ホーム（大） %>
-          <div class="lp-mobile4-home-card">
-            <div class="lp-phone-mockup lp-phone-mockup--lg">
-              <div class="lp-phone-mockup-screen">
-                <%= image_tag "lp_mobile_home.jpg", class: "lp-phone-real-img", alt: "ホーム画面" %>
-              </div>
-            </div>
-          </div>
-
-          <%# Col2: 機能テキスト %>
-          <div class="lp-mobile4-desc">
-            <p class="lp-screen-featured-label">いつでもリボンちゃんと一緒</p>
-            <ul class="lp-mobile3-list">
-              <li>
-                <span class="lp-mobile3-ico">🎀</span>
-                <span class="lp-mobile3-text"><strong>タスク管理</strong></span>
-              </li>
-              <li>
-                <span class="lp-mobile3-ico">🎮</span>
-                <span class="lp-mobile3-text"><strong>ミニゲーム5種</strong></span>
-              </li>
-              <li>
-                <span class="lp-mobile3-ico">🏠</span>
-                <span class="lp-mobile3-text"><strong>マイルーム</strong></span>
-              </li>
-              <li>
-                <span class="lp-mobile3-ico">✨</span>
-                <span class="lp-mobile3-text"><strong>ガチャ</strong></span>
-              </li>
-              <li>
-                <span class="lp-mobile3-ico">🎁</span>
-                <span class="lp-mobile3-text"><strong>デイリーBOX</strong></span>
-              </li>
-            </ul>
-            <p class="lp-mobile-tagline">通勤中でも、ベッドの上でも、<br>どこでもリボンちゃんと一緒。</p>
-            <div class="lp-screen-tags">
-              <span>レスポンシブ対応</span><span>タッチUI</span><span>スマホ最適化</span>
-            </div>
-          </div>
-
-          <%# Col3: タスク管理 %>
-          <div class="lp-mobile4-phone-card">
-            <div class="lp-mobile4-phone-hd">
-              <span class="lp-mobile4-phone-ico">📋</span>
-              <div>
-                <p class="lp-mobile4-phone-title">タスク管理</p>
-                <p class="lp-mobile4-phone-sub">タスクの進捗を確認・管理</p>
-              </div>
-            </div>
-            <div class="lp-phone-mockup">
-              <div class="lp-phone-mockup-screen">
-                <%= image_tag "lp_mobile_tasks.jpg", class: "lp-phone-real-img", alt: "タスク管理" %>
-              </div>
-            </div>
-          </div>
-
-          <%# Col4: ショップ %>
-          <div class="lp-mobile4-phone-card">
-            <div class="lp-mobile4-phone-hd">
-              <span class="lp-mobile4-phone-ico">🛍</span>
-              <div>
-                <p class="lp-mobile4-phone-title">ショップ</p>
-                <p class="lp-mobile4-phone-sub">お部屋のテーマをカスタマイズ</p>
-              </div>
-            </div>
-            <div class="lp-phone-mockup">
-              <div class="lp-phone-mockup-screen">
-                <%= image_tag "lp_mobile_shop.jpg", class: "lp-phone-real-img", alt: "ショップ" %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-
-<%# ===== CTA ===== %>
-<section class="lp-cta">
-  <div class="lp-cta-trio-wrap lp-reveal">
-    <%= image_tag "ribbon_trio.png", class: "lp-cta-trio-img", alt: "リボンちゃん3色" %>
-    <div class="lp-cta-trio-bubbles">
-      <span class="lp-cta-trio-bubble lp-cta-trio-bubble--pink">待ってるよ！❤</span>
-      <span class="lp-cta-trio-bubble lp-cta-trio-bubble--purple">一緒に頑張ろ💜</span>
-      <span class="lp-cta-trio-bubble lp-cta-trio-bubble--blue">絶対できるよ！💙</span>
-    </div>
-  </div>
-  <div class="lp-section-inner lp-cta-inner lp-reveal">
-    <h2 class="lp-cta-title">今日から<br>リボンちゃんとの生活を始めよう。</h2>
-    <%= link_to signup_path, class: "lp-btn-primary lp-btn-large" do %>
-      🎀 無料ではじめる
-    <% end %>
-    <div class="lp-cta-trust">
-      <span>⏱ 登録30秒</span>
-      <span>·</span>
-      <span>📧 メールアドレスだけ</span>
-      <span>·</span>
-      <span>🎁 完全無料</span>
-    </div>
-  </div>
-</section>
-
-<%# ===== ④ GitHub（数字カード付き）===== %>
-<section class="lp-tech" id="portfolio">
-  <div class="lp-section-inner">
-    <div class="lp-tech-divider"><span>— ポートフォリオ情報 —</span></div>
-
-    <%# 数字ハイライト %>
-    <div class="lp-stats-row lp-reveal">
-      <div class="lp-stat-card">
-        <span class="lp-stat-num">Rails 7</span>
-        <span class="lp-stat-label">バックエンド</span>
-      </div>
-      <div class="lp-stat-card">
-        <span class="lp-stat-num">18</span>
-        <span class="lp-stat-label">部屋テーマ数</span>
-      </div>
-      <div class="lp-stat-card">
-        <span class="lp-stat-num">4段階</span>
-        <span class="lp-stat-label">進化ステージ</span>
-      </div>
-      <div class="lp-stat-card">
-        <span class="lp-stat-num">3色</span>
-        <span class="lp-stat-label">キャラクターカラー</span>
-      </div>
-      <div class="lp-stat-card">
-        <span class="lp-stat-num">6週間+</span>
-        <span class="lp-stat-label">開発期間</span>
-      </div>
-      <div class="lp-stat-card">
-        <span class="lp-stat-num">100%</span>
-        <span class="lp-stat-label">個人開発</span>
-      </div>
-    </div>
-
-    <div class="lp-github-card lp-reveal">
-      <div class="lp-github-logo-wrap">
-        <%= image_tag "rewardme_logo.png", class: "lp-github-logo-big", alt: "RewardMe" %>
-        <p class="lp-github-logo-tagline">Game × Productivity</p>
-      </div>
-      <div class="lp-github-card-top">
-        <div class="lp-github-card-left">
-          <svg class="lp-github-ico" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-          </svg>
-          <div>
-            <p class="lp-github-repo">mize1978 / rewardme</p>
-            <p class="lp-github-desc">Rails 7 製のゲーミフィケーション タスク管理アプリ</p>
-            <div class="lp-github-roles">
-              <span>📋 企画</span>
-              <span>🎨 UIデザイン</span>
-              <span>⌨️ フルスタック実装</span>
-              <span>🚀 デプロイ</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="lp-github-tech-row">
-        <span class="lp-github-tech-tag lp-github-tech-tag--rails">💎 Ruby on Rails 7</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--js">⚡ Stimulus.js</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--db">🗄️ MySQL</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--css">🎨 Glass UI</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--char">🌸 キャラクター育成</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--gacha">🎁 ガチャシステム</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--room">🏠 マイルーム</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--css">🎨 CSS Variables</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--auth">🔐 自作認証</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--js">🎵 部屋別BGM</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--char">🎀 リボンキャッチ</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--char">🧪 リボンポーション</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--char">🧩 リボンパズル</span>
-        <span class="lp-github-tech-tag lp-github-tech-tag--char">✨ リボンマッチ</span>
-      </div>
-      <a href="https://github.com/mize1978/rewardme" target="_blank" rel="noopener" class="lp-github-link-btn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-        GitHubでソースコードを見る
-        <span class="lp-github-arrow">→</span>
-      </a>
-    </div>
-
-    <%# ===== 実際に触ってみる CTA ===== %>
-    <div class="lp-try-cta lp-reveal">
-      <div class="lp-try-cta-inner">
-        <div class="lp-try-cta-left">
-          <%= image_tag "stage4_pink.png", class: "lp-try-cta-chara", alt: "" %>
-          <div>
-            <p class="lp-try-cta-label">実際に触ってみる</p>
-            <p class="lp-try-cta-sub">コードを見るより、使ってみるのが一番早い。</p>
-          </div>
-        </div>
-        <%= link_to login_path, class: "lp-try-cta-btn" do %>
-          🎀 ログイン画面へ <span>→</span>
         <% end %>
+        <p class="rm-evolution-note">ひとつずつの達成が、成長の記録になる。</p>
       </div>
     </div>
+  </section>
 
-  </div>
-</section>
-
-<%# ===== 締めCTA ===== %>
-<section class="lp-final-cta">
-  <div class="lp-final-cta-inner lp-reveal">
-    <p class="lp-final-cta-copy">毎日のタスクを、<br>少しだけ楽しみに変える。</p>
-    <%= link_to signup_path, class: "lp-btn-primary lp-btn-large" do %>
-      🎀 無料ではじめる
+  <section class="rm-showcase rm-container" id="screens" aria-labelledby="screens-title">
+    <div class="rm-section-head"><div><p class="rm-eyebrow">03 / INSIDE REWARDME</p><h2 id="screens-title">ひらくのが楽しみな、<br>わたしの毎日。</h2></div><p class="rm-body-copy">タスクも、ごほうびも、ひとつの場所に。<br>実際のアプリ画面をご紹介します。</p></div>
+    <% screens = [
+      ["lp_room_current.jpg", "マイルーム", "リボンちゃんと過ごす、自分だけのお部屋。タスクの達成状況もここから確認できます。"],
+      ["lp_slide_tasks.jpg", "タスク管理", "今日やることを整理して、できたことを記録。ひとつずつの達成を積み重ねていきます。"],
+      ["lp_slide_gacha.jpg", "ガチャ", "タスクで貯めたコインを使って、次のごほうびを。1回・10連ガチャが楽しめます。"],
+      ["lp_slide_games.jpg", "ミニゲーム", "パズルやマッチゲームで、ひと息。毎日のちょっとした息抜きに。"]
+    ] %>
+    <div class="rm-screen-buttons" role="group" aria-label="表示するアプリ画面">
+      <% screens.each_with_index do |screen, i| %><button type="button" aria-pressed="<%= i == 0 %>" aria-controls="screen-<%= i %>" data-landing-target="screenButton" data-action="landing#chooseScreen" data-screen="<%= i %>"><span>0<%= i + 1 %></span><%= screen[1] %></button><% end %>
+    </div>
+    <% screens.each_with_index do |screen, i| %>
+      <figure class="rm-screen" id="screen-<%= i %>" data-landing-target="screen" data-screen="<%= i %>" <%= 'hidden' unless i == 0 %>>
+        <div class="rm-screen-frame"><div class="rm-screen-bar"><span aria-hidden="true">● ● ●</span><span>REWARDME / <%= screen[1] %></span><span>WEB APP</span></div>
+          <button class="rm-screen-zoom" type="button" data-action="landing#openImage" aria-label="<%= screen[1] %>の画面を拡大"><%= image_tag screen[0], alt: "RewardMeの#{screen[1]}画面", loading: "lazy", decoding: "async", width: (i.zero? ? 1080 : 2934), height: (i.zero? ? 962 : 1672) %><span>画面を拡大 ↗</span></button>
+        </div>
+        <figcaption><strong><%= screen[1] %></strong><p><%= screen[2] %></p><span>0<%= i + 1 %> / 04</span></figcaption>
+      </figure>
     <% end %>
-    <p class="lp-final-cta-note">登録30秒 · メールアドレスだけ · 完全無料</p>
-  </div>
-</section>
+  </section>
 
-<%# ===== ライトボックス ===== %>
-<div id="lp-lightbox" class="lp-lightbox" aria-hidden="true">
-  <div class="lp-lightbox-backdrop"></div>
-  <div class="lp-lightbox-content"></div>
-  <button class="lp-lightbox-close" aria-label="閉じる">✕</button>
-</div>
+  <section class="rm-faq rm-container" aria-labelledby="faq-title"><div><p class="rm-eyebrow">A FEW THINGS TO KNOW</p><h2 id="faq-title">はじめる前に。</h2></div><div class="rm-questions">
+    <details><summary>登録しなくても使えますか？<span aria-hidden="true">＋</span></summary><p>「登録なしで試す」から、ゲストとして体験できます。ゲストデータは一時的な体験用です。継続して記録を残す場合は、無料アカウントを作成してください。</p></details>
+    <details><summary>何をするアプリですか？<span aria-hidden="true">＋</span></summary><p>タスク管理に、キャラクター育成やごほうびを組み合わせたアプリです。タスクの完了でEXPとコインを獲得し、リボンちゃんの成長やお部屋づくりを楽しめます。</p></details>
+    <details><summary>スマートフォンでも使えますか？<span aria-hidden="true">＋</span></summary><p>スマートフォンのブラウザから利用できます。アプリのインストールは不要です。</p></details>
+  </div></section>
 
-<%# ===== JS ===== %>
-<script>
-(function() {
-  /* ── スクロールアニメーション ── */
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (!entry.isIntersecting) return;
-      var el = entry.target;
-      var delay = parseInt(el.style.getPropertyValue('--reveal-delay')) || 0;
-      setTimeout(function() { el.classList.add('lp-revealed'); }, delay);
-      observer.unobserve(el);
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+  <section class="rm-start" id="start" aria-labelledby="start-title"><div class="rm-container rm-start-inner">
+    <div class="rm-start-art" aria-hidden="true"><%= image_tag "stage4_pink.png", alt: "", loading: "lazy", decoding: "async" %><span>See you in your room.</span></div>
+    <div><p class="rm-eyebrow">LET’S START SMALL.</p><h2 id="start-title">今日のひとつから、<br>はじめよう。</h2><p class="rm-body-copy">完璧な一日じゃなくても。<br>小さな「できた」を、リボンちゃんと。</p><div class="rm-actions"><%= button_to guest_login_path, class: "rm-button", form: { class: "rm-guest-form" } do %>登録なしで試す <span aria-hidden="true">↗</span><% end %><%= link_to "無料アカウントを作成", signup_path, class: "rm-text-link" %></div></div>
+  </div></section>
 
-  document.querySelectorAll('.lp-reveal, .lp-reveal-left, .lp-reveal-right').forEach(function(el) {
-    observer.observe(el);
-  });
-
-  /* ── ホバーで画像拡大 ── */
-  document.querySelectorAll('.lp-browser-frame--lg, .lp-hero2-frame').forEach(function(frame) {
-    var img = frame.querySelector('.lp-screen-room-bg');
-    if (!img) return;
-    frame.addEventListener('mouseenter', function() { img.style.transform = 'scale(1.05)'; });
-    frame.addEventListener('mouseleave', function() { img.style.transform = 'scale(1)'; });
-  });
-
-  /* ── ライトボックス ── */
-  var lightbox = document.getElementById('lp-lightbox');
-  var lbContent = lightbox.querySelector('.lp-lightbox-content');
-
-  function openLightbox(frame) {
-    lbContent.innerHTML = '';
-    var clone = frame.cloneNode(true);
-    clone.removeAttribute('data-lightbox');
-    clone.style.cursor = 'default';
-    clone.style.maxWidth = '900px';
-    clone.style.width = '100%';
-    var hint = clone.querySelector('.lp-frame-zoom-hint');
-    if (hint) hint.remove();
-    lbContent.appendChild(clone);
-    lightbox.classList.add('lp-lightbox--open');
-    lightbox.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('lp-lightbox--open');
-    lightbox.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-
-  document.querySelectorAll('[data-lightbox]').forEach(function(frame) {
-    frame.style.cursor = 'zoom-in';
-    frame.addEventListener('click', function() { openLightbox(frame); });
-  });
-
-  lightbox.querySelector('.lp-lightbox-backdrop').addEventListener('click', closeLightbox);
-  lightbox.querySelector('.lp-lightbox-close').addEventListener('click', closeLightbox);
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
-
-  /* ── スムーズスクロール ── */
-  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
-    a.addEventListener('click', function(e) {
-      var target = document.querySelector(a.getAttribute('href'));
-      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
-    });
-  });
-})();
-</script>
-
-<%# ===== ⑤ フッター ===== %>
-<footer class="lp-footer">
-  <div class="lp-footer-inner">
-    <div class="lp-footer-brand">
-      <p class="lp-footer-brand-catch">Task × Game</p>
-      <%= image_tag "rewardme_logo.png", class: "lp-footer-logo", alt: "RewardMe" %>
-      <p class="lp-footer-tagline">Game × Productivity</p>
-      <p class="lp-footer-msg-main">
-        「毎日のタスクを少しだけ楽しみに変える」<br>
-        そんなアプリを目指して制作しました。
-      </p>
-      <%# ⑤ リボンちゃん＋ひとこと %>
-      <div class="lp-footer-chara-wrap">
-        <%= image_tag "stage4_pink.png", class: "lp-footer-chara", alt: "リボンちゃん" %>
-        <div class="lp-footer-chara-bubble">また遊びに来てね🎀</div>
-      </div>
-    </div>
-    <div class="lp-footer-links">
-      <div class="lp-footer-link-col">
-        <p class="lp-footer-link-head">アプリ</p>
-        <a href="#features" class="lp-footer-link">特徴</a>
-        <a href="#screens"  class="lp-footer-link">画面紹介</a>
-        <%= link_to "無料ではじめる", signup_path, class: "lp-footer-link" %>
-        <%= link_to "ログイン", login_path, class: "lp-footer-link" %>
-      </div>
-      <div class="lp-footer-link-col">
-        <p class="lp-footer-link-head">開発者</p>
-        <a href="#portfolio" class="lp-footer-link">ポートフォリオ</a>
-        <a href="https://github.com/mize1978" target="_blank" rel="noopener" class="lp-footer-link">GitHub</a>
-      </div>
-    </div>
-  </div>
-  <div class="lp-footer-bottom">
-    <div class="lp-footer-tech-row">
-      <span class="lp-footer-tech-item">💎 Ruby on Rails 7</span>
-      <span class="lp-footer-tech-sep">·</span>
-      <span class="lp-footer-tech-item">⏱ 6週間+ 制作</span>
-      <span class="lp-footer-tech-sep">·</span>
-      <span class="lp-footer-tech-item">👤 個人開発 100%</span>
-      <span class="lp-footer-tech-sep">·</span>
-      <a href="https://github.com/mize1978" target="_blank" rel="noopener" class="lp-footer-tech-item lp-footer-tech-link">🐙 GitHub</a>
-    </div>
-    <p class="lp-footer-copy">© 2026 RewardMe — mize1978</p>
-  </div>
-</footer>
-
-<script>
-(function() {
-  var slides = document.querySelectorAll('.lp-slide');
-  var dots   = document.querySelectorAll('.lp-slider-dot');
-  if (!slides.length) return;
-
-  var current = 0;
-  var timer;
-
-  function goTo(n) {
-    slides[current].classList.remove('lp-slide--active');
-    dots[current].classList.remove('lp-slider-dot--active');
-    current = (n + slides.length) % slides.length;
-    slides[current].classList.add('lp-slide--active');
-    dots[current].classList.add('lp-slider-dot--active');
-  }
-
-  function start() {
-    timer = setInterval(function() { goTo(current + 1); }, 3500);
-  }
-
-  function restart() {
-    clearInterval(timer);
-    start();
-  }
-
-  dots.forEach(function(dot) {
-    dot.addEventListener('click', function() {
-      goTo(parseInt(dot.dataset.dot));
-      restart();
-    });
-  });
-
-  // ライトボックス
-  var lightbox = document.createElement('div');
-  lightbox.id = 'lp-lightbox';
-  lightbox.style.cssText = 'display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,5,25,0.92);cursor:zoom-out;align-items:center;justify-content:center;';
-  var lbImg = document.createElement('img');
-  lbImg.style.cssText = 'max-width:92vw;max-height:90vh;border-radius:12px;box-shadow:0 0 60px rgba(200,100,255,0.4);';
-  lightbox.appendChild(lbImg);
-  document.body.appendChild(lightbox);
-
-  slides.forEach(function(slide) {
-    slide.addEventListener('click', function() {
-      var img = slide.querySelector('img');
-      if (!img) return;
-      lbImg.src = img.src;
-      lightbox.style.display = 'flex';
-    });
-  });
-
-  lightbox.addEventListener('click', function() {
-    lightbox.style.display = 'none';
-  });
-
-  start();
-})();
-</script>
+  <dialog class="rm-lightbox" data-landing-target="dialog" data-action="click->landing#closeOnBackdrop"><div class="rm-lightbox-head"><p data-landing-target="dialogLabel" id="rm-dialog-label">アプリ画面</p><button type="button" data-action="landing#closeImage" aria-label="拡大画面を閉じる">閉じる ×</button></div><img data-landing-target="dialogImage" alt=""></dialog>
+</main>
+<footer class="rm-footer"><div class="rm-container rm-footer-inner"><a class="rm-footer-brand" href="#top">RewardMe<span>毎日のタスクに、小さな楽しみを。</span></a><nav aria-label="フッターナビゲーション"><%= link_to "ログイン", login_path %><a href="https://github.com/mize1978/rewardme" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://mize1978.github.io/" target="_blank" rel="noopener noreferrer">Created by Mize ↗</a></nav><small>© <%= Date.current.year %> RewardMe</small></div></footer>
