@@ -93,7 +93,7 @@
 :where(.reward-landing) .rm-screen-bar span:first-child{font-size:12px;letter-spacing:3px;color:#a080ad}
 :where(.reward-landing) .rm-screen-zoom{position:relative;display:block;width:100%;padding:0;border:0;background:#130a22;cursor:zoom-in!important}
 :where(.reward-landing) .rm-screen-zoom img{width:100%;height:auto;max-height:58vh;aspect-ratio:2934/1672;object-fit:contain}
-:where(.reward-landing) #screen-0 .rm-screen-zoom img{aspect-ratio:1080/962}
+:where(.reward-landing) #screen-0 .rm-screen-zoom img{aspect-ratio:3840/1984}
 :where(.reward-landing) .rm-screen-zoom>span{position:absolute;right:16px;bottom:16px;padding:7px 13px;background:#201329eb;border:1px solid #f4d6ee4d;color:#fff;font-size:12px;border-radius:5px}
 :where(.reward-landing) .rm-screen figcaption{display:grid;grid-template-columns:130px 1fr auto;gap:25px;align-items:baseline;margin-top:22px}
 :where(.reward-landing) .rm-screen figcaption strong{font-size:13px;font-weight:500}
