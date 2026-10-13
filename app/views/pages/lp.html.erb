@@ -37,7 +37,13 @@
     <div class="rm-section-head"><div><p class="rm-eyebrow">01 / HOW IT WORKS</p><h2 id="features-title">いつもの一日に、<br>続けたくなる理由を。</h2></div><p class="rm-body-copy">大きな目標じゃなくていい。<br>「ストレッチする」も、今日の立派なタスク。</p></div>
     <ol class="rm-step-list">
       <li><span class="rm-step-number">01</span><h3>やることを、ひとつ。</h3><p>今日のタスクを登録。暮らしの中の小さな「やっておきたい」から始められます。</p><span class="rm-step-tag">PLAN YOUR DAY</span></li>
-      <li><span class="rm-step-number">02</span><h3>できたら、ごほうび。</h3><p>完了したタスクが、EXPとコインに。リボンちゃんの成長につながります。</p><span class="rm-step-tag">CELEBRATE THE LITTLE THINGS</span></li>
+      <li class="rm-step-reward"><span class="rm-step-number">02</span><h3>できたら、ごほうび。</h3><p>EXPとコインに加えて、毎日のBOXやリボンちゃんからのお手紙も届きます。</p>
+        <div class="rm-reward-preview">
+          <div class="rm-box-preview"><%= image_tag "ribbon_box_v2.png", alt: "毎日開けられるリボンBOX", loading: "lazy", decoding: "async", width: 800, height: 749 %><span>毎日のリボンBOX</span></div>
+          <div class="rm-letter-preview"><span class="rm-letter-icon" aria-hidden="true">✉</span><small>リボンちゃんから</small><strong>はじめまして！<br>ようこそリワードミへ</strong><span class="rm-letter-new">NEW</span></div>
+        </div>
+        <span class="rm-step-tag">CELEBRATE THE LITTLE THINGS</span>
+      </li>
       <li><span class="rm-step-number">03</span><h3>自分だけの楽しみに。</h3><p>コインでガチャやお部屋づくり。ちょっとした息抜きには、ミニゲームも。</p><span class="rm-step-tag">MAKE IT YOURS</span></li>
     </ol>
   </section>
@@ -64,6 +70,14 @@
         <% end %>
         <p class="rm-evolution-note">ひとつずつの達成が、成長の記録になる。</p>
       </div>
+      <div class="rm-room-growth" aria-labelledby="room-growth-title">
+        <div class="rm-room-growth-copy"><p class="rm-eyebrow">ROOM EVOLUTION</p><h3 id="room-growth-title">続けるほど、<br>お部屋も育つ。</h3><p>リボンちゃんと一緒に、景色も少しずつ変わっていきます。</p></div>
+        <ol class="rm-room-stages">
+          <% (1..6).each do |stage| %>
+            <li><%= image_tag "room_purple_s#{stage}.png", alt: "成長ルームの第#{stage}段階", loading: "lazy", decoding: "async" %><span>0<%= stage %></span></li>
+          <% end %>
+        </ol>
+      </div>
     </div>
   </section>
 
@@ -73,7 +87,14 @@
       ["lp_room_current.jpg", "マイルーム", "リボンちゃんと過ごす、自分だけのお部屋。タスクの達成状況もここから確認できます。"],
       ["lp_slide_tasks.jpg", "タスク管理", "今日やることを整理して、できたことを記録。ひとつずつの達成を積み重ねていきます。"],
       ["lp_slide_gacha.jpg", "ガチャ", "タスクで貯めたコインを使って、次のごほうびを。1回・10連ガチャが楽しめます。"],
-      ["lp_slide_games.jpg", "ミニゲーム", "パズルやマッチゲームで、ひと息。毎日のちょっとした息抜きに。"]
+      ["lp_slide_games.jpg", "ミニゲーム", "気分に合わせて選べる5種類。毎日のちょっとした息抜きに。"]
+    ] %>
+    <% games = [
+      ["potion_bg.png", "リボンポーション"],
+      ["thumb_game_flight.jpg", "リボンフライト"],
+      ["thumb_game_puzzle.jpg", "リボンパズル"],
+      ["thumb_game_match.jpg", "リボンマッチ"],
+      ["thumb_game_catch.jpg", "リボンキャッチ"]
     ] %>
     <div class="rm-screen-buttons" role="group" aria-label="表示するアプリ画面">
       <% screens.each_with_index do |screen, i| %><button type="button" aria-pressed="<%= i == 0 %>" aria-controls="screen-<%= i %>" data-landing-target="screenButton" data-action="landing#chooseScreen" data-screen="<%= i %>"><span>0<%= i + 1 %></span><%= screen[1] %></button><% end %>
@@ -84,6 +105,11 @@
           <button class="rm-screen-zoom" type="button" data-action="landing#openImage" aria-label="<%= screen[1] %>の画面を拡大"><%= image_tag screen[0], alt: "RewardMeの#{screen[1]}画面", loading: "lazy", decoding: "async", width: (i.zero? ? 3840 : 2934), height: (i.zero? ? 1984 : 1672) %><span>画面を拡大 ↗</span></button>
         </div>
         <figcaption><strong><%= screen[1] %></strong><p><%= screen[2] %></p><span>0<%= i + 1 %> / 04</span></figcaption>
+        <% if i == 3 %>
+          <ul class="rm-game-strip" aria-label="遊べる5種類のミニゲーム">
+            <% games.each do |image, name| %><li><%= image_tag image, alt: "#{name}のゲーム画面", loading: "lazy", decoding: "async" %><span><%= name %></span></li><% end %>
+          </ul>
+        <% end %>
       </figure>
     <% end %>
   </section>
