@@ -11,6 +11,19 @@
   height: 84px !important;
 }
 
+/* Keep the active stage from borrowing width from the other three stages. */
+html body .dashboard-layout.dashboard-layout--home .evo-chain-panel .evo-vertical-chain .evo-v-item,
+html body .dashboard-layout.dashboard-layout--home .evo-chain-panel .evo-vertical-chain .evo-v-item--current {
+  flex: 1 1 0 !important;
+}
+
+html body .dashboard-layout.dashboard-layout--home .evo-chain-panel .evo-vertical-chain .evo-v-item .evo-v-img-wrap,
+html body .dashboard-layout.dashboard-layout--home .evo-chain-panel .evo-vertical-chain .evo-v-item--current .evo-v-img-wrap {
+  width: 84px !important;
+  max-width: 100% !important;
+  height: 84px !important;
+}
+
 @media (min-width: 1420px) {
   body:has(.dashboard-layout--home) {
     padding-top: 0 !important;
