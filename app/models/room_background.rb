@@ -172,24 +172,21 @@ class RoomBackground
   #
   # 3色とも同じ段構成。違うのは絵だけで、しきい値も並びも共通。
   # 新しい色を足すときは prefix を変えて同じ stages を書くだけでよい。
-  # 予選審査期間中の暫定しきい値。
-  # s1〜s3 は新しい絵柄で完成済み、s4〜s6 は旧素材（1600x900・旧絵柄）のまま。
-  # 審査員の通常操作（5〜10件程度）で「たまご→赤ちゃん」を体験でき、
-  # 画風が切り替わる s4 以降へは到達しない配分にしている。
-  # s4〜s6 の絵が揃ったら 20 / 30 / 40 へ戻すこと。
+  # 6段すべて同じ絵柄・画角で制作済み。
+  # キャラと部屋が交互に育つ本来のしきい値を使う。
   GROWTH_STAGES = [
     { stage: 1, tier: "BASE",   label: "たまご",       from: 0   },
     { stage: 2, tier: "BASE",   label: "ベビー",       from: 10  },
-    { stage: 3, tier: "COZY",   label: "ベビー",       from: 30  },
-    { stage: 4, tier: "COZY",   label: "リボンちゃん", from: 100 },
-    { stage: 5, tier: "DELUXE", label: "リボンちゃん", from: 200 },
-    { stage: 6, tier: "DELUXE", label: "プリンセス",   from: 300 },
+    { stage: 3, tier: "COZY",   label: "ベビー",       from: 15  },
+    { stage: 4, tier: "COZY",   label: "リボンちゃん", from: 20  },
+    { stage: 5, tier: "DELUXE", label: "リボンちゃん", from: 30  },
+    { stage: 6, tier: "DELUXE", label: "プリンセス",   from: 40  },
   ].freeze
 
   GROWTH_ROOMS = {
     "purple" => { prefix: "room_purple_s", stages: GROWTH_STAGES },
     "pink"   => { prefix: "room_pink_s",   stages: GROWTH_STAGES },
-    "blue"   => { prefix: "room_blue_s",   stages: GROWTH_STAGES },
+    "blue"   => { prefix: "room_blue_s",   stages: GROWTH_STAGES }
   }.freeze
 
   # 差し替え待ちの仮画像。PURPLE は全6段そろったため現在は空。
@@ -216,8 +213,7 @@ class RoomBackground
     conf = GROWTH_ROOMS[id.to_s]
     return nil unless conf
     stage_number = stage.to_i.clamp(1, conf[:stages].size)
-    suffix = stage_number == 1 ? "_v2" : ""
-    "#{conf[:prefix]}#{stage_number}#{suffix}.png"
+    "#{conf[:prefix]}#{stage_number}_v3.png"
   end
 
   # 成長ルームの全段階（成長ストリップ用）

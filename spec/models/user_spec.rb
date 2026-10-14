@@ -107,6 +107,39 @@ RSpec.describe User, type: :model do
     end
   end
 
+  # ===== room_growth_stage / room_bg_image =====
+  describe "#room_growth_stage" do
+    before { user.current_room_bg = "purple" }
+
+    {
+      0 => 1,
+      9 => 1,
+      10 => 2,
+      14 => 2,
+      15 => 3,
+      19 => 3,
+      20 => 4,
+      29 => 4,
+      30 => 5,
+      39 => 5,
+      40 => 6
+    }.each do |count, expected_stage|
+      it "completed_count #{count} で部屋ステージ#{expected_stage}" do
+        user.completed_count = count
+        expect(user.room_growth_stage).to eq(expected_stage)
+      end
+    end
+  end
+
+  describe "#room_bg_image" do
+    it "選択色と成長段階に対応するv3画像を返す" do
+      user.current_room_bg = "blue"
+      user.completed_count = 30
+
+      expect(user.room_bg_image).to eq("room_blue_s5_v3.png")
+    end
+  end
+
   # ===== badge =====
   describe "#badge" do
     it "completed_count 0 で「まだないよ」" do
