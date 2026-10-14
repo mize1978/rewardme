@@ -60,35 +60,17 @@
 
   <section class="rm-companion" id="characters" aria-labelledby="characters-title">
     <div class="rm-container rm-companion-grid">
-      <div class="rm-companion-copy"><p class="rm-eyebrow">02 / YOUR COMPANION</p><h2 id="characters-title">一緒に育つ、<br>小さな相棒。</h2><p class="rm-body-copy">たまごから、プリンセスへ。<br>タスクを重ねるたび、リボンちゃんも変わっていく。<br>好きな色を選んで、一緒に始めよう。</p>
-        <div class="rm-colors" role="group" aria-label="リボンちゃんの色を選ぶ">
-          <% [["purple", "パープル"], ["pink", "ピンク"], ["blue", "ブルー"]].each do |color, label| %>
-            <button class="rm-color rm-color-<%= color %>" type="button" aria-pressed="<%= color == 'purple' %>" aria-controls="evolution-<%= color %>" data-landing-target="colorButton" data-action="landing#chooseColor" data-color="<%= color %>"><span aria-hidden="true"></span><%= label %></button>
-          <% end %>
-        </div>
-      </div>
-      <div class="rm-evolution-area">
-        <% [["purple", "パープル"], ["pink", "ピンク"], ["blue", "ブルー"]].each do |color, label| %>
-          <div class="rm-evolution" id="evolution-<%= color %>" data-landing-target="evolution" data-color="<%= color %>" <%= 'hidden' unless color == 'purple' %>>
-            <p class="rm-evolution-label"><%= label %>のリボンちゃん <span>4 STAGES OF GROWTH</span></p>
-            <ol class="rm-stages">
-              <% ["たまご", "ベビー", "リボンちゃん", "プリンセス"].each_with_index do |stage, i| %>
-                <li><div class="rm-stage-image"><%= image_tag "stage#{i + 1}_#{color}.png", alt: "#{label}の#{stage}", loading: "lazy", decoding: "async" %></div><span class="rm-stage-index">0<%= i + 1 %></span><p><%= stage %></p></li>
-              <% end %>
-            </ol>
-          </div>
-        <% end %>
-        <p class="rm-evolution-note">ひとつずつの達成が、成長の記録になる。</p>
+      <div class="rm-companion-copy">
+        <div><p class="rm-eyebrow">02 / YOUR COMPANION</p><h2 id="characters-title">一緒に育つ、<br>小さな相棒。</h2></div>
+        <p class="rm-body-copy">タスクを重ねるたび、リボンちゃんとお部屋も少しずつ育っていく。<br>ひとつずつの達成が、ふたりの成長の記録になります。</p>
       </div>
       <div class="rm-room-growth" aria-labelledby="room-growth-title">
         <div class="rm-room-growth-copy"><p class="rm-eyebrow">ROOM EVOLUTION</p><h3 id="room-growth-title">続けるほど、<br>お部屋も育つ。</h3><p>リボンちゃんと一緒に、景色も少しずつ変わっていきます。</p></div>
-        <% [["purple", "パープル"], ["pink", "ピンク"], ["blue", "ブルー"]].each do |color, label| %>
-          <ol class="rm-room-stages" data-landing-target="roomStages" data-color="<%= color %>" aria-label="<%= label %>の成長ルーム" <%= 'hidden' unless color == 'purple' %>>
-            <% (1..6).each do |stage| %>
-              <li><%= image_tag "room_#{color}_s#{stage}.png", alt: "#{label}の成長ルームの第#{stage}段階", loading: "lazy", decoding: "async" %><span>0<%= stage %></span></li>
-            <% end %>
-          </ol>
-        <% end %>
+        <ol class="rm-room-stages" aria-label="パープルの成長ルーム">
+          <% (1..6).each do |stage| %>
+            <li><%= image_tag "room_purple_s#{stage}.png", alt: "パープルの成長ルームの第#{stage}段階", loading: "lazy", decoding: "async" %><span>0<%= stage %></span></li>
+          <% end %>
+        </ol>
       </div>
     </div>
   </section>
