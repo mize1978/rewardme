@@ -84,8 +84,9 @@
   .evo-v-item--current { flex: 1.4 1 0; } /* 今ここカードは少し広く */
   .evo-v-arrow { align-self: center; transform: rotate(-90deg);
                  padding: 0 !important; margin: 0 !important; }
-  .evo-v-img { width: 44px !important; height: 44px !important; object-fit: contain; }
-  .evo-v-img-wrap { width: auto !important; }
+  .evo-v-img-wrap { width: 72px !important; height: 72px !important; }
+  .evo-v-item--current .evo-v-img-wrap { width: 84px !important; height: 84px !important; }
+  .evo-v-img { width: 100% !important; height: 100% !important; object-fit: contain; }
   .evo-v-name { font-size: 11px !important; line-height: 1.3; }
   .evo-v-lv { font-size: 10px !important; }
   .evo-v-progress { height: 6px !important; margin: 2px 0 !important; }
