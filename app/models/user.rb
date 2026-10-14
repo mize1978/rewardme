@@ -109,7 +109,7 @@ end
 def ribbon_stage_image(color = nil)
   c = (color || egg_color.presence || "pink").to_s
   c = "purple" if c == "yellow"
-  "stage#{ribbon_stage}_#{c}.png"
+  ribbon_stage == 1 ? "stage1_#{c}_v2.png" : "stage#{ribbon_stage}_#{c}.png"
 end
 
 def benny_image

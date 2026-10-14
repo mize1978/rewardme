@@ -14,13 +14,13 @@
     <p class="daily-box-title">🎁 今日のリボンBOX</p>
     <% if current_user.box_available? %>
       <div class="daily-box-egg-wrap" data-daily-box-target="wrap">
-        <%= image_tag "ribbon_box_v2.png", class: "daily-box-egg",
+        <%= image_tag ribbon_box_image, class: "daily-box-egg",
               data: { "daily-box-target": "egg" }, alt: "リボンBOX" %>
         <button class="daily-box-btn" data-action="click->daily-box#open">✨ タップして開ける！</button>
       </div>
     <% else %>
       <div class="daily-box-done" data-daily-box-target="done">
-        <%= image_tag "ribbon_box_v2.png", class: "daily-box-done-img", alt: "" %>
+        <%= image_tag ribbon_box_image, class: "daily-box-done-img", alt: "" %>
         <span class="daily-box-done-open">✓ OPEN</span>
         <p class="daily-box-done-sub">Today's Box</p>
         <p class="daily-box-timer" data-daily-box-target="timer"></p>

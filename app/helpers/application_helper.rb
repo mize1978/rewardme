@@ -28,4 +28,12 @@ module ApplicationHelper
   def ribbon_color_class(user = current_user)
     "ribbon-color--#{user&.egg_color || "pink"}"
   end
+
+  def ribbon_box_image(user = current_user)
+    case user&.egg_color
+    when "blue" then "ribbon_box_blue_v3.png"
+    when "purple", "yellow" then "ribbon_box_purple_v3.png"
+    else "ribbon_box_pink_v3.png"
+    end
+  end
 end

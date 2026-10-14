@@ -57,7 +57,7 @@
             <% active = current_user.egg_color == opt[:color] || (current_user.egg_color == "yellow" && opt[:color] == "purple") %>
             <button type="submit" class="egg-color-opt <%= 'egg-color-opt--active' if active %>">
               <div class="egg-color-opt-img-wrap">
-                <%= image_tag "stage1_#{opt[:color]}.png", class: "egg-color-opt-img", alt: opt[:label] %>
+                <%= image_tag "stage1_#{opt[:color]}_v2.png", class: "egg-color-opt-img", alt: opt[:label] %>
                 <% if active %>
                   <span class="egg-color-opt-check">✓</span>
                 <% end %>

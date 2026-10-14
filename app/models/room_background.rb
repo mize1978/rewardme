@@ -215,7 +215,9 @@ class RoomBackground
   def self.growth_image(id, stage)
     conf = GROWTH_ROOMS[id.to_s]
     return nil unless conf
-    "#{conf[:prefix]}#{stage.to_i.clamp(1, conf[:stages].size)}.png"
+    stage_number = stage.to_i.clamp(1, conf[:stages].size)
+    suffix = stage_number == 1 ? "_v2" : ""
+    "#{conf[:prefix]}#{stage_number}#{suffix}.png"
   end
 
   # 成長ルームの全段階（成長ストリップ用）

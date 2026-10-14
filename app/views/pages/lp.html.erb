@@ -44,7 +44,7 @@
       </li>
       <li class="rm-step-reward"><span class="rm-step-number">02</span><h3>できたら、ごほうび。</h3><p>EXPとコインに加えて、毎日のBOXやリボンちゃんからのお手紙も届きます。</p>
         <div class="rm-reward-preview">
-          <div class="rm-box-preview"><%= image_tag "ribbon_box_v2.png", alt: "毎日開けられるリボンBOX", loading: "lazy", decoding: "async", width: 800, height: 749 %><span>毎日のリボンBOX</span></div>
+          <div class="rm-box-preview"><%= image_tag "ribbon_box_pink_v3.png", alt: "毎日開けられるリボンBOX", loading: "lazy", decoding: "async", width: 1297, height: 1213 %><span>毎日のリボンBOX</span></div>
           <div class="rm-letter-preview"><span class="rm-letter-icon" aria-hidden="true">✉</span><small>リボンちゃんから</small><strong>はじめまして！<br>ようこそリワードミへ</strong><span class="rm-letter-new">NEW</span></div>
         </div>
         <span class="rm-step-tag">CELEBRATE THE LITTLE THINGS</span>
@@ -87,7 +87,7 @@
         <div class="rm-room-growth-copy"><p class="rm-eyebrow">ROOM EVOLUTION</p><h3 id="room-growth-title">続けるほど、<br>お部屋も育つ。</h3><p>リボンちゃんと一緒に、景色も少しずつ変わっていきます。</p></div>
         <ol class="rm-room-stages" aria-label="パープルの成長ルーム">
           <% (1..6).each do |stage| %>
-            <li><%= image_tag "room_purple_s#{stage}.png", alt: "パープルの成長ルームの第#{stage}段階", loading: "lazy", decoding: "async" %><span>0<%= stage %></span></li>
+            <li><%= image_tag RoomBackground.growth_image("purple", stage), alt: "パープルの成長ルームの第#{stage}段階", loading: "lazy", decoding: "async" %><span>0<%= stage %></span></li>
           <% end %>
         </ol>
       </div>

@@ -242,18 +242,18 @@ RSpec.describe User, type: :model do
   describe "#ribbon_stage_image" do
     it "ステージ1・pinkで正しいファイル名" do
       user.completed_count = 0
-      expect(user.ribbon_stage_image("pink")).to eq("stage1_pink.png")
+      expect(user.ribbon_stage_image("pink")).to eq("stage1_pink_v2.png")
     end
 
     it "yellowはpurpleに変換される" do
       user.completed_count = 0
-      expect(user.ribbon_stage_image("yellow")).to eq("stage1_purple.png")
+      expect(user.ribbon_stage_image("yellow")).to eq("stage1_purple_v2.png")
     end
 
     it "colorがnilのときはegg_colorを使う" do
       user.egg_color = "pink"
       user.completed_count = 0
-      expect(user.ribbon_stage_image).to eq("stage1_pink.png")
+      expect(user.ribbon_stage_image).to eq("stage1_pink_v2.png")
     end
   end
 end

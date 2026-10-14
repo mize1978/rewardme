@@ -4365,6 +4365,15 @@ body[data-time-period="night"] .my-room::after {
   animation: egg-idle 2.4s ease-in-out infinite;
 }
 
+body[data-egg-color="purple"] .daily-box-egg,
+body[data-egg-color="yellow"] .daily-box-egg {
+  filter: brightness(0.8) drop-shadow(0 0 10px rgba(176, 125, 255, 0.28));
+}
+
+body[data-egg-color="blue"] .daily-box-egg {
+  filter: brightness(0.8) drop-shadow(0 0 10px rgba(105, 181, 255, 0.28));
+}
+
 .daily-box-egg--used {
   width: 100px;
   height: 100px;
