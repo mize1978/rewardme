@@ -271,3 +271,10 @@ html.rm-no-scroll:has(> body.reward-landing){overflow:hidden}
 }
 @media(prefers-reduced-motion:reduce){.reward-landing *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+/* Explain each reward and its trigger without shrinking reading text. */
+:where(.reward-landing) .rm-step-details{margin:22px 0 0;padding-top:18px;border-top:1px solid var(--rm-line);display:grid;gap:18px}
+:where(.reward-landing) .rm-step-details dt{font-size:14px;font-weight:600;color:#f4b6cf;margin-bottom:5px}
+:where(.reward-landing) .rm-step-details dd{margin:0;font-size:14px;line-height:1.95;color:#d5c8dc}
+:where(.reward-landing) .rm-step-list>li>p{min-height:112px;color:#d5c8dc}
+@media(max-width:760px){:where(.reward-landing) .rm-step-list>li>p{min-height:0}:where(.reward-landing) .rm-step-details{gap:15px}}
