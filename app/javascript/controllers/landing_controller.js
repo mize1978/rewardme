@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Manual galleries: no timers, no motion required to read the page.
 export default class extends Controller {
-  static targets = ["colorButton", "evolution", "roomStages", "screenButton", "screen", "dialog", "dialogImage", "dialogLabel"]
+  static targets = ["colorButton", "evolution", "roomStages", "screenButton", "screen", "dialog", "dialogImage", "dialogLabel", "funButton", "funPanel"]
 
   connect() {
     this.dialogTarget.setAttribute("aria-labelledby", "rm-dialog-label")
@@ -33,6 +33,12 @@ export default class extends Controller {
     const screen = event.currentTarget.dataset.screen
     this.screenButtonTargets.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.screen === screen)))
     this.screenTargets.forEach(panel => { panel.hidden = panel.dataset.screen !== screen })
+  }
+
+  chooseFun(event) {
+    const key = event.currentTarget.dataset.fun
+    this.funButtonTargets.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.fun === key)))
+    this.funPanelTargets.forEach(panel => { panel.hidden = panel.dataset.fun !== key })
   }
 
   openImage(event) {

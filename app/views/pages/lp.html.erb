@@ -37,21 +37,26 @@
     <div class="rm-section-head"><div><p class="rm-eyebrow">01 / HOW IT WORKS</p><h2 id="features-title">いつもの一日に、<br>続けたくなる理由を。</h2></div><p class="rm-body-copy">小さなタスクが、相棒の成長とごほうびに。<br>毎日ひらく楽しみまで、ひとつの場所で。</p></div>
     <ol class="rm-step-list">
       <li><span class="rm-step-number">01</span><h3>やることを、ひとつ。</h3><p>「水を飲む」「本を読む」から、仕事や勉強まで。今日やることを登録して、終わったらチェック。</p>
-        <div class="rm-task-preview" aria-label="今日のタスク例">
-          <% [["ストレッチ", true], ["水を飲む", false], ["読書", false]].each do |task, done| %><span class="<%= 'is-done' if done %>"><i aria-hidden="true"><%= done ? "✓" : "+" %></i><%= task %></span><% end %>
+        <div class="rm-step-scene rm-scene-task">
+          <button class="rm-scene-task-screen" type="button" data-action="landing#openImage" aria-label="実際のタスク画面を拡大"><%= image_tag "lp_tasks_current.jpg", alt: "ベニーのひと言と、今日のタスク一覧の実画面", loading: "lazy", decoding: "async", width: 820, height: 764 %><span>タスクを見る ↗</span></button>
         </div>
         <dl class="rm-step-details"><div><dt>今日のタスク</dt><dd>日付・カテゴリ・優先度を設定。小さな用事も、ひとつずつ管理できます。</dd></div><div><dt>続けたい習慣</dt><dd>繰り返したいことは習慣として登録。カレンダーで達成の記録を振り返れます。</dd></div></dl><span class="rm-step-tag">PLAN YOUR DAY</span>
       </li>
       <li class="rm-step-reward"><span class="rm-step-number">02</span><h3>できたら、ごほうび。</h3><p>完了したタスクが、リボンちゃんの成長とコインに。毎日開けるBOXや、節目に届くお手紙も楽しみに。</p>
-        <div class="rm-reward-preview">
-          <div class="rm-box-preview"><%= image_tag "ribbon_box_purple_v3.png", alt: "毎日開けられるリボンBOX", loading: "lazy", decoding: "async", width: 1280, height: 1280 %><span>毎日のリボンBOX</span></div>
-          <div class="rm-letter-preview"><span class="rm-letter-icon" aria-hidden="true">✉</span><small>リボンちゃんから</small><strong>はじめまして！<br>ようこそリワードミへ</strong><span class="rm-letter-new">NEW</span></div>
+        <div class="rm-step-scene rm-scene-reward">
+          <button class="rm-scene-letter-screen" type="button" data-action="landing#openImage" aria-label="実際のお手紙画面を拡大"><%= image_tag "lp_letters_current.jpg", alt: "リボンちゃんや運営から届く、実際のお手紙一覧", loading: "lazy", decoding: "async", width: 908, height: 741 %><span>お手紙を読む ↗</span></button>
+          <div class="rm-scene-box-strip"><%= image_tag "ribbon_box_purple_v3.png", alt: "毎日のごほうびBOX", loading: "lazy", decoding: "async", width: 1280, height: 1280 %><span>毎日のBOXも<br><strong>開けるのが楽しみに。</strong></span></div>
         </div>
         <dl class="rm-step-details"><div><dt>達成が、成長に</dt><dd>タスクを終えると成長が進み、コインを獲得。相棒はたまごから4段階で進化します。</dd></div><div><dt>毎日と、節目のごほうび</dt><dd>リボンBOXは1日1回。コインやEXPがもらえます。初めての達成や成長の節目には、お手紙も。</dd></div></dl><span class="rm-step-tag">CELEBRATE THE LITTLE THINGS</span>
       </li>
       <li><span class="rm-step-number">03</span><h3>自分だけの楽しみに。</h3><p>育っていくお部屋、貯めたコインで回すガチャ、5種類のミニゲーム。がんばった先に、自分の好きな楽しみを。</p>
-        <div class="rm-fun-preview">
-          <% [["thumb_game_gacha.jpg", "ガチャ"], ["room_purple_s6.png", "お部屋"], ["thumb_game_match.jpg", "ゲーム"]].each do |image, label| %><span><%= image_tag image, alt: "#{label}のイメージ", loading: "lazy", decoding: "async" %><b><%= label %></b></span><% end %>
+        <div class="rm-step-scene rm-scene-games">
+          <% [["match", "lp_fun_match.png", "マッチ"], ["gacha", "lp_fun_gacha.png", "ガチャ"], ["puzzle", "lp_fun_puzzle.png", "パズル"]].each do |key, image, label| %>
+            <button class="rm-fun-panel" id="fun-<%= key %>" type="button" data-landing-target="funPanel" data-fun="<%= key %>" data-action="landing#openImage" aria-label="<%= label %>のイメージを拡大" <%= 'hidden' unless key == 'match' %>><%= image_tag image, alt: "#{label}の画面イメージ", loading: "lazy", decoding: "async" %><span>大きく見る ↗</span></button>
+          <% end %>
+          <div class="rm-fun-buttons" role="group" aria-label="ゲームとガチャのイメージを選ぶ">
+            <% [["match", "マッチ"], ["gacha", "ガチャ"], ["puzzle", "パズル"]].each do |key, label| %><button type="button" data-landing-target="funButton" data-action="landing#chooseFun" data-fun="<%= key %>" aria-controls="fun-<%= key %>" aria-pressed="<%= key == 'match' %>"><%= label %></button><% end %>
+          </div>
         </div>
         <dl class="rm-step-details"><div><dt>自分だけのお部屋</dt><dd>成長ルームは6段階で変化。背景ショップで、好きな景色に着替えることもできます。</dd></div><div><dt>ガチャと、ひと息のゲーム</dt><dd>コインで1回・10連ガチャ。ポーション・フライト・パズル・マッチ・キャッチの5種類で遊べます。</dd></div></dl><span class="rm-step-tag">MAKE IT YOURS</span>
       </li>
