@@ -61,8 +61,26 @@
   <section class="rm-companion" id="characters" aria-labelledby="characters-title">
     <div class="rm-container rm-companion-grid">
       <div class="rm-companion-copy">
-        <div><p class="rm-eyebrow">02 / YOUR COMPANION</p><h2 id="characters-title">一緒に育つ、<br>小さな相棒。</h2></div>
-        <p class="rm-body-copy">タスクを重ねるたび、リボンちゃんとお部屋も少しずつ育っていく。<br>ひとつずつの達成が、ふたりの成長の記録になります。</p>
+        <p class="rm-eyebrow">02 / YOUR COMPANION</p><h2 id="characters-title">一緒に育つ、<br>小さな相棒。</h2>
+        <p class="rm-body-copy">たまごから、プリンセスへ。<br>タスクを重ねるたび、リボンちゃんも変わっていく。<br>好きな色を選んで、一緒に始めよう。</p>
+        <div class="rm-colors" role="group" aria-label="リボンちゃんの色を選ぶ">
+          <% [["purple", "パープル"], ["pink", "ピンク"], ["blue", "ブルー"]].each do |color, label| %>
+            <button class="rm-color rm-color-<%= color %>" type="button" aria-pressed="<%= color == 'purple' %>" aria-controls="evolution-<%= color %>" data-landing-target="colorButton" data-action="landing#chooseColor" data-color="<%= color %>"><span aria-hidden="true"></span><%= label %></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="rm-evolution-area">
+        <% [["purple", "パープル"], ["pink", "ピンク"], ["blue", "ブルー"]].each do |color, label| %>
+          <div class="rm-evolution" id="evolution-<%= color %>" data-landing-target="evolution" data-color="<%= color %>" <%= 'hidden' unless color == 'purple' %>>
+            <p class="rm-evolution-label"><%= label %>のリボンちゃん <span>4 STAGES OF GROWTH</span></p>
+            <ol class="rm-stages">
+              <% ["たまご", "ベビー", "リボンちゃん", "プリンセス"].each_with_index do |stage, i| %>
+                <li><div class="rm-stage-image"><%= image_tag "stage#{i + 1}_#{color}_v2.png", alt: "#{label}の#{stage}", loading: "lazy", decoding: "async" %></div><span class="rm-stage-index">0<%= i + 1 %></span><p><%= stage %></p></li>
+              <% end %>
+            </ol>
+          </div>
+        <% end %>
+        <p class="rm-evolution-note">ひとつずつの達成が、成長の記録になる。</p>
       </div>
       <div class="rm-room-growth" aria-labelledby="room-growth-title">
         <div class="rm-room-growth-copy"><p class="rm-eyebrow">ROOM EVOLUTION</p><h3 id="room-growth-title">続けるほど、<br>お部屋も育つ。</h3><p>リボンちゃんと一緒に、景色も少しずつ変わっていきます。</p></div>
@@ -117,9 +135,9 @@
   <section class="rm-start" id="start" aria-labelledby="start-title"><div class="rm-container rm-start-inner">
     <div class="rm-start-art" aria-hidden="true">
       <div class="rm-start-trio">
-        <%= image_tag "stage4_pink.png", class: "rm-start-princess rm-start-princess-pink", alt: "", loading: "lazy", decoding: "async" %>
-        <%= image_tag "stage4_purple.png", class: "rm-start-princess rm-start-princess-purple", alt: "", loading: "lazy", decoding: "async" %>
-        <%= image_tag "stage4_blue.png", class: "rm-start-princess rm-start-princess-blue", alt: "", loading: "lazy", decoding: "async" %>
+        <%= image_tag "stage4_pink_v2.png", class: "rm-start-princess rm-start-princess-pink", alt: "", loading: "lazy", decoding: "async" %>
+        <%= image_tag "stage4_purple_v2.png", class: "rm-start-princess rm-start-princess-purple", alt: "", loading: "lazy", decoding: "async" %>
+        <%= image_tag "stage4_blue_v2.png", class: "rm-start-princess rm-start-princess-blue", alt: "", loading: "lazy", decoding: "async" %>
       </div>
       <span>See you in your room.</span>
     </div>
