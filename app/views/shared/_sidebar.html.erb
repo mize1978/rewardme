@@ -71,6 +71,10 @@
     </div>
   </div>
 
+  <% if home_active %>
+    <p class="side-home-story">タスクと一緒に、<br>リボンちゃんとお部屋も育つ。</p>
+  <% end %>
+
   <%# ── ミニゲーム ── %>
   <div class="side-section-label">🎮 ミニゲーム</div>
   <%= link_to games_path, class: "side-menu-item side-menu-item--game #{game_active ? 'active' : ''}" do %>

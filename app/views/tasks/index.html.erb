@@ -172,7 +172,7 @@
     <%# ===== お部屋のデコレーション（第4段右・カンプ準拠） ===== %>
     <div class="deco-panel deco-panel--locked">
       <p class="panel-title">🛋️ お部屋のデコレーション <span class="deco-lock-ico">🔒</span></p>
-      <p class="deco-panel-text">コインやバッジで<br>家具やデコをゲット！</p>
+      <p class="deco-panel-text">家具やデコは準備中。<br>背景ショップは利用できます。</p>
       <div class="deco-panel-emojis">🛋️ 💡 🪴 🧸 🎀 🖼️</div>
       <span class="deco-panel-btn deco-panel-btn--locked" aria-disabled="true">🔒 COMING SOON</span>
     </div>
@@ -231,18 +231,32 @@
       </div>
     </div>
 
-    <%# バッジコレクション（ダミー） %>
+    <div class="evo-next-panel" aria-label="次の進化までの進捗">
+      <% if cur_stage < 4 %>
+        <div class="evo-next-copy">
+          <span>次の進化まで</span>
+          <strong>あと <%= current_user.next_stage_tasks %> タスク</strong>
+        </div>
+        <div class="evo-next-progress" role="progressbar"
+             aria-label="次の進化までの進捗"
+             aria-valuenow="<%= current_user.ribbon_exp %>"
+             aria-valuemin="0"
+             aria-valuemax="<%= current_user.ribbon_exp_max %>">
+          <span style="width: <%= current_user.ribbon_exp_percent %>%;"></span>
+        </div>
+        <span class="evo-next-count"><%= current_user.ribbon_exp %> / <%= current_user.ribbon_exp_max %></span>
+      <% else %>
+        <span class="evo-next-complete">👑 プリンセスリボンに進化しました</span>
+      <% end %>
+    </div>
+
+    <%# バッジコレクション（アチーブメントと同じ達成条件） %>
     <div class="badge-panel">
       <p class="panel-title">🏅 バッジコレクション</p>
       <div class="badge-grid">
-        <% [
-          { ico: "🌱", name: "はじめの一歩",       earned: true  },
-          { ico: "🏆", name: "継続は力なり",       earned: true  },
-          { ico: "⏰", name: "時間マスター",       earned: false },
-          { ico: "👑", name: "タスクマスター",     earned: false },
-          { ico: "🎂", name: "パーフェクトウィーク", earned: false }
-        ].each do |b| %>
-          <div class="badge-item <%= 'earned' if b[:earned] %>">
+        <% PagesController::BADGES.first(5).each do |b| %>
+          <% earned = current_user.completed_count >= b[:threshold] %>
+          <div class="badge-item <%= 'earned' if earned %>">
             <span class="badge-ico"><%= b[:ico] %></span>
             <span class="badge-name"><%= b[:name] %></span>
           </div>

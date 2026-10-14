@@ -1,0 +1,183 @@
+/* Home dashboard: bring the live interface closer to the room-led concept mock.
+   Keep this pass scoped to the home view; other pages share these components. */
+
+.dashboard-layout--home .evo-next-panel { display: none; }
+.dashboard-layout--home .side-home-story { display: none; }
+
+@media (min-width: 1420px) {
+  body:has(.dashboard-layout--home) {
+    padding-top: 0 !important;
+    zoom: 1 !important;
+    background:
+      radial-gradient(ellipse at 29% 0%, rgba(103, 55, 117, .28), transparent 45%),
+      linear-gradient(145deg, #170d25 0%, #130b25 53%, #100920 100%);
+    background-attachment: fixed;
+  }
+
+  .dashboard-layout--home {
+    max-width: 1880px !important;
+    padding: 16px 18px 28px !important;
+    box-sizing: border-box;
+    gap: 14px !important;
+    grid-template-columns: clamp(226px, 15vw, 270px) clamp(260px, 18vw, 320px) minmax(0, 1fr) clamp(330px, 23vw, 410px) !important;
+    grid-template-rows: 220px 56px 156px 215px 94px minmax(180px, auto) !important;
+    grid-template-areas:
+      "nav hero hero evo"
+      "nav hero hero next"
+      "nav hero hero badge"
+      "box week tasks stats"
+      "prize week tasks stats"
+      "grow grow grow deco" !important;
+  }
+
+  /* The existing status controls sit inside the top edge of the room. */
+  body:has(.dashboard-layout--home) .header--desktop {
+    position: absolute !important;
+    top: 21px !important;
+    left: calc(max(0px, (100vw - 1880px) / 2) + 32px + clamp(226px, 15vw, 270px)) !important;
+    right: calc(max(0px, (100vw - 1880px) / 2) + 32px + clamp(330px, 23vw, 410px)) !important;
+    width: auto !important;
+    max-width: none !important;
+    height: 54px !important;
+    padding: 4px 14px !important;
+    box-sizing: border-box;
+    border-radius: 16px;
+    background: linear-gradient(90deg, rgba(26, 12, 43, .76), rgba(26, 12, 43, .48)) !important;
+    border: 1px solid rgba(255, 224, 246, .24);
+    box-shadow: 0 8px 28px rgba(21, 8, 39, .25);
+    z-index: 20;
+  }
+  body:has(.dashboard-layout--home) .header-status { gap: 9px !important; }
+  body:has(.dashboard-layout--home) .header-exp-bar { width: clamp(80px, 8vw, 145px) !important; }
+  body:has(.dashboard-layout--home) .header-avatar { width: 40px !important; height: 40px !important; }
+  body:has(.dashboard-layout--home) .header-lv { font-size: 13px !important; }
+  body:has(.dashboard-layout--home) .header-stage { font-size: 10px !important; }
+
+  .dashboard-layout--home .side-menu,
+  .dashboard-layout--home .evo-chain-panel,
+  .dashboard-layout--home .evo-next-panel,
+  .dashboard-layout--home .badge-panel,
+  .dashboard-layout--home .daily-box-panel,
+  .dashboard-layout--home .today-prize-panel,
+  .dashboard-layout--home .week-panel,
+  .dashboard-layout--home .tasks-panel,
+  .dashboard-layout--home .stats-panel,
+  .dashboard-layout--home .room-growth-panel,
+  .dashboard-layout--home .deco-panel {
+    background: linear-gradient(145deg, rgba(77, 53, 94, .44), rgba(37, 25, 57, .72));
+    border: 1px solid rgba(255, 211, 239, .23);
+    box-shadow: 0 8px 26px rgba(9, 4, 22, .2), inset 0 1px rgba(255, 255, 255, .055);
+    border-radius: 16px;
+  }
+
+  .dashboard-layout--home .side-menu {
+    height: 100%;
+    align-self: stretch !important;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    gap: 2px;
+  }
+  .dashboard-layout--home .side-brand { margin: 0 0 2px; padding: 3px 4px 7px; }
+  .dashboard-layout--home .side-brand-mark { font-size: 25px; }
+  .dashboard-layout--home .side-brand-name { font-size: 22px; }
+  .dashboard-layout--home .side-brand-sub { font-size: 10px; }
+  .dashboard-layout--home .side-home-story {
+    display: block;
+    margin: 0 4px 5px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: #e9d0e9;
+  }
+  .dashboard-layout--home .side-section-label { margin: 1px 4px; }
+  .dashboard-layout--home .side-menu-item { min-height: 28px; padding: 4px 10px; box-sizing: border-box; }
+
+  .dashboard-layout--home .my-room {
+    min-height: 0 !important;
+    margin: 0 !important;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 220, 246, .44);
+    box-shadow: 0 14px 44px rgba(6, 2, 24, .42), 0 0 30px rgba(165, 104, 193, .13);
+  }
+  .dashboard-layout--home .room-bg { object-position: center 46%; }
+  .dashboard-layout--home .room-title { top: 76px; left: 16px; }
+  .dashboard-layout--home .room-neon { top: auto; bottom: 20px; right: 23px; font-size: 21px; }
+  .dashboard-layout--home .room-speech { bottom: 18px; left: 18px; }
+
+  .dashboard-layout--home .evo-chain-panel { padding: 13px 14px !important; overflow: hidden; }
+  .dashboard-layout--home .evo-chain-panel .panel-title { margin-bottom: 15px !important; }
+  .dashboard-layout--home .evo-v-item { min-width: 0; gap: 5px; padding: 6px 2px !important; }
+  .dashboard-layout--home .evo-v-img-wrap { width: min(100%, 72px) !important; height: 86px !important; }
+  .dashboard-layout--home .evo-v-item--current .evo-v-img-wrap { width: min(100%, 80px) !important; height: 90px !important; }
+  .dashboard-layout--home .evo-v-item--current { flex: 1.05 1 0; }
+  .dashboard-layout--home .evo-v-arrow { flex: 0 0 8px; font-size: 12px; }
+  .dashboard-layout--home .evo-v-progress,
+  .dashboard-layout--home .evo-v-progress-text { display: none; }
+  .dashboard-layout--home .evo-v-name { font-size: 11px !important; }
+  .dashboard-layout--home .evo-v-lv { font-size: 10.5px !important; }
+
+  .dashboard-layout--home .evo-next-panel {
+    display: flex;
+    grid-area: next;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 15px;
+    box-sizing: border-box;
+    min-width: 0;
+  }
+  .dashboard-layout--home .evo-next-copy { display: flex; flex-direction: column; gap: 2px; white-space: nowrap; }
+  .dashboard-layout--home .evo-next-copy span { font-size: 10px; color: #d9b7df; }
+  .dashboard-layout--home .evo-next-copy strong { font-size: 12px; color: #ffe1f0; }
+  .dashboard-layout--home .evo-next-progress {
+    flex: 1; height: 8px; min-width: 35px; border-radius: 99px;
+    background: rgba(231, 199, 236, .2); overflow: hidden;
+  }
+  .dashboard-layout--home .evo-next-progress span {
+    display: block; height: 100%; border-radius: inherit;
+    background: linear-gradient(90deg, #efa1ca, #c885e1);
+  }
+  .dashboard-layout--home .evo-next-count { font-size: 11px; color: #e8cfe9; white-space: nowrap; }
+  .dashboard-layout--home .evo-next-complete { font-size: 13px; font-weight: 700; color: #ffe1f0; }
+
+  .dashboard-layout--home .badge-panel { align-self: stretch !important; padding: 12px 14px; }
+  .dashboard-layout--home .badge-panel .panel-title { margin-bottom: 8px !important; }
+  .dashboard-layout--home .badge-grid { gap: 5px; }
+  .dashboard-layout--home .badge-item { min-width: 0; }
+  .dashboard-layout--home .badge-note,
+  .dashboard-layout--home .badge-current-row { display: none; }
+
+  .dashboard-layout--home .daily-box-panel,
+  .dashboard-layout--home .week-panel,
+  .dashboard-layout--home .tasks-panel,
+  .dashboard-layout--home .stats-panel { height: auto !important; min-height: 0 !important; }
+  .dashboard-layout--home .daily-box-panel { margin: 0; }
+  .dashboard-layout--home .daily-box-egg { width: 104px; height: 104px; }
+  .dashboard-layout--home .daily-box-egg-wrap { gap: 5px; }
+  .dashboard-layout--home .daily-box-btn { margin-top: 2px; padding: 7px 12px; }
+  .dashboard-layout--home .today-prize-panel {
+    align-self: stretch !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 9px 12px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  .dashboard-layout--home .week-panel { overflow-y: auto; gap: 8px; }
+  .dashboard-layout--home .tasks-panel,
+  .dashboard-layout--home .stats-panel { overflow-y: auto; }
+  .dashboard-layout--home .tasks-all-done-img { height: 112px !important; }
+  .dashboard-layout--home .room-growth-panel { margin: 0 !important; min-height: 0; padding: 10px 15px; }
+  .dashboard-layout--home .room-growth-img { height: 72px !important; }
+  .dashboard-layout--home .room-growth-head { margin-bottom: 7px; }
+  .dashboard-layout--home .room-growth-head .panel-title { margin: 0 !important; }
+  .dashboard-layout--home .room-growth-item { min-width: 0; }
+  .dashboard-layout--home .deco-panel { min-height: 0; padding: 11px 15px; }
+  .dashboard-layout--home .deco-panel .panel-title { margin: 0 0 6px !important; }
+  .dashboard-layout--home .deco-panel-text { margin: 0 0 4px; line-height: 1.45; }
+  .dashboard-layout--home .deco-panel-emojis { margin: 0 0 5px; font-size: 22px; }
+  .dashboard-layout--home .deco-panel-btn { padding: 7px 12px; }
+}
+
+@media (min-width: 1101px) and (max-width: 1419px) {
+  /* The three-column layout retains its existing in-card progress indicator. */
+  .dashboard-layout--home .evo-next-panel { display: none; }
+}
