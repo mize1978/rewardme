@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Manual galleries: no timers, no motion required to read the page.
 export default class extends Controller {
-  static targets = ["colorButton", "evolution", "screenButton", "screen", "dialog", "dialogImage", "dialogLabel"]
+  static targets = ["colorButton", "evolution", "roomStages", "screenButton", "screen", "dialog", "dialogImage", "dialogLabel"]
 
   connect() {
     this.dialogTarget.setAttribute("aria-labelledby", "rm-dialog-label")
@@ -26,6 +26,7 @@ export default class extends Controller {
     const color = event.currentTarget.dataset.color
     this.colorButtonTargets.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.color === color)))
     this.evolutionTargets.forEach(panel => { panel.hidden = panel.dataset.color !== color })
+    this.roomStagesTargets.forEach(list => { list.hidden = list.dataset.color !== color })
   }
 
   chooseScreen(event) {
