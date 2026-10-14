@@ -75,7 +75,8 @@
             <p class="rm-evolution-label"><%= label %>のリボンちゃん <span>4 STAGES OF GROWTH</span></p>
             <ol class="rm-stages">
               <% ["たまご", "ベビー", "リボンちゃん", "プリンセス"].each_with_index do |stage, i| %>
-                <li><div class="rm-stage-image"><%= image_tag "stage#{i + 1}_#{color}_v2.png", alt: "#{label}の#{stage}", loading: "lazy", decoding: "async" %></div><span class="rm-stage-index">0<%= i + 1 %></span><p><%= stage %></p></li>
+                <% image_name = color == "purple" && i.positive? ? "stage#{i + 1}_purple.png" : "stage#{i + 1}_#{color}_#{(i.zero? || color == 'pink') ? 'v2' : 'v3'}.png" %>
+                <li><div class="rm-stage-image"><%= image_tag image_name, alt: "#{label}の#{stage}", loading: "lazy", decoding: "async" %></div><span class="rm-stage-index">0<%= i + 1 %></span><p><%= stage %></p></li>
               <% end %>
             </ol>
           </div>
@@ -136,8 +137,8 @@
     <div class="rm-start-art" aria-hidden="true">
       <div class="rm-start-trio">
         <%= image_tag "stage4_pink_v2.png", class: "rm-start-princess rm-start-princess-pink", alt: "", loading: "lazy", decoding: "async" %>
-        <%= image_tag "stage4_purple_v2.png", class: "rm-start-princess rm-start-princess-purple", alt: "", loading: "lazy", decoding: "async" %>
-        <%= image_tag "stage4_blue_v2.png", class: "rm-start-princess rm-start-princess-blue", alt: "", loading: "lazy", decoding: "async" %>
+        <%= image_tag "stage4_purple.png", class: "rm-start-princess rm-start-princess-purple", alt: "", loading: "lazy", decoding: "async" %>
+        <%= image_tag "stage4_blue_v3.png", class: "rm-start-princess rm-start-princess-blue", alt: "", loading: "lazy", decoding: "async" %>
       </div>
       <span>See you in your room.</span>
     </div>
