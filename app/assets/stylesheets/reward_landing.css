@@ -282,27 +282,6 @@ html.rm-no-scroll:has(> body.reward-landing){overflow:hidden}
 /* HOW IT WORKS: one clear, playful subject per step. */
 :where(.reward-landing) .rm-step-scene{height:232px;margin-top:20px;border:1px solid #e8c3f04d;border-radius:16px;position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 50% 80%,#71468a70,transparent 70%),linear-gradient(145deg,#362046,#20142f)}
 :where(.reward-landing) .rm-step-scene img{object-fit:contain}
-:where(.reward-landing) .rm-scene-task>img{position:absolute;width:130px;height:190px;right:10px;bottom:6px;filter:drop-shadow(0 8px 12px #160f2040)}
-:where(.reward-landing) .rm-scene-task-note{position:absolute;top:56px;left:15px;width:57%;padding:17px 12px;border:1px solid #e7c4ec5c;border-radius:12px;background:#f8edf7;color:#513858;box-shadow:0 10px 24px #160f2033;transform:rotate(-4deg)}
-:where(.reward-landing) .rm-scene-task-note>span:first-child{display:block;font-size:12px;color:#785a7d;margin-bottom:9px}
-:where(.reward-landing) .rm-scene-task-note strong{display:flex;align-items:center;gap:7px;font-size:14px;white-space:nowrap}
-:where(.reward-landing) .rm-scene-task-note i{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#c57caf;color:white;font-style:normal}
-:where(.reward-landing) .rm-scene-done{display:inline-block;padding:2px 12px;background:#efdaec;color:#804678;border-radius:20px;margin-top:14px;font-size:13px;font-weight:600}
-:where(.reward-landing) .rm-step-scene .rm-scene-bubble{position:absolute;right:14px;top:18px;max-width:none;padding:5px 12px;border-radius:20px;background:#523266;color:#fff3fc;font-size:12px;line-height:1.7}
-:where(.reward-landing) .rm-scene-reward>img{position:absolute;width:178px;height:178px;left:6px;top:23px;filter:drop-shadow(0 10px 18px #e6a1cc24)}
-:where(.reward-landing) .rm-scene-letter{position:absolute;right:13px;top:68px;width:44%;padding:18px 10px 16px;border:1px solid #dfb7df6b;border-radius:10px;background:#f4e5f1;color:#604566;transform:rotate(6deg);box-shadow:0 10px 24px #160f2033}
-:where(.reward-landing) .rm-scene-letter>span:first-child{display:block;font-size:28px;line-height:1.2;color:#a4659b;margin-bottom:8px}
-:where(.reward-landing) .rm-scene-letter small{display:block;font-size:12px}
-:where(.reward-landing) .rm-scene-letter strong{display:block;font-size:13px;font-weight:600;white-space:nowrap}
-:where(.reward-landing) .rm-scene-new{position:absolute;right:9px;top:-9px;border-radius:12px;padding:1px 8px;background:#cf78ac;color:#fff;font-size:12px;font-weight:600}
-:where(.reward-landing) .rm-scene-reward-caption{position:absolute;bottom:12px;width:100%;text-align:center;font-size:13px;color:#f5d7ed}
-:where(.reward-landing) .rm-scene-room>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:64% center;z-index:-2}
-:where(.reward-landing) .rm-scene-room::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,#1c102bec 100%);z-index:-1}
-:where(.reward-landing) .rm-scene-room-caption{position:absolute;bottom:16px;left:18px;right:12px;color:#fff2fc;text-shadow:0 1px 4px #180e29}
-:where(.reward-landing) .rm-scene-room-caption strong{display:block;font-size:16px;font-weight:600}
-:where(.reward-landing) .rm-scene-room-caption span{display:block;font-size:12px;margin-top:3px}
-@media(max-width:760px){:where(.reward-landing) .rm-step-scene{height:232px}:where(.reward-landing) .rm-scene-task-note{left:12px;padding-inline:9px}:where(.reward-landing) .rm-scene-task>img{right:2px;width:122px}:where(.reward-landing) .rm-scene-reward>img{width:160px;height:170px;left:0}:where(.reward-landing) .rm-scene-letter{right:10px;width:46%;padding-inline:7px}:where(.reward-landing) .rm-scene-letter strong{font-size:12px}}
-
 :where(.reward-landing) .rm-scene-letter-screen{display:block;position:relative;width:100%;height:144px;border:0;padding:0;background:#160b2a;cursor:zoom-in;overflow:hidden}
 :where(.reward-landing) .rm-scene-letter-screen img{width:100%;height:100%;object-fit:cover;object-position:center 24%}
 :where(.reward-landing) .rm-scene-letter-screen>span{position:absolute;bottom:8px;right:8px;padding:3px 9px;background:#301939ed;border:1px solid #d0a6cc66;border-radius:20px;color:#fff0fa;font-size:12px}
@@ -318,5 +297,10 @@ html.rm-no-scroll:has(> body.reward-landing){overflow:hidden}
 :where(.reward-landing) .rm-fun-buttons button[aria-pressed=true]{background:#e2aad1;color:#291230;border-color:#e2aad1}
 
 :where(.reward-landing) .rm-scene-task-screen{display:block;position:relative;width:100%;height:100%;border:0;padding:0;background:#21172e;cursor:zoom-in;overflow:hidden}
-:where(.reward-landing) .rm-scene-task-screen img{width:100%;height:100%;object-fit:cover;object-position:center top}
-:where(.reward-landing) .rm-scene-task-screen>span{position:absolute;bottom:8px;right:8px;padding:3px 9px;background:#301939ed;border:1px solid #d0a6cc66;border-radius:20px;color:#fff0fa;font-size:12px}
+/* Keep the original screenshot for enlargement; give Benny room in the preview. */
+:where(.reward-landing) .rm-scene-task-screen .rm-task-preview{position:absolute;bottom:0;left:0;width:100%;height:105px;object-fit:cover;object-position:center bottom}
+:where(.reward-landing) .rm-task-companion{position:absolute;inset:0 0 auto;height:127px;display:flex;align-items:center;justify-content:center;gap:12px;background:linear-gradient(135deg,#2a1b3b,#21172e);color:#f8e5f4}
+:where(.reward-landing) .rm-task-companion img{width:82px;height:119px;object-fit:contain;filter:drop-shadow(0 6px 10px #b891db33)}
+:where(.reward-landing) .rm-task-companion>span{font-size:14px;line-height:1.6;padding:9px 12px;border:1px solid #c0a9d459;border-radius:24px;background:#ac90bf2b}
+:where(.reward-landing) .rm-task-enlarge{position:absolute;bottom:8px;right:8px;padding:3px 9px;background:#301939ed;border:1px solid #d0a6cc66;border-radius:20px;color:#fff0fa;font-size:12px}
+@media(max-width:420px){:where(.reward-landing) .rm-task-companion{gap:7px}:where(.reward-landing) .rm-task-companion>span{font-size:13px;padding:9px}}

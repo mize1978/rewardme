@@ -38,7 +38,7 @@
     <ol class="rm-step-list">
       <li><span class="rm-step-number">01</span><h3>やることを、ひとつ。</h3><p>「水を飲む」「本を読む」から、仕事や勉強まで。今日やることを登録して、終わったらチェック。</p>
         <div class="rm-step-scene rm-scene-task">
-          <button class="rm-scene-task-screen" type="button" data-action="landing#openImage" aria-label="実際のタスク画面を拡大"><%= image_tag "lp_tasks_current.jpg", alt: "ベニーのひと言と、今日のタスク一覧の実画面", loading: "lazy", decoding: "async", width: 820, height: 764 %><span>タスクを見る ↗</span></button>
+          <button class="rm-scene-task-screen" type="button" data-action="landing#openImage" aria-label="実際のタスク画面を拡大"><%= image_tag "lp_tasks_current.jpg", class: "rm-task-preview", alt: "ベニーのひと言と、今日のタスク一覧の実画面", loading: "lazy", decoding: "async", width: 820, height: 764 %><span class="rm-task-companion" aria-hidden="true"><%= image_tag "benny_blue.png", alt: "", loading: "lazy", decoding: "async" %><span>今日も会えて嬉しい♡</span></span><span class="rm-task-enlarge">タスクを見る ↗</span></button>
         </div>
         <dl class="rm-step-details"><div><dt>今日のタスク</dt><dd>日付・カテゴリ・優先度を設定。小さな用事も、ひとつずつ管理できます。</dd></div><div><dt>続けたい習慣</dt><dd>繰り返したいことは習慣として登録。カレンダーで達成の記録を振り返れます。</dd></div></dl><span class="rm-step-tag">PLAN YOUR DAY</span>
       </li>
