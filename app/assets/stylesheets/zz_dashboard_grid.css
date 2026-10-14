@@ -550,16 +550,16 @@ table.cal-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
   .side-section-label { font-size: 10.5px !important; letter-spacing: 0.06em; }
   .side-brand-sub { font-size: 10px; }
 
-  /* --- 成長チェーン: 未来の段階も「読める沈み方」に --- */
-  .evo-v-item:not(.evo-v-item--current) { opacity: 0.55 !important; }
-  .evo-v-name { font-size: 11.5px !important; }
-  .evo-v-lv { font-size: 10.5px !important; color: rgba(240, 200, 255, 0.6) !important; }
-  .evo-v-progress-text { font-size: 10.5px !important; font-weight: 600 !important; }
+  /* --- 成長チェーン: 次の姿の絵柄と名前も見える明るさに --- */
+  .evo-v-item:not(.evo-v-item--current) { opacity: 0.82 !important; }
+  .evo-v-name { font-size: 12.5px !important; }
+  .evo-v-lv { font-size: 11.5px !important; color: rgba(240, 200, 255, 0.72) !important; }
+  .evo-v-progress-text { font-size: 11.5px !important; font-weight: 600 !important; }
   .evo-v-badge { font-size: 10px !important; }
 
-  /* --- バッジ: 名前8px→読める大きさ・未取得も気配を残して読める --- */
-  .badge-name { font-size: 10.5px !important; font-weight: 600 !important; color: #f6efff !important; line-height: 1.3 !important; }
-  .badge-item:not(.earned) { opacity: 0.5 !important; }
+  /* --- バッジ: 未取得の区別を残しつつ、名前が読める濃さに --- */
+  .badge-name { font-size: 11.5px !important; font-weight: 600 !important; color: #f6efff !important; line-height: 1.3 !important; }
+  .badge-item:not(.earned) { opacity: 0.68 !important; }
 
   /* --- 獲得アイテム: ??? をワクワク側に --- */
   .today-prize-mystery-mark {
