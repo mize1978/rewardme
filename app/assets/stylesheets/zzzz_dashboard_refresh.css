@@ -4,6 +4,13 @@
 .dashboard-layout--home .evo-next-panel { display: none; }
 .dashboard-layout--home .side-home-story { display: none; }
 
+/* Keep every evolution image on the same visual stage, regardless of source ratio. */
+.dashboard-layout--home .evo-v-img-wrap,
+.dashboard-layout--home .evo-v-item--current .evo-v-img-wrap {
+  width: min(100%, 84px) !important;
+  height: 84px !important;
+}
+
 @media (min-width: 1420px) {
   body:has(.dashboard-layout--home) {
     padding-top: 0 !important;
@@ -112,8 +119,8 @@
   .dashboard-layout--home .evo-chain-panel { padding: 13px 14px !important; overflow: hidden; }
   .dashboard-layout--home .evo-chain-panel .panel-title { margin-bottom: 15px !important; }
   .dashboard-layout--home .evo-v-item { min-width: 0; gap: 5px; padding: 6px 2px !important; }
-  .dashboard-layout--home .evo-v-img-wrap { width: min(100%, 72px) !important; height: 86px !important; }
-  .dashboard-layout--home .evo-v-item--current .evo-v-img-wrap { width: min(100%, 80px) !important; height: 90px !important; }
+  .dashboard-layout--home .evo-v-img-wrap,
+  .dashboard-layout--home .evo-v-item--current .evo-v-img-wrap { width: min(100%, 84px) !important; height: 84px !important; }
   .dashboard-layout--home .evo-v-item--current { flex: 1.05 1 0; }
   .dashboard-layout--home .evo-v-arrow { flex: 0 0 8px; font-size: 12px; }
   .dashboard-layout--home .evo-v-progress,

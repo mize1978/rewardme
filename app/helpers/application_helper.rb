@@ -31,9 +31,9 @@ module ApplicationHelper
 
   def ribbon_box_image(user = current_user)
     case user&.egg_color
-    when "blue" then "ribbon_box_blue_v3.png"
+    when "blue" then "ribbon_box_blue_v4.png"
     when "purple", "yellow" then "ribbon_box_purple_v3.png"
-    else "ribbon_box_pink_v3.png"
+    else "ribbon_box_pink_v4.png"
     end
   end
 end
