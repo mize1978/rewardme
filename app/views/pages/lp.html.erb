@@ -133,7 +133,14 @@
   </div></section>
 
   <section class="rm-start" id="start" aria-labelledby="start-title"><div class="rm-container rm-start-inner">
-    <div class="rm-start-art" aria-hidden="true"><%= image_tag "stage4_pink.png", alt: "", loading: "lazy", decoding: "async" %><span>See you in your room.</span></div>
+    <div class="rm-start-art" aria-hidden="true">
+      <div class="rm-start-trio">
+        <%= image_tag "stage4_pink.png", class: "rm-start-princess rm-start-princess-pink", alt: "", loading: "lazy", decoding: "async" %>
+        <%= image_tag "stage4_purple.png", class: "rm-start-princess rm-start-princess-purple", alt: "", loading: "lazy", decoding: "async" %>
+        <%= image_tag "stage4_blue.png", class: "rm-start-princess rm-start-princess-blue", alt: "", loading: "lazy", decoding: "async" %>
+      </div>
+      <span>See you in your room.</span>
+    </div>
     <div><p class="rm-eyebrow">LET’S START SMALL.</p><h2 id="start-title">今日のひとつから、<br>はじめよう。</h2><p class="rm-body-copy">完璧な一日じゃなくても。<br>小さな「できた」を、リボンちゃんと。</p><div class="rm-actions"><%= button_to guest_login_path, class: "rm-button", form: { class: "rm-guest-form" } do %>登録なしで試す <span aria-hidden="true">↗</span><% end %><%= link_to "無料アカウントを作成", signup_path, class: "rm-text-link" %></div></div>
   </div></section>
 

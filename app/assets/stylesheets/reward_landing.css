@@ -145,7 +145,11 @@
 :where(.reward-landing) .rm-start .rm-actions{margin-top:30px}
 :where(.reward-landing) .rm-start-art{position:relative;height:280px;display:flex;justify-content:center;align-items:center}
 :where(.reward-landing) .rm-start-art:before{content:'';position:absolute;width:290px;height:290px;border:1px solid #f4b6cf2b;border-radius:50%}
-:where(.reward-landing) .rm-start-art img{height:260px;object-fit:contain;position:relative;transform:rotate(-5deg)}
+.reward-landing .rm-start-trio{position:relative;width:390px;height:270px}
+.reward-landing .rm-start-princess{position:absolute;bottom:0;width:auto;max-width:none;object-fit:contain;object-position:bottom;filter:drop-shadow(0 14px 16px #09030c66)}
+.reward-landing .rm-start-princess-purple{left:50%;z-index:3;height:268px;transform:translateX(-50%)}
+.reward-landing .rm-start-princess-pink{left:4px;z-index:2;height:220px;transform:rotate(-7deg)}
+.reward-landing .rm-start-princess-blue{right:4px;z-index:1;height:220px;transform:rotate(7deg)}
 :where(.reward-landing) .rm-start-art>span{position:absolute;bottom:0;right:0;font:italic 22px Georgia,serif;color:#d6b0c5;transform:rotate(-8deg)}
 :where(.reward-landing) .rm-footer{padding-block:38px}
 :where(.reward-landing) .rm-footer-inner{display:flex;align-items:center;justify-content:space-between;gap:30px}
@@ -253,7 +257,9 @@ html.rm-no-scroll:has(> body.reward-landing){overflow:hidden}
 :where(.reward-landing) .rm-questions summary{font-size:13px}
 :where(.reward-landing) .rm-start-inner{grid-template-columns:1fr;gap:32px;padding-block:45px}
 :where(.reward-landing) .rm-start-art{grid-row:2;height:250px}
-:where(.reward-landing) .rm-start-art img{height:240px}
+.reward-landing .rm-start-trio{width:330px;height:242px}
+.reward-landing .rm-start-princess-purple{height:240px}
+.reward-landing .rm-start-princess-pink,.reward-landing .rm-start-princess-blue{height:194px}
 :where(.reward-landing) .rm-start-art:before{width:230px;height:230px}
 :where(.reward-landing) .rm-start-art>span{right:5%;font-size:20px}
 :where(.reward-landing) .rm-start .rm-actions{gap:15px}
