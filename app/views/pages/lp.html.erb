@@ -36,7 +36,12 @@
   <section class="rm-steps rm-container" id="features" aria-labelledby="features-title">
     <div class="rm-section-head"><div><p class="rm-eyebrow">01 / HOW IT WORKS</p><h2 id="features-title">いつもの一日に、<br>続けたくなる理由を。</h2></div><p class="rm-body-copy">大きな目標じゃなくていい。<br>「ストレッチする」も、今日の立派なタスク。</p></div>
     <ol class="rm-step-list">
-      <li><span class="rm-step-number">01</span><h3>やることを、ひとつ。</h3><p>今日のタスクを登録。暮らしの中の小さな「やっておきたい」から始められます。</p><span class="rm-step-tag">PLAN YOUR DAY</span></li>
+      <li><span class="rm-step-number">01</span><h3>やることを、ひとつ。</h3><p>今日のタスクを登録。暮らしの中の小さな「やっておきたい」から始められます。</p>
+        <div class="rm-task-preview" aria-label="今日のタスク例">
+          <% [["ストレッチ", true], ["水を飲む", false], ["読書", false]].each do |task, done| %><span class="<%= 'is-done' if done %>"><i aria-hidden="true"><%= done ? "✓" : "+" %></i><%= task %></span><% end %>
+        </div>
+        <span class="rm-step-tag">PLAN YOUR DAY</span>
+      </li>
       <li class="rm-step-reward"><span class="rm-step-number">02</span><h3>できたら、ごほうび。</h3><p>EXPとコインに加えて、毎日のBOXやリボンちゃんからのお手紙も届きます。</p>
         <div class="rm-reward-preview">
           <div class="rm-box-preview"><%= image_tag "ribbon_box_v2.png", alt: "毎日開けられるリボンBOX", loading: "lazy", decoding: "async", width: 800, height: 749 %><span>毎日のリボンBOX</span></div>
@@ -44,7 +49,12 @@
         </div>
         <span class="rm-step-tag">CELEBRATE THE LITTLE THINGS</span>
       </li>
-      <li><span class="rm-step-number">03</span><h3>自分だけの楽しみに。</h3><p>コインでガチャやお部屋づくり。ちょっとした息抜きには、ミニゲームも。</p><span class="rm-step-tag">MAKE IT YOURS</span></li>
+      <li><span class="rm-step-number">03</span><h3>自分だけの楽しみに。</h3><p>コインでガチャやお部屋づくり。ちょっとした息抜きには、ミニゲームも。</p>
+        <div class="rm-fun-preview">
+          <% [["thumb_game_gacha.jpg", "ガチャ"], ["room_purple_s4.png", "お部屋"], ["thumb_game_match.jpg", "ゲーム"]].each do |image, label| %><span><%= image_tag image, alt: "#{label}のイメージ", loading: "lazy", decoding: "async" %><b><%= label %></b></span><% end %>
+        </div>
+        <span class="rm-step-tag">MAKE IT YOURS</span>
+      </li>
     </ol>
   </section>
 

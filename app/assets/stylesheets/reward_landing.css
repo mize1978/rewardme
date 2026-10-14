@@ -59,6 +59,16 @@
 :where(.reward-landing) .rm-step-list h3{font-size:18px;font-weight:500;margin:14px 0}
 :where(.reward-landing) .rm-step-list p{font-size:14px;line-height:2;color:var(--rm-muted);max-width:310px}
 :where(.reward-landing) .rm-step-tag{display:block;font-size:12px;letter-spacing:.12em;color:#bea1ba;margin-top:24px}
+:where(.reward-landing) .rm-task-preview,:where(.reward-landing) .rm-fun-preview{min-height:132px;margin-top:20px;border:1px solid #f4d6ee2e;border-radius:8px;background:#21172e;overflow:hidden}
+:where(.reward-landing) .rm-task-preview{display:flex;flex-direction:column;justify-content:center;gap:8px;padding:14px}
+:where(.reward-landing) .rm-task-preview>span{display:flex;align-items:center;gap:9px;min-height:27px;padding:3px 7px;border:1px solid #f4d6ee1f;border-radius:5px;color:#d7c7d8;font-size:12px}
+:where(.reward-landing) .rm-task-preview i{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#563853;color:#f4b6cf;font-style:normal;font-weight:700}
+:where(.reward-landing) .rm-task-preview .is-done{color:#fff;background:#f4b6cf12}
+:where(.reward-landing) .rm-task-preview .is-done i{background:#f4b6cf;color:#2b1630}
+:where(.reward-landing) .rm-fun-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#f4d6ee2e}
+:where(.reward-landing) .rm-fun-preview>span{display:flex;flex-direction:column;min-width:0;background:#21172e}
+:where(.reward-landing) .rm-fun-preview img{width:100%;height:91px;object-fit:cover}
+:where(.reward-landing) .rm-fun-preview b{padding:7px 3px;color:#e8d9e9;font-size:12px;font-weight:500;text-align:center}
 :where(.reward-landing) .rm-reward-preview{display:grid;grid-template-columns:.85fr 1.15fr;gap:8px;margin-top:20px}
 :where(.reward-landing) .rm-box-preview,:where(.reward-landing) .rm-letter-preview{min-height:132px;border:1px solid #f4d6ee2e;border-radius:8px;background:#21172e;overflow:hidden}
 :where(.reward-landing) .rm-box-preview{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;color:#e8cfde}
@@ -72,7 +82,7 @@
 :where(.reward-landing) .rm-companion{background:#efe5eb;color:#342137;padding-block:60px;color-scheme:light}
 :where(.reward-landing) .rm-companion .rm-eyebrow{color:#81516e}
 :where(.reward-landing) .rm-companion .rm-body-copy{color:#6a5367;margin-top:22px}
-:where(.reward-landing) .rm-companion-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:60px;align-items:center}
+:where(.reward-landing) .rm-companion-grid{display:grid;grid-template-columns:.9fr 1.8fr;gap:50px;align-items:center}
 :where(.reward-landing) .rm-colors{display:flex;gap:8px;flex-wrap:wrap;margin-top:30px}
 :where(.reward-landing) .rm-color{background:transparent;border:1px solid #34213730;border-radius:30px;min-height:44px;display:flex;align-items:center;gap:6px;padding:9px 11px;font-size:12px!important;color:#503b50}
 :where(.reward-landing) .rm-color span{width:10px;height:10px;border-radius:50%;background:#8962a4}
@@ -84,7 +94,7 @@
 :where(.reward-landing) .rm-evolution-label span{font-size:12px;letter-spacing:.1em;color:#745f70}
 :where(.reward-landing) .rm-stages{list-style:none;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px!important}
 :where(.reward-landing) .rm-stages li{text-align:center;min-width:0}
-:where(.reward-landing) .rm-stage-image{height:165px;display:flex;justify-content:center;align-items:end}
+:where(.reward-landing) .rm-stage-image{height:205px;display:flex;justify-content:center;align-items:end}
 :where(.reward-landing) .rm-stage-image img{height:100%;width:100%;object-fit:contain;object-position:bottom}
 :where(.reward-landing) .rm-stages li:first-child .rm-stage-image img{height:45%}
 :where(.reward-landing) .rm-stages li:nth-child(2) .rm-stage-image img{height:62%}
@@ -100,16 +110,16 @@
 :where(.reward-landing) .rm-room-stages img{width:100%;aspect-ratio:3/2;object-fit:cover}
 :where(.reward-landing) .rm-room-stages span{position:absolute;left:6px;bottom:5px;display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#2f1e36d9;color:#fff;font:italic 12px Georgia,serif}
 :where(.reward-landing) .rm-showcase{padding-block:60px}
-:where(.reward-landing) .rm-screen-buttons{max-width:900px;margin-inline:auto;display:flex;border-bottom:1px solid var(--rm-line);gap:28px;margin-bottom:26px}
+:where(.reward-landing) .rm-screen-buttons{max-width:1020px;margin-inline:auto;display:flex;border-bottom:1px solid var(--rm-line);gap:28px;margin-bottom:26px}
 :where(.reward-landing) .rm-screen-buttons button{padding:15px 0;background:none;border:0;border-bottom:2px solid transparent;color:var(--rm-muted);font-size:13px;min-height:48px}
 :where(.reward-landing) .rm-screen-buttons button span{font-size:12px;letter-spacing:.05em;margin-right:10px}
 :where(.reward-landing) .rm-screen-buttons button[aria-pressed=true]{color:var(--rm-pink);border-color:var(--rm-pink)}
-:where(.reward-landing) .rm-screen{max-width:900px;margin-inline:auto!important}
+:where(.reward-landing) .rm-screen{max-width:1020px;margin-inline:auto!important}
 :where(.reward-landing) .rm-screen-frame{border:1px solid #d9c1e238;border-radius:12px;overflow:hidden;background:#1c1529}
 :where(.reward-landing) .rm-screen-bar{height:38px;display:flex;justify-content:space-between;align-items:center;padding:0 18px;color:#c6b2cd;font-size:12px;letter-spacing:.1em;border-bottom:1px solid var(--rm-line)}
 :where(.reward-landing) .rm-screen-bar span:first-child{font-size:12px;letter-spacing:3px;color:#a080ad}
 :where(.reward-landing) .rm-screen-zoom{position:relative;display:block;width:100%;padding:0;border:0;background:#130a22;cursor:zoom-in!important}
-:where(.reward-landing) .rm-screen-zoom img{width:100%;height:auto;max-height:58vh;aspect-ratio:2934/1672;object-fit:contain}
+:where(.reward-landing) .rm-screen-zoom img{width:100%;height:auto;max-height:62vh;aspect-ratio:2934/1672;object-fit:contain;filter:brightness(1.12) saturate(1.04)}
 :where(.reward-landing) #screen-0 .rm-screen-zoom img{aspect-ratio:3840/1984}
 :where(.reward-landing) .rm-screen-zoom>span{position:absolute;right:16px;bottom:16px;padding:7px 13px;background:#201329eb;border:1px solid #f4d6ee4d;color:#fff;font-size:12px;border-radius:5px}
 :where(.reward-landing) .rm-screen figcaption{display:grid;grid-template-columns:130px 1fr auto;gap:25px;align-items:baseline;margin-top:22px}
@@ -167,8 +177,8 @@ html.rm-no-scroll:has(> body.reward-landing){overflow:hidden}
 :where(.reward-landing) .rm-desktop-break{display:none}
 :where(.reward-landing) .rm-hero-signature{margin-top:30px}
 :where(.reward-landing) .rm-hero .rm-actions{gap:15px}
-:where(.reward-landing) .rm-companion-grid{gap:30px;grid-template-columns:1fr 1.5fr}
-:where(.reward-landing) .rm-stage-image{height:150px}
+:where(.reward-landing) .rm-companion-grid{gap:28px;grid-template-columns:.85fr 1.65fr}
+:where(.reward-landing) .rm-stage-image{height:180px}
 :where(.reward-landing) .rm-step-list li{padding-inline:22px}
 :where(.reward-landing) .rm-room-growth{grid-template-columns:180px 1fr;gap:22px}
 :where(.reward-landing) .rm-room-growth-copy h3{font-size:22px}
@@ -210,13 +220,15 @@ html.rm-no-scroll:has(> body.reward-landing){overflow:hidden}
 :where(.reward-landing) .rm-step-list h3{margin:2px 0 9px;font-size:17px}
 :where(.reward-landing) .rm-step-list p{max-width:none}
 :where(.reward-landing) .rm-step-tag{margin-top:14px;font-size:12px}
+:where(.reward-landing) .rm-task-preview,:where(.reward-landing) .rm-fun-preview{max-width:440px}
 :where(.reward-landing) .rm-reward-preview{max-width:440px;grid-template-columns:1fr 1.4fr}
 :where(.reward-landing) .rm-step-reward .rm-step-tag{margin-top:16px}
 :where(.reward-landing) .rm-companion{padding-block:50px}
 :where(.reward-landing) .rm-companion-grid{grid-template-columns:1fr;gap:35px}
 :where(.reward-landing) .rm-companion .rm-body-copy{margin-top:16px}
-:where(.reward-landing) .rm-stage-image{height:135px}
-:where(.reward-landing) .rm-stages{gap:6px}
+:where(.reward-landing) .rm-stage-image{height:205px}
+:where(.reward-landing) .rm-stages{grid-template-columns:repeat(2,1fr);gap:22px 10px}
+:where(.reward-landing) .rm-stage-index{margin-top:12px}
 :where(.reward-landing) .rm-stages li p{font-size:12px}
 :where(.reward-landing) .rm-evolution-label{font-size:12px}
 :where(.reward-landing) .rm-evolution-label span{font-size:12px}
