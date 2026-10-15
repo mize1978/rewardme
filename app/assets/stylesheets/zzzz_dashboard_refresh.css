@@ -207,3 +207,67 @@ html body .dashboard-layout.dashboard-layout--home .evo-chain-panel .evo-vertica
   /* The three-column layout retains its existing in-card progress indicator. */
   .dashboard-layout--home .evo-next-panel { display: none; }
 }
+
+/* ================================================================
+   バッジ: 獲得済みと未獲得をひと目で分ける（2026-10-15）
+   獲得済み＝金枠＋発光（公開版の表現）、未獲得＝灰色＋点線。
+   色だけに頼らないよう、下に「獲得済み／未獲得」の文字も出す。
+   名前は view で意味の切れ目に <wbr> を入れ、そこでだけ折る。
+   ================================================================ */
+.badge-item { position: relative; }
+.badge-name { word-break: keep-all; overflow-wrap: normal; }
+.badge-state {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.04em; line-height: 1;
+  padding: 2px 6px; border-radius: 999px; margin-top: 1px;
+}
+.badge-item.earned {
+  opacity: 1 !important; filter: none !important;
+  background: linear-gradient(180deg, rgba(255, 214, 102, 0.18), rgba(255, 170, 60, 0.06)) !important;
+  border: 2px solid rgba(255, 206, 92, 0.8) !important;
+  box-shadow: 0 0 14px rgba(255, 200, 60, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+.badge-item.earned .badge-ico { filter: drop-shadow(0 0 6px rgba(255, 200, 60, 0.6)); }
+.badge-item.earned .badge-name { color: #ffe9b0 !important; }
+.badge-item.earned .badge-state { color: #3b2400; background: linear-gradient(180deg, #ffe08a, #f6b93b); }
+.badge-item:not(.earned) {
+  opacity: 0.55 !important; filter: grayscale(0.9) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 2px dashed rgba(255, 255, 255, 0.16) !important;
+  box-shadow: none !important;
+}
+.badge-item:not(.earned) .badge-state { color: rgba(246, 239, 255, 0.75); background: rgba(255, 255, 255, 0.08); }
+
+/* ================================================================
+   今日のタスク: 枠の下に続きがある時だけ、下端に合図を出す
+   （scroll_hint_controller が .has-more を付け外しする）
+   ================================================================ */
+.scroll-hint { display: none; }
+.tasks-panel.has-more .scroll-hint {
+  display: flex; justify-content: center; align-items: flex-end;
+  position: sticky; bottom: -14px; z-index: 2;
+  height: 44px; margin: -44px -16px -14px; padding-bottom: 8px;
+  background: linear-gradient(180deg, rgba(38, 20, 52, 0), rgba(38, 20, 52, 0.96) 70%);
+  pointer-events: none;
+}
+.scroll-hint span {
+  font-size: 11px; font-weight: 700; color: #f9a8d4; letter-spacing: 0.04em;
+  padding: 3px 10px; border-radius: 999px; background: rgba(255, 142, 196, 0.14);
+  border: 1px solid rgba(255, 142, 196, 0.3);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-hint span { animation: scroll-hint-nudge 1.8s ease-in-out infinite; }
+}
+@keyframes scroll-hint-nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
+
+/* 「獲得済み／未獲得」の文字を足した分（約13px）、ホームのバッジ欄では
+   アイコンと余白を詰めて、欄の高さを変えずに収める */
+.dashboard-layout--home .badge-item { padding: 7px 2px 6px !important; gap: 3px !important; }
+.dashboard-layout--home .badge-ico { font-size: 28px !important; }
+
+/* ================================================================
+   今週のステータス: 最下段（総完了数）が枠で見切れないように詰める
+   変更前実測（2000px幅）: 中身347px / 枠321px → 26px はみ出し
+   ================================================================ */
+.dashboard-layout--home .stats-panel .rp-row { margin-bottom: 4px !important; }
+.dashboard-layout--home .stats-panel .stats-grid { gap: 6px !important; }
+.dashboard-layout--home .stats-panel .stat-item { padding: 5px 12px !important; }

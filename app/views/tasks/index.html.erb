@@ -95,7 +95,7 @@
 
     <div class="center-bottom">
 
-      <div class="tasks-panel">
+      <div class="tasks-panel" data-controller="scroll-hint">
         <div class="tasks-panel-header">
           <p class="panel-title">今日のタスク</p>
           <%= link_to "+ 追加", new_task_path, class: "tasks-add-btn" %>
@@ -120,6 +120,9 @@
         </div>
 
         <%= render "tasks/home_tasks" %>
+
+        <%# 枠の下に続きがある時だけ出る合図（スクロールし切ると消える） %>
+        <div class="scroll-hint" data-scroll-hint-target="hint" aria-hidden="true"><span>▼ 続きがあるよ</span></div>
       </div>
 
       <div class="week-panel">
@@ -172,8 +175,21 @@
     <%# ===== お部屋のデコレーション（第4段右・カンプ準拠） ===== %>
     <div class="deco-panel deco-panel--locked">
       <p class="panel-title">🛋️ お部屋のデコレーション <span class="deco-lock-ico">🔒</span></p>
-      <p class="deco-panel-text">家具やデコは準備中。<br>背景ショップは利用できます。</p>
-      <div class="deco-panel-emojis">🛋️ 💡 🪴 🧸 🎀 🖼️</div>
+      <div class="deco-panel-items" role="img" aria-label="ソファ、ランプ、植物、うさぎのぬいぐるみ、リボン飾り、額縁">
+        <% [
+          ["deco_sofa.png", "ソファ"],
+          ["deco_lamp.png", "ランプ"],
+          ["deco_plant.png", "グリーン"],
+          ["deco_bunny.png", "うさぎ"],
+          ["deco_ribbon.png", "リボン"],
+          ["deco_frame.png", "額縁"]
+        ].each do |image, label| %>
+          <span class="deco-panel-item" aria-hidden="true">
+            <span class="deco-panel-item-art"><%= image_tag image, alt: "" %></span>
+            <span class="deco-panel-item-name"><%= label %></span>
+          </span>
+        <% end %>
+      </div>
       <span class="deco-panel-btn deco-panel-btn--locked" aria-disabled="true">🔒 COMING SOON</span>
     </div>
 
@@ -190,8 +206,8 @@
       _character_suffix = _character_version ? "_#{_character_version}" : ""
       evo_stages = [
         { stage: 1, name: "たまごのリボンちゃん", lv: 1,  image: "stage1_#{_color}_v2.png" },
-        { stage: 2, name: "ベビーリボン",         lv: 10, image: "stage2_#{_color}#{_character_suffix}.png" },
-        { stage: 3, name: "リボンちゃん",         lv: 20, image: "stage3_#{_color}#{_character_suffix}.png" },
+        { stage: 2, name: "ベビーリボン",         lv: 10, image: _color == "pink" ? "stage2_pink.png" : "stage2_#{_color}#{_character_suffix}.png" },
+        { stage: 3, name: "リボンちゃん",         lv: 20, image: { "pink" => "stage3_pink_v3.png", "blue" => "stage3_blue_v4.png" }[_color] || "stage3_#{_color}#{_character_suffix}.png" },
         { stage: 4, name: "プリンセスリボン",     lv: 40, image: "stage4_#{_color}#{_character_suffix}.png" },
       ]
       cur_stage = current_user.ribbon_stage
@@ -258,9 +274,12 @@
       <div class="badge-grid">
         <% PagesController::BADGES.first(5).each do |b| %>
           <% earned = current_user.completed_count >= b[:threshold] %>
-          <div class="badge-item <%= 'earned' if earned %>">
-            <span class="badge-ico"><%= b[:ico] %></span>
-            <span class="badge-name"><%= b[:name] %></span>
+          <%# 名前は意味の切れ目で折る（「時間マスタ／ー」のような途中改行を防ぐ） %>
+          <% head, tail = b[:name].match(/\A(.+?)(一歩|力なり|達成|マスター)\z/)&.captures %>
+          <div class="badge-item <%= 'earned' if earned %>" title="<%= b[:desc] %>（<%= earned ? '獲得済み' : '未獲得' %>）">
+            <span class="badge-ico" aria-hidden="true"><%= b[:ico] %></span>
+            <span class="badge-name"><% if tail %><%= head %><wbr><%= tail %><% else %><%= b[:name] %><% end %></span>
+            <span class="badge-state"><%= earned ? '獲得済み' : '未獲得' %></span>
           </div>
         <% end %>
       </div>

@@ -80,7 +80,17 @@
             <p class="rm-evolution-label"><%= label %>のリボンちゃん <span>4 STAGES OF GROWTH</span></p>
             <ol class="rm-stages">
               <% ["たまご", "ベビー", "リボンちゃん", "プリンセス"].each_with_index do |stage, i| %>
-                <% image_name = color == "purple" && i.positive? ? "stage#{i + 1}_purple.png" : "stage#{i + 1}_#{color}_#{(i.zero? || color == 'pink') ? 'v2' : 'v3'}.png" %>
+                <% image_name = if color == "pink" && i == 1
+                                  "stage2_pink.png"
+                                elsif color == "pink" && i == 2
+                                  "stage3_pink_v3.png"
+                                elsif color == "blue" && i == 2
+                                  "stage3_blue_v4.png"
+                                elsif color == "purple" && i.positive?
+                                  "stage#{i + 1}_purple.png"
+                                else
+                                  "stage#{i + 1}_#{color}_#{(i.zero? || color == 'pink') ? 'v2' : 'v3'}.png"
+                                end %>
                 <li><div class="rm-stage-image"><%= image_tag image_name, alt: "#{label}の#{stage}", loading: "lazy", decoding: "async" %></div><span class="rm-stage-index">0<%= i + 1 %></span><p><%= stage %></p></li>
               <% end %>
             </ol>
