@@ -130,7 +130,7 @@
     <% screens.each_with_index do |screen, i| %>
       <figure class="rm-screen" id="screen-<%= i %>" data-landing-target="screen" data-screen="<%= i %>" <%= 'hidden' unless i == 0 %>>
         <div class="rm-screen-frame"><div class="rm-screen-bar"><span aria-hidden="true">● ● ●</span><span>REWARDME / <%= screen[1] %></span><span>WEB APP</span></div>
-          <button class="rm-screen-zoom" type="button" data-action="landing#openImage" aria-label="<%= screen[1] %>の画面を拡大"><%= image_tag screen[0], alt: "RewardMeの#{screen[1]}画面", loading: "lazy", decoding: "async", width: (i.zero? ? 2714 : 2934), height: (i.zero? ? 1830 : 1672) %><span>画面を拡大 ↗</span></button>
+          <button class="rm-screen-zoom" type="button" data-action="landing#openImage" aria-label="<%= screen[1] %>の画面を拡大"><%= image_tag screen[0], alt: "RewardMeの#{screen[1]}画面", loading: "lazy", decoding: "async", width: (i.zero? ? 952 : 2934), height: (i.zero? ? 536 : 1672) %><span>画面を拡大 ↗</span></button>
         </div>
         <figcaption><strong><%= screen[1] %></strong><p><%= screen[2] %></p><span>0<%= i + 1 %> / 04</span></figcaption>
         <% if i == 3 %>
