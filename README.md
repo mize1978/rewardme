@@ -2,7 +2,7 @@
   <img src="app/assets/images/rewardme_logo.png" alt="RewardMe" width="300">
   <p style="margin-top: 8px">ゲーム感覚で続けられる、育成型タスク管理アプリ</p>
 
-  <img src="docs/screenshots/ogp_hero.png" alt="RewardMe" width="100%">
+  <img src="app/assets/images/lp_room_current.jpg" alt="RewardMeのマイルーム画面" width="100%">
 
   <br>
 
@@ -126,19 +126,25 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
 ## スクリーンショット
 
 <div align="center">
-  <img src="docs/screenshots/dashboard.jpg" alt="マイルームダッシュボード" width="100%">
+  <img src="app/assets/images/lp_screen_dash_crop.jpg" alt="マイルームダッシュボード" width="100%">
   <br><br>
-  <img src="docs/screenshots/choose_egg.jpg" alt="パートナー選択" width="72%">
+  <img src="app/assets/images/lp_mobile_home.jpg" alt="スマートフォン版マイルーム" width="42%">
+  &nbsp;&nbsp;
+  <img src="app/assets/images/lp_mobile_shop.jpg" alt="スマートフォン版背景ショップ" width="42%">
   <br><br>
-  <img src="docs/screenshots/shop.jpg" alt="部屋ショップ" width="72%">
 </div>
 
-### デモ GIF
+### 機能画面
 
-| ガチャ（抽選演出） | リボンちゃん育成 | ミニゲーム |
-|:---:|:---:|:---:|
-| <img src="docs/screenshots/gacha.gif" width="260"> | <img src="docs/screenshots/evolution.gif" width="260"> | <img src="docs/screenshots/potion_v2.gif" width="260"> |
-| コインで1回・10連 | たまご → プリンセス | 魔法陣錬成パズル |
+| タスク管理 | ミニゲーム |
+|:---:|:---:|
+| <img src="app/assets/images/lp_slide_tasks.jpg" width="420"> | <img src="app/assets/images/lp_slide_games.jpg" width="420"> |
+| 完了状況とEXPをまとめて確認 | 6種類のゲームでコインを獲得 |
+
+| リボンガチャ | リボンポーション |
+|:---:|:---:|
+| <img src="app/assets/images/lp_slide_gacha.jpg" width="420"> | <img src="app/assets/images/lp_slide_potion.jpg" width="420"> |
+| 1回・10連のレアリティ抽選 | 6ステージの魔法陣錬成パズル |
 
 <br>
 
