@@ -202,12 +202,12 @@
     <%
       _color = (current_user.egg_color.presence || "pink").to_s
       _color = "purple" if _color == "yellow"
-      _character_version = { "pink" => "v2", "blue" => "v3" }[_color]
+      _character_version = { "pink" => "v2", "blue" => "v2" }[_color]
       _character_suffix = _character_version ? "_#{_character_version}" : ""
       evo_stages = [
         { stage: 1, name: "たまごのリボンちゃん", lv: 1,  image: "stage1_#{_color}_v2.png" },
         { stage: 2, name: "ベビーリボン",         lv: 10, image: _color == "pink" ? "stage2_pink.png" : "stage2_#{_color}#{_character_suffix}.png" },
-        { stage: 3, name: "リボンちゃん",         lv: 20, image: { "pink" => "stage3_pink_v3.png", "blue" => "stage3_blue_v4.png" }[_color] || "stage3_#{_color}#{_character_suffix}.png" },
+        { stage: 3, name: "リボンちゃん",         lv: 20, image: { "pink" => "stage3_pink_v3.png", "blue" => "stage3_blue_v3.png" }[_color] || "stage3_#{_color}#{_character_suffix}.png" },
         { stage: 4, name: "プリンセスリボン",     lv: 40, image: "stage4_#{_color}#{_character_suffix}.png" },
       ]
       cur_stage = current_user.ribbon_stage
