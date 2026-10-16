@@ -2,7 +2,7 @@
   <img src="app/assets/images/rewardme_logo.png" alt="RewardMe" width="300">
   <p style="margin-top: 8px">ゲーム感覚で続けられる、育成型タスク管理アプリ</p>
 
-  <img src="app/assets/images/lp_room_current.jpg" alt="RewardMeのマイルーム画面" width="100%">
+  <img src="docs/screenshots/readme_hero_v2.png" alt="3色のリボンちゃんが並ぶRewardMeのキービジュアル" width="100%">
 
   <br>
 
@@ -126,11 +126,11 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
 ## スクリーンショット
 
 <div align="center">
-  <img src="app/assets/images/lp_screen_dash_crop.jpg" alt="マイルームダッシュボード" width="100%">
+  <img src="docs/screenshots/readme_myroom_v2.jpg" alt="現在のマイルームダッシュボード" width="100%">
   <br><br>
-  <img src="app/assets/images/lp_mobile_home.jpg" alt="スマートフォン版マイルーム" width="42%">
+  <img src="docs/screenshots/readme_tasks_v2.jpg" alt="現在のタスク管理画面" width="42%">
   &nbsp;&nbsp;
-  <img src="app/assets/images/lp_mobile_shop.jpg" alt="スマートフォン版背景ショップ" width="42%">
+  <img src="docs/screenshots/readme_letters_v2.jpg" alt="現在のお手紙画面" width="42%">
   <br><br>
 </div>
 
@@ -138,12 +138,12 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
 
 | タスク管理 | ミニゲーム |
 |:---:|:---:|
-| <img src="app/assets/images/lp_slide_tasks.jpg" width="420"> | <img src="app/assets/images/lp_slide_games.jpg" width="420"> |
-| 完了状況とEXPをまとめて確認 | 6種類のゲームでコインを獲得 |
+| <img src="docs/screenshots/readme_mobile_tasks_v2.jpg" width="420"> | <img src="docs/screenshots/readme_games_v2.png" width="420"> |
+| スマートフォンでもタスクを確認 | ミニゲームでコインを獲得 |
 
 | リボンガチャ | リボンポーション |
 |:---:|:---:|
-| <img src="app/assets/images/lp_slide_gacha.jpg" width="420"> | <img src="app/assets/images/lp_slide_potion.jpg" width="420"> |
+| <img src="docs/screenshots/readme_gacha_v2.png" width="420"> | <img src="docs/screenshots/readme_potion_v2.png" width="420"> |
 | 1回・10連のレアリティ抽選 | 6ステージの魔法陣錬成パズル |
 
 <br>
