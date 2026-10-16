@@ -125,26 +125,42 @@ RewardMe は、**育成ゲームの仕組みで毎日の習慣を続けられる
 
 ## スクリーンショット
 
+### マイルーム
+
 <div align="center">
   <img src="docs/screenshots/readme_myroom_v2.jpg" alt="現在のマイルームダッシュボード" width="100%">
-  <br><br>
+  <p>育成状況・今日のタスク・リボンBOXをひとつの画面で確認</p>
+</div>
+
+### タスク管理とお手紙
+
+<div align="center">
   <img src="docs/screenshots/readme_tasks_v2.jpg" alt="現在のタスク管理画面" width="42%">
   &nbsp;&nbsp;
   <img src="docs/screenshots/readme_letters_v2.jpg" alt="現在のお手紙画面" width="42%">
-  <br><br>
+  <p>毎日のタスクと、達成や成長の節目に届くメッセージ</p>
 </div>
 
-### 機能画面
+### ミニゲーム
 
-| タスク管理 | ミニゲーム |
-|:---:|:---:|
-| <img src="docs/screenshots/readme_mobile_tasks_v2.jpg" width="420"> | <img src="docs/screenshots/readme_games_v2.png" width="420"> |
-| スマートフォンでもタスクを確認 | ミニゲームでコインを獲得 |
+<div align="center">
+  <img src="docs/screenshots/readme_games_v2.png" alt="リボンマッチのゲーム画面" width="100%">
+  <p>リボンちゃんと遊びながらコインを獲得</p>
+</div>
 
-| リボンガチャ | リボンポーション |
-|:---:|:---:|
-| <img src="docs/screenshots/readme_gacha_v2.png" width="420"> | <img src="docs/screenshots/readme_potion_v2.png" width="420"> |
-| 1回・10連のレアリティ抽選 | 6ステージの魔法陣錬成パズル |
+### リボンガチャ
+
+<div align="center">
+  <img src="docs/screenshots/readme_gacha_v2.png" alt="リボンガチャの画面" width="100%">
+  <p>貯めたコインで1回・10連のレアリティ抽選</p>
+</div>
+
+### リボンポーション
+
+<div align="center">
+  <img src="docs/screenshots/readme_potion_v2.png" alt="リボンポーションの画面" width="100%">
+  <p>6ステージの魔法陣錬成パズル</p>
+</div>
 
 <br>
 
